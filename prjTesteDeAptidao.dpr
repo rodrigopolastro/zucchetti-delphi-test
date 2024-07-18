@@ -2,13 +2,13 @@ program prjTesteDeAptidao;
 
 uses
   Vcl.Forms,
-  untTesteDeAptidao in 'untTesteDeAptidao.pas' {Form1};
+  untTesteDeAptidao in 'untTesteDeAptidao.pas' {frmHome};
 
 {$R *.res}
 
 begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
-  Application.CreateForm(TForm1, Form1);
+  Application.CreateForm(TfrmHome, frmHome);
   Application.Run;
 end.
