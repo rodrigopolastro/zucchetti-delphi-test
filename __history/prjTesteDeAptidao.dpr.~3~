@@ -1,0 +1,18 @@
+program prjTesteDeAptidao;
+
+uses
+  Vcl.Forms,
+  untOrdersList in 'untOrdersList.pas' {frmOrdersList},
+  untOrdersMaintenance in 'untOrdersMaintenance.pas' {frmOrdersMaintenance},
+  untItemsMaintenance in 'untItemsMaintenance.pas' {frmItemsMaintenance};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TfrmOrdersList, frmOrdersList);
+  Application.CreateForm(TfrmOrdersMaintenance, frmOrdersMaintenance);
+  Application.CreateForm(TfrmItemsMaintenance, frmItemsMaintenance);
+  Application.Run;
+end.

@@ -1,0 +1,157 @@
+object frmOrdersList: TfrmOrdersList
+  Left = 0
+  Top = 0
+  Caption = 'frmOrdersList'
+  ClientHeight = 504
+  ClientWidth = 774
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  PixelsPerInch = 96
+  TextHeight = 13
+  object lblOrderNumber: TLabel
+    Left = 187
+    Top = 13
+    Width = 87
+    Height = 13
+    Caption = 'N'#250'mero do Pedido'
+  end
+  object lblTest: TLabel
+    Left = 624
+    Top = 405
+    Width = 31
+    Height = 13
+    Caption = 'lblTest'
+  end
+  object btnPrint: TButton
+    Left = 8
+    Top = 8
+    Width = 75
+    Height = 25
+    Caption = 'Imprimir'
+    TabOrder = 0
+  end
+  object edtOrderNumber: TEdit
+    Left = 279
+    Top = 10
+    Width = 112
+    Height = 21
+    TabOrder = 1
+  end
+  object btnCreate: TButton
+    Left = 529
+    Top = 8
+    Width = 75
+    Height = 25
+    Caption = 'Incluir'
+    TabOrder = 2
+    OnClick = btnCreateClick
+  end
+  object btnUpdate: TButton
+    Left = 610
+    Top = 8
+    Width = 75
+    Height = 25
+    Caption = 'Alterar'
+    TabOrder = 3
+  end
+  object btnDelete: TButton
+    Left = 691
+    Top = 8
+    Width = 75
+    Height = 25
+    Caption = 'Excluir'
+    TabOrder = 4
+  end
+  object dbgOrders: TDBGrid
+    Left = 8
+    Top = 64
+    Width = 758
+    Height = 129
+    DataSource = dtsOrders
+    TabOrder = 5
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -11
+    TitleFont.Name = 'Tahoma'
+    TitleFont.Style = []
+    OnCellClick = dbgOrdersCellClick
+  end
+  object btnSearch: TButton
+    Left = 397
+    Top = 8
+    Width = 75
+    Height = 25
+    Caption = 'Buscar'
+    TabOrder = 6
+  end
+  object cbbOrderField: TComboBox
+    Left = 610
+    Top = 434
+    Width = 119
+    Height = 21
+    TabOrder = 7
+    Text = 'Selecione o Campo'
+    Visible = False
+    OnChange = cbbOrderFieldChange
+    Items.Strings = (
+      'N'#250'mero'
+      'Data'
+      'Valor Total')
+  end
+  object dbgItems: TDBGrid
+    Left = 8
+    Top = 208
+    Width = 758
+    Height = 129
+    DataSource = dtsItems
+    TabOrder = 8
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -11
+    TitleFont.Name = 'Tahoma'
+    TitleFont.Style = []
+  end
+  object fdDatabaseConnection: TFDConnection
+    Params.Strings = (
+      'Database=SRV-ORACLE'
+      'User_Name=RODRIGO_TESTE'
+      'Password=LARANJA'
+      'DriverID=Ora')
+    Connected = True
+    Left = 48
+    Top = 408
+  end
+  object fdqOrders: TFDQuery
+    Active = True
+    Connection = fdDatabaseConnection
+    SQL.Strings = (
+      'SELECT * FROM products'
+      '')
+    Left = 128
+    Top = 392
+  end
+  object dtsOrders: TDataSource
+    DataSet = fdqOrders
+    Left = 208
+    Top = 392
+  end
+  object fdqItems: TFDQuery
+    Active = True
+    Connection = fdDatabaseConnection
+    SQL.Strings = (
+      'SELECT * FROM items'
+      '')
+    Left = 128
+    Top = 448
+  end
+  object dtsItems: TDataSource
+    DataSet = fdqItems
+    Left = 208
+    Top = 448
+  end
+end

@@ -1,0 +1,73 @@
+unit untOrdersList;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Vcl.Grids, Vcl.DBGrids,
+  Vcl.StdCtrls, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Error,
+  FireDAC.UI.Intf, FireDAC.Phys.Intf, FireDAC.Stan.Def, FireDAC.Stan.Pool,
+  FireDAC.Stan.Async, FireDAC.Phys, FireDAC.Phys.Oracle, FireDAC.Phys.OracleDef,
+  FireDAC.VCLUI.Wait, FireDAC.Stan.Param, FireDAC.DatS, FireDAC.DApt.Intf,
+  FireDAC.DApt, FireDAC.Comp.DataSet, FireDAC.Comp.Client,
+
+	untPlaceOrder;
+
+type
+  TfrmOrdersList = class(TForm)
+    btnPrint: TButton;
+    edtOrderNumber: TEdit;
+    lblOrderNumber: TLabel;
+    btnCreate: TButton;
+    btnUpdate: TButton;
+    btnDelete: TButton;
+    fdDatabaseConnection: TFDConnection;
+    fdqOrders: TFDQuery;
+    dtsOrders: TDataSource;
+    dbgOrders: TDBGrid;
+    btnSearch: TButton;
+    cbbOrderField: TComboBox;
+    lblTest: TLabel;
+    dbgItems: TDBGrid;
+    fdqItems: TFDQuery;
+    dtsItems: TDataSource;
+    procedure cbbOrderFieldChange(Sender: TObject);
+    procedure btnCreateClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmOrdersList: TfrmOrdersList;
+
+implementation
+
+{$R *.dfm}
+
+procedure ShowHideSearchComponents(optionNumber: Integer);
+begin
+	frmOrdersList.lblTest.Caption := IntToStr(optionNumber);
+//	case optionNumber of
+//  	1: //search one order by id;
+//    2: //search by value (greater, less than or equal to)
+//    3: //search by date  (before, after or at specific date)
+//  end;
+end;
+
+
+procedure TfrmOrdersList.btnCreateClick(Sender: TObject);
+begin
+	frmPlaceOrder.Show;
+end;
+
+procedure TfrmOrdersList.cbbOrderFieldChange(Sender: TObject);
+var
+	searchOptionIndex: Integer;
+begin
+	searchOptionIndex := frmOrdersList.cbbOrderField.ItemIndex;
+	ShowHideSearchComponents(searchOptionIndex+1); //index starts at 0
+end;
+
+end.
