@@ -1,0 +1,95 @@
+unit untOrdersMaintenance;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.WinXPickers, Vcl.ComCtrls,
+  Vcl.StdCtrls, Data.DB, FireDAC.Stan.Intf, FireDAC.Stan.Option,
+  FireDAC.Stan.Error, FireDAC.UI.Intf, FireDAC.Phys.Intf, FireDAC.Stan.Def,
+  FireDAC.Stan.Pool, FireDAC.Stan.Async, FireDAC.Phys, FireDAC.Phys.Oracle,
+  FireDAC.Phys.OracleDef, FireDAC.VCLUI.Wait, FireDAC.Stan.Param, FireDAC.DatS,
+  FireDAC.DApt.Intf, FireDAC.DApt, FireDAC.Comp.DataSet, FireDAC.Comp.Client,
+  Vcl.Grids, Vcl.DBGrids;
+
+type
+  TfrmOrdersMaintenance = class(TForm)
+    edtOrderNumber: TEdit;
+    lblOrderNumber: TLabel;
+    lblOrderDate: TLabel;
+    dtpOrderDate: TDateTimePicker;
+    lblItens: TLabel;
+    btnCreate: TButton;
+    btnUpdate: TButton;
+    btnDelete: TButton;
+    DBGrid1: TDBGrid;
+    btnSave: TButton;
+    btnCancel: TButton;
+    fdcDatabaseConnection: TFDConnection;
+    fdqOrderItems: TFDQuery;
+    dtsOrderItems: TDataSource;
+    fdqQueries: TFDQuery;
+    procedure FormShow(Sender: TObject);
+    procedure btnSaveClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmOrdersMaintenance: TfrmOrdersMaintenance;
+
+implementation
+
+{$R *.dfm}
+
+uses
+	untOrders;
+
+function GetNextOrderId(): Integer;
+begin
+	frmOrdersMaintenance.fdqQueries.SQL.Text :=
+  	'select seq_order_id.NEXTVAL from user_sequences ' +
+    'WHERE sequence_name = ''SEQ_ORDER_ID'' ';
+
+  frmOrdersMaintenance.fdqQueries.Open;
+  Result := frmOrdersMaintenance.fdqQueries.Fields[0].AsInteger;
+end;
+
+function GetOrderDate(orderId: String): TDate;
+begin
+	frmOrdersMaintenance.fdqQueries.SQL.Text :=
+  	'SELECT order_date FROM orders WHERE order_id = :orderId';
+  frmOrdersMaintenance.fdqQueries.ParamByName('orderId').AsString
+  	:= frmOrders.currentOrderId;
+
+  frmOrdersMaintenance.fdqQueries.Open;
+  Result := frmOrdersMaintenance.fdqQueries.
+  								FieldByName('order_date').AsDateTime;
+end;
+
+procedure TfrmOrdersMaintenance.btnSaveClick(Sender: TObject);
+begin
+//	dtpOrderDate.Date := StrToDate('30/10/2005');
+end;
+
+procedure TfrmOrdersMaintenance.FormShow(Sender: TObject);
+begin
+  if frmOrders.actionType = 'createOrder' then
+	begin
+  	edtOrderNumber.Text := IntToStr(GetNextOrderId);
+    dtpOrderDate.Date := Now;
+
+  end
+	else if frmOrders.actionType = 'editOrder' then
+  begin
+  	edtOrderNumber.Text := frmOrders.currentOrderId;
+    dtpOrderDate.Date := GetOrderDate(frmOrders.currentOrderId);
+    display
+
+  end;
+
+end;
+
+end.

@@ -9,9 +9,10 @@ uses
   FireDAC.UI.Intf, FireDAC.Phys.Intf, FireDAC.Stan.Def, FireDAC.Stan.Pool,
   FireDAC.Stan.Async, FireDAC.Phys, FireDAC.Phys.Oracle, FireDAC.Phys.OracleDef,
   FireDAC.VCLUI.Wait, FireDAC.Stan.Param, FireDAC.DatS, FireDAC.DApt.Intf,
-  FireDAC.DApt, FireDAC.Comp.DataSet, FireDAC.Comp.Client,
+  FireDAC.DApt, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.ExtCtrls,
 
-	untPlaceOrder, Vcl.ExtCtrls;
+ 	//Addittional Forms
+	untOrdersMaintenance;
 
 type
   TfrmOrders = class(TForm)
@@ -19,7 +20,7 @@ type
     edtOrderNumber: TEdit;
     lblOrderNumber: TLabel;
     btnCreate: TButton;
-    btnUpdate: TButton;
+    btnEdit: TButton;
     btnDelete: TButton;
     fdcDatabaseConnection: TFDConnection;
     fdqOrders: TFDQuery;
@@ -31,20 +32,24 @@ type
     fdqItems: TFDQuery;
     dtsItems: TDataSource;
     edtTest: TEdit;
+    fdqActionQueries: TFDQuery;
     procedure cbbOrderFieldChange(Sender: TObject);
     procedure btnCreateClick(Sender: TObject);
     procedure dbgOrdersCellClick(Column: TColumn);
     procedure FormCreate(Sender: TObject);
     procedure btnSearchClick(Sender: TObject);
+    procedure dbgItemsCellClick(Column: TColumn);
+    procedure btnEditClick(Sender: TObject);
   private
 
   public
     currentOrderId: String;
+    currentItemId: String;
+    actionType: String;
   end;
 
 var
   frmOrders: TfrmOrders;
-  test: Integer;
 
 implementation
 
@@ -61,47 +66,7 @@ begin
 end;
 
 
-procedure TfrmOrders.btnCreateClick(Sender: TObject);
-begin
-	frmPlaceOrder.Show;
-end;
-
-procedure TfrmOrders.btnSearchClick(Sender: TObject);
-begin
-	fdqOrders.Open;
-end;
-
-procedure TfrmOrders.cbbOrderFieldChange(Sender: TObject);
-var
-	searchOptionIndex: Integer;
-begin
-	searchOptionIndex := frmOrders.cbbOrderField.ItemIndex;
-	ShowHideSearchComponents(searchOptionIndex+1); //index starts at 0
-end;
-
-procedure TfrmOrders.dbgOrdersCellClick(Column: TColumn);
-	var
-  	itemsSQL: string;
-begin
-	currentOrderId := frmOrders.dbgOrders.Fields[0].AsString;
-  itemsSQL :=
-  	'SELECT ' +
-      'i.product_id AS "Cód. Produto", ' +
-      'p.description AS "Descrição do Produto", ' +
-      'i.quantity AS "Quantidade", ' +
-      'p.price AS "Valor Unitário", ' +
-      'i.quantity * p.price AS "Valor Total" '+
-  	'FROM items i ' +
-    'INNER JOIN products p ON p.product_id = i.product_id ' +
-    'WHERE i.order_id = :orderId';
-
-  fdqItems.SQL.Clear;
-	fdqItems.SQL.Text := itemsSQL;
-  fdqItems.ParamByName('orderId').AsString := currentOrderId;
-	fdqItems.Open;
-end;
-
-procedure TfrmOrders.FormCreate(Sender: TObject);
+procedure displayOrders();
 	var
   	ordersSQL: string;
 begin
@@ -117,9 +82,76 @@ begin
       'o.order_id, ' +
       'o.order_date ';
 
-  fdqItems.SQL.Clear;
-	fdqOrders.SQL.Add(ordersSQL);
-  fdqOrders.Open;
+  frmOrders.fdqItems.SQL.Clear;
+	frmOrders.fdqOrders.SQL.Add(ordersSQL);
+  frmOrders.fdqOrders.Open;
+end;
+
+procedure displayOrderItems(orderId: String);
+	var
+  	itemsSQL: string;
+begin
+  itemsSQL :=
+  	'SELECT ' +
+      'i.product_id AS "Cód. Produto", ' +
+      'p.description AS "Descrição do Produto", ' +
+      'i.quantity AS "Quantidade", ' +
+      'p.price AS "Valor Unitário", ' +
+      'i.quantity * p.price AS "Valor Total" '+
+  	'FROM items i ' +
+    'INNER JOIN products p ON p.product_id = i.product_id ' +
+    'WHERE i.order_id = :orderId';
+
+  frmOrders.fdqItems.SQL.Clear;
+	frmOrders.fdqItems.SQL.Text := itemsSQL;
+  frmOrders.fdqItems.ParamByName('orderId').AsString := orderId;
+	frmOrders.fdqItems.Open;
+end;
+
+procedure TfrmOrders.btnCreateClick(Sender: TObject);
+begin
+//	edtTest.Text := fdcDatabaseConnection.GetLastAutoGenValue('seq_order');
+//  currentOrderId := CreateEmptyOrder();
+	actionType := 'createOrder';
+	frmOrdersMaintenance.ShowModal;
+end;
+
+procedure TfrmOrders.btnEditClick(Sender: TObject);
+begin
+	actionType := 'editOrder';
+	frmOrdersMaintenance.ShowModal;
+end;
+
+procedure TfrmOrders.btnSearchClick(Sender: TObject);
+begin
+//	fdqOrders.Open;
+end;
+
+procedure TfrmOrders.cbbOrderFieldChange(Sender: TObject);
+var
+	searchOptionIndex: Integer;
+begin
+	searchOptionIndex := frmOrders.cbbOrderField.ItemIndex;
+	ShowHideSearchComponents(searchOptionIndex+1); //index starts at 0
+end;
+
+procedure TfrmOrders.dbgItemsCellClick(Column: TColumn);
+begin
+	currentItemId := frmOrders.dbgItems.Fields[0].AsString;
+end;
+
+procedure TfrmOrders.dbgOrdersCellClick(Column: TColumn);
+begin
+	currentOrderId := frmOrders.dbgOrders.Fields[0].AsString;
+	displayOrderItems(currentOrderId);
+  edtTest.Text := currentOrderId;
+end;
+
+procedure TfrmOrders.FormCreate(Sender: TObject);
+begin
+	displayOrders();
+  currentOrderId := frmOrders.dbgOrders.Fields[0].AsString;
+  displayOrderItems(currentOrderId);
 end;
 
 

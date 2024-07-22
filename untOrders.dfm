@@ -1,7 +1,7 @@
 object frmOrders: TfrmOrders
   Left = 0
   Top = 0
-  Caption = 'frmOrders'
+  Caption = 'Pedidos'
   ClientHeight = 504
   ClientWidth = 774
   Color = clBtnFace
@@ -45,13 +45,14 @@ object frmOrders: TfrmOrders
     TabOrder = 2
     OnClick = btnCreateClick
   end
-  object btnUpdate: TButton
+  object btnEdit: TButton
     Left = 610
     Top = 8
     Width = 75
     Height = 25
     Caption = 'Alterar'
     TabOrder = 3
+    OnClick = btnEditClick
   end
   object btnDelete: TButton
     Left = 691
@@ -63,10 +64,11 @@ object frmOrders: TfrmOrders
   end
   object dbgOrders: TDBGrid
     Left = 8
-    Top = 64
+    Top = 56
     Width = 758
     Height = 129
     DataSource = dtsOrders
+    Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
     TabOrder = 5
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText
@@ -104,18 +106,20 @@ object frmOrders: TfrmOrders
     Width = 758
     Height = 129
     DataSource = dtsItems
+    Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
     TabOrder = 8
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText
     TitleFont.Height = -11
     TitleFont.Name = 'Tahoma'
     TitleFont.Style = []
+    OnCellClick = dbgItemsCellClick
   end
   object edtTest: TEdit
     Left = 8
     Top = 343
     Width = 721
-    Height = 50
+    Height = 21
     TabOrder = 9
     Text = 'edtTest'
   end
@@ -154,5 +158,10 @@ object frmOrders: TfrmOrders
     DataSet = fdqItems
     Left = 208
     Top = 448
+  end
+  object fdqActionQueries: TFDQuery
+    Connection = fdcDatabaseConnection
+    Left = 344
+    Top = 424
   end
 end
