@@ -1,4 +1,4 @@
-unit untOrderItemsMaintenance;
+﻿unit untOrderItemsMaintenance;
 
 interface
 
@@ -22,11 +22,10 @@ type
     btnSave: TButton;
     lblProductCode: TLabel;
     lblQuantity: TLabel;
-    edtQuantity: TEdit;
-    btnCancel: TButton;
     fdqQueries: TFDQuery;
     fdcDatabaseConnection: TFDConnection;
-    Edit1: TEdit;
+    edtQuantity: TEdit;
+    btnCancel: TButton;
     procedure btnShowProductsClick(Sender: TObject);
     procedure edtProductCodeExit(Sender: TObject);
     procedure btnSaveClick(Sender: TObject);

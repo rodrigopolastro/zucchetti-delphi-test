@@ -2,8 +2,8 @@ object frmProductsList: TfrmProductsList
   Left = 0
   Top = 0
   Caption = 'Produtos Cadastrados'
-  ClientHeight = 201
-  ClientWidth = 668
+  ClientHeight = 304
+  ClientWidth = 760
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -14,28 +14,26 @@ object frmProductsList: TfrmProductsList
   OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
-  object dbgProducts: TDBGrid
-    Left = 896
-    Top = 88
-    Width = 672
-    Height = 201
-    DataSource = dtsProducts
-    Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
-    TabOrder = 0
-    TitleFont.Charset = DEFAULT_CHARSET
-    TitleFont.Color = clWindowText
-    TitleFont.Height = -11
-    TitleFont.Name = 'Tahoma'
-    TitleFont.Style = []
-    OnDblClick = dbgProductsDblClick
-  end
   object edtA: TEdit
     Left = 200
     Top = 88
     Width = 121
     Height = 21
-    TabOrder = 1
+    TabOrder = 0
     Text = 'edtA'
+  end
+  object dbgProducts: TDBGrid
+    Left = 8
+    Top = 8
+    Width = 737
+    Height = 288
+    DataSource = dtsProducts
+    TabOrder = 1
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -11
+    TitleFont.Name = 'Tahoma'
+    TitleFont.Style = []
   end
   object fdcDatabaseConnection: TFDConnection
     Params.Strings = (
@@ -55,7 +53,7 @@ object frmProductsList: TfrmProductsList
     Top = 141
   end
   object dtsProducts: TDataSource
-    DataSet = fdqProducts
+    DataSet = frmOrderItemsMaintenance.fdqQueries
     Left = 296
     Top = 141
   end

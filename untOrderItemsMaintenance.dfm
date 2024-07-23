@@ -1,8 +1,8 @@
 object frmOrderItemsMaintenance: TfrmOrderItemsMaintenance
   Left = 0
   Top = 0
-  ClientHeight = 415
-  ClientWidth = 446
+  ClientHeight = 210
+  ClientWidth = 494
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -21,78 +21,81 @@ object frmOrderItemsMaintenance: TfrmOrderItemsMaintenance
   end
   object lblProductCode: TLabel
     Left = 32
-    Top = 49
+    Top = 71
     Width = 89
     Height = 13
     Caption = 'C'#243'digo do Produto'
   end
   object lblQuantity: TLabel
-    Left = 352
-    Top = 49
+    Left = 32
+    Top = 111
     Width = 56
     Height = 13
     Caption = 'Quantidade'
   end
   object edtProductCode: TEdit
-    Left = 32
+    Left = 127
     Top = 68
     Width = 49
     Height = 21
     TabOrder = 0
-    Text = 'edtProductCode'
   end
   object btnShowProducts: TButton
-    Left = 87
+    Left = 182
     Top = 68
     Width = 26
     Height = 21
     Caption = '...'
     TabOrder = 1
+    OnClick = btnShowProductsClick
   end
   object edtProductName: TEdit
-    Left = 119
+    Left = 214
     Top = 68
-    Width = 218
+    Width = 272
     Height = 21
+    Enabled = False
     TabOrder = 2
-    Text = 'edtProductCode'
   end
-  object btnAddItem: TButton
-    Left = 303
-    Top = 95
-    Width = 105
+  object btnSave: TButton
+    Left = 330
+    Top = 135
+    Width = 72
     Height = 31
-    Caption = 'Adicionar'
+    Caption = 'Salvar'
     TabOrder = 3
   end
-  object Edit1: TEdit
-    Left = 352
-    Top = 68
+  object edtQuantity: TEdit
+    Left = 94
+    Top = 108
     Width = 56
     Height = 21
     NumbersOnly = True
     TabOrder = 4
   end
-  object fdDatabaseConnection: TFDConnection
+  object btnCancel: TButton
+    Left = 408
+    Top = 135
+    Width = 72
+    Height = 31
+    Caption = 'Cancelar'
+    TabOrder = 5
+  end
+  object fdcDatabaseConnection: TFDConnection
     Params.Strings = (
       'Database=SRV-ORACLE'
       'User_Name=RODRIGO_TESTE'
       'Password=LARANJA'
       'DriverID=Ora')
-    Left = 56
-    Top = 346
+    Left = 80
+    Top = 138
   end
-  object fdqProducts: TFDQuery
-    Connection = fdDatabaseConnection
+  object fdqQueries: TFDQuery
+    Connection = fdcDatabaseConnection
     SQL.Strings = (
       'SELECT description FROM products'
       '')
-    Left = 152
-    Top = 354
-  end
-  object dtsProducts: TDataSource
-    DataSet = fdqProducts
-    Left = 240
-    Top = 346
+    Left = 184
+    Top = 146
   end
 end

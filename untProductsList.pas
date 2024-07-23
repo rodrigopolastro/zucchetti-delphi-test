@@ -14,11 +14,11 @@ uses
 
 type
   TfrmProductsList = class(TForm)
-    dbgProducts: TDBGrid;
     fdcDatabaseConnection: TFDConnection;
     fdqProducts: TFDQuery;
     dtsProducts: TDataSource;
     edtA: TEdit;
+    dbgProducts: TDBGrid;
     procedure FormCreate(Sender: TObject);
     procedure dbgProductsDblClick(Sender: TObject);
   private
@@ -54,6 +54,9 @@ begin
         'price AS "Valor Unitário" ' +
       'FROM products';
 
+  productsSQL := 'select * from products';
+
+	fdqProducts.SQL.Clear;
 	fdqProducts.SQL.Text := productsSQL;
   fdqProducts.Open;
 end;

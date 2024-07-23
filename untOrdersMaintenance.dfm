@@ -10,7 +10,9 @@ object frmOrdersMaintenance: TfrmOrdersMaintenance
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
+  OldCreateOrder = True
   OnShow = FormShow
+  PixelsPerInch = 96
   TextHeight = 13
   object lblOrderNumber: TLabel
     Left = 24
