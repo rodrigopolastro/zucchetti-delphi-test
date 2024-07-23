@@ -107,7 +107,7 @@ begin
   else
 	begin
     frmOrderItemsMaintenance.edtProductName.Text := '';
-    ShowMessage('Nenhum produto encontrado com o código' + productId);
+    ShowMessage('Nenhum produto encontrado com o cï¿½digo' + productId);
 
   end;
  	frmOrderItemsMaintenance.fdqQueries.RowsAffected

@@ -34,6 +34,7 @@ type
     procedure FormShow(Sender: TObject);
     procedure btnSaveClick(Sender: TObject);
     procedure btnCreateClick(Sender: TObject);
+    procedure btnCancelClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -49,6 +50,21 @@ implementation
 
 uses
 	untOrders;
+
+
+procedure CommitChanges();
+begin
+  frmOrdersMaintenance.fdqQueries.SQL.Clear;
+	frmOrdersMaintenance.fdqQueries.SQL.Text := 'COMMIT';
+  frmOrdersMaintenance.fdqQueries.ExecSQL;
+end;
+
+procedure RollbackChanges();
+begin
+  frmOrdersMaintenance.fdqQueries.SQL.Clear;
+	frmOrdersMaintenance.fdqQueries.SQL.Text := 'ROLLBACK';
+  frmOrdersMaintenance.fdqQueries.ExecSQL;
+end;
 
 procedure displayOrderItems(orderId: String);
 	var itemsSQL: string;
@@ -94,6 +110,7 @@ begin
   								FieldByName('order_date').AsDateTime;
 end;
 
+
 procedure TfrmOrdersMaintenance.btnCreateClick(Sender: TObject);
 begin
 	frmOrderItemsMaintenance.ShowModal;
@@ -101,20 +118,25 @@ end;
 
 procedure TfrmOrdersMaintenance.btnSaveClick(Sender: TObject);
 begin
-//	dtpOrderDate.Date := StrToDate('30/10/2005');
+  CommitChanges();
+  Self.Close;
+end;
+
+procedure TfrmOrdersMaintenance.btnCancelClick(Sender: TObject);
+begin
+  RollbackChanges();
+  Self.Close;
 end;
 
 procedure TfrmOrdersMaintenance.FormShow(Sender: TObject);
 begin
+  edtOrderNumber.Text := frmOrders.currentOrderId;
   if frmOrders.actionType = 'createOrder' then
 	begin
-  	edtOrderNumber.Text := IntToStr(GetNextOrderId);
     dtpOrderDate.Date := Now;
-
   end
 	else if frmOrders.actionType = 'editOrder' then
   begin
-  	edtOrderNumber.Text := frmOrders.currentOrderId;
     dtpOrderDate.Date := GetOrderDate(frmOrders.currentOrderId);
     displayOrderItems(frmOrders.currentOrderId);
   end;

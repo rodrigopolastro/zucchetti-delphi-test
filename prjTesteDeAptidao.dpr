@@ -4,7 +4,8 @@ uses
   Vcl.Forms,
   untOrders in 'untOrders.pas' {frmOrders},
   untOrdersMaintenance in 'untOrdersMaintenance.pas' {frmOrdersMaintenance},
-  untItemsMaintenance in 'untItemsMaintenance.pas' {frmItemsMaintenance};
+  untOrderItemsMaintenance in 'untOrderItemsMaintenance.pas' {frmOrderItemsMaintenance},
+  untProductsList in 'untProductsList.pas' {frmProductsList};
 
 {$R *.res}
 
@@ -13,6 +14,7 @@ begin
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TfrmOrders, frmOrders);
   Application.CreateForm(TfrmOrdersMaintenance, frmOrdersMaintenance);
-  Application.CreateForm(TfrmItemsMaintenance, frmItemsMaintenance);
+  Application.CreateForm(TfrmOrderItemsMaintenance, frmOrderItemsMaintenance);
+  Application.CreateForm(TfrmProductsList, frmProductsList);
   Application.Run;
 end.

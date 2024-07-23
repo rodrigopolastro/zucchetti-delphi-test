@@ -1,4 +1,4 @@
-object frmPlaceOrder: TfrmPlaceOrder
+object frmOrderItemsMaintenance: TfrmOrderItemsMaintenance
   Left = 0
   Top = 0
   ClientHeight = 415

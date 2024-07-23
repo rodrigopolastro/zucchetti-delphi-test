@@ -10,9 +10,7 @@ object frmOrdersMaintenance: TfrmOrdersMaintenance
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
-  OldCreateOrder = False
   OnShow = FormShow
-  PixelsPerInch = 96
   TextHeight = 13
   object lblOrderNumber: TLabel
     Left = 24
@@ -31,7 +29,7 @@ object frmOrdersMaintenance: TfrmOrdersMaintenance
   object lblItens: TLabel
     Left = 274
     Top = 72
-    Width = 33
+    Width = 25
     Height = 13
     Caption = 'Itens'
   end
@@ -50,6 +48,7 @@ object frmOrdersMaintenance: TfrmOrdersMaintenance
     Top = 29
     Width = 102
     Height = 21
+    Date = 45495.000000000000000000
     Time = 0.250000000000000000
     TabOrder = 1
   end
@@ -107,6 +106,7 @@ object frmOrdersMaintenance: TfrmOrdersMaintenance
     Height = 25
     Caption = 'Cancelar'
     TabOrder = 7
+    OnClick = btnCancelClick
   end
   object fdcDatabaseConnection: TFDConnection
     Params.Strings = (
@@ -114,7 +114,6 @@ object frmOrdersMaintenance: TfrmOrdersMaintenance
       'User_Name=RODRIGO_TESTE'
       'Password=LARANJA'
       'DriverID=Ora')
-    Connected = True
     Left = 56
     Top = 267
   end

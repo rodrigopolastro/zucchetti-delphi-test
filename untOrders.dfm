@@ -10,9 +10,7 @@ object frmOrders: TfrmOrders
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
-  OldCreateOrder = False
   OnCreate = FormCreate
-  PixelsPerInch = 96
   TextHeight = 13
   object lblOrderNumber: TLabel
     Left = 187
@@ -129,7 +127,6 @@ object frmOrders: TfrmOrders
       'User_Name=RODRIGO_TESTE'
       'Password=LARANJA'
       'DriverID=Ora')
-    Connected = True
     Left = 48
     Top = 408
   end
