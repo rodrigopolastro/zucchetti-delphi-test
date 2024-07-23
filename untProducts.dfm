@@ -17,8 +17,8 @@ object frmProducts: TfrmProducts
   object dbgProducts: TDBGrid
     Left = 8
     Top = 8
-    Width = 431
-    Height = 185
+    Width = 575
+    Height = 279
     DataSource = dtsProducts
     TabOrder = 0
     TitleFont.Charset = DEFAULT_CHARSET
@@ -34,17 +34,17 @@ object frmProducts: TfrmProducts
       'User_Name=RODRIGO_TESTE'
       'Password=LARANJA'
       'DriverID=Ora')
-    Left = 40
-    Top = 219
+    Left = 72
+    Top = 171
   end
   object fdqProducts: TFDQuery
     Connection = fdcDatabaseConnection
-    Left = 144
-    Top = 224
+    Left = 168
+    Top = 176
   end
   object dtsProducts: TDataSource
     DataSet = fdqProducts
-    Left = 216
-    Top = 216
+    Left = 248
+    Top = 184
   end
 end

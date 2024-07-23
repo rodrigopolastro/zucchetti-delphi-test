@@ -52,17 +52,26 @@ uses
 	untOrders;
 
 
-procedure CommitChanges();
+procedure AddDateToOrder(orderId: String);
+	var orderDate : String;
 begin
+	orderDate := DateToStr(frmOrdersMaintenance.dtpOrderDate.Date);
+
   frmOrdersMaintenance.fdqQueries.SQL.Clear;
-	frmOrdersMaintenance.fdqQueries.SQL.Text := 'COMMIT';
+	frmOrdersMaintenance.fdqQueries.SQL.Text :=
+  	'UPDATE orders SET order_date = :orderDate ' +
+    'WHERE order_id = :orderId';
+  frmOrdersMaintenance.fdqQueries.ParamByName('orderDate').AsString := orderDate;
+	frmOrdersMaintenance.fdqQueries.ParamByName('orderId').AsString := orderId;
   frmOrdersMaintenance.fdqQueries.ExecSQL;
 end;
 
-procedure RollbackChanges();
+procedure DeleteOrder(orderId: String);
 begin
   frmOrdersMaintenance.fdqQueries.SQL.Clear;
-	frmOrdersMaintenance.fdqQueries.SQL.Text := 'ROLLBACK';
+	frmOrdersMaintenance.fdqQueries.SQL.Text :=
+  	'DELETE FROM orders WHERE order_id = :orderId';
+	frmOrdersMaintenance.fdqQueries.ParamByName('orderId').AsString := orderId;
   frmOrdersMaintenance.fdqQueries.ExecSQL;
 end;
 
@@ -118,13 +127,15 @@ end;
 
 procedure TfrmOrdersMaintenance.btnSaveClick(Sender: TObject);
 begin
-  CommitChanges();
+	ShowMessage('Pedido registrado com sucesso!');
+  AddDateToOrder(frmOrders.currentOrderId);
   Self.Close;
 end;
 
 procedure TfrmOrdersMaintenance.btnCancelClick(Sender: TObject);
 begin
-  RollbackChanges();
+	ShowMessage('Pedido cancelado.');
+  DeleteOrder(frmOrders.currentOrderId);
   Self.Close;
 end;
 

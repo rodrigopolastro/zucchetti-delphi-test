@@ -1,4 +1,4 @@
-unit untOrderItemsMaintenance;
+﻿unit untOrderItemsMaintenance;
 
 interface
 
@@ -11,7 +11,7 @@ uses
   FireDAC.DApt.Intf, FireDAC.DApt, Data.DB, FireDAC.Comp.DataSet,
   FireDAC.Comp.Client, Vcl.StdCtrls, Vcl.DBCtrls, Vcl.Grids, Vcl.ValEdit,
 
-  untProducts;
+  untProductsList;
 
 type
   TfrmOrderItemsMaintenance = class(TForm)
@@ -122,7 +122,7 @@ end;
 
 procedure TfrmOrderItemsMaintenance.btnShowProductsClick(Sender: TObject);
 begin
-	frmProducts.ShowModal;
+	frmProductsList.ShowModal;
 end;
 
 procedure TfrmOrderItemsMaintenance.edtProductCodeExit(Sender: TObject);

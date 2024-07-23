@@ -113,10 +113,6 @@
             <Form>frmOrderItemsMaintenance</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="untProductsList.pas">
-            <Form>frmProductsList</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
         <DCCReference Include="untProducts.pas">
             <Form>frmProducts</Form>
             <FormType>dfm</FormType>

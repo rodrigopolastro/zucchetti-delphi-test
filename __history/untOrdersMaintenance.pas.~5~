@@ -52,24 +52,17 @@ uses
 	untOrders;
 
 
-procedure AddDateToOrder(orderId: String);
-	var orderDate : String;
+procedure CommitChanges();
 begin
-	orderDate := dtp
-
   frmOrdersMaintenance.fdqQueries.SQL.Clear;
-	frmOrdersMaintenance.fdqQueries.SQL.Text :=
-  	'UPDATE orders SET order_date = order_id = :orderId';
-	frmOrdersMaintenance.fdqQueries.ParamByName('orderId').AsString := orderId;
+	frmOrdersMaintenance.fdqQueries.SQL.Text := 'COMMIT';
   frmOrdersMaintenance.fdqQueries.ExecSQL;
 end;
 
-procedure DeleteOrder(orderId: String);
+procedure RollbackChanges();
 begin
   frmOrdersMaintenance.fdqQueries.SQL.Clear;
-	frmOrdersMaintenance.fdqQueries.SQL.Text :=
-  	'DELETE FROM orders WHERE order_id = :orderId';
-	frmOrdersMaintenance.fdqQueries.ParamByName('orderId').AsString := orderId;
+	frmOrdersMaintenance.fdqQueries.SQL.Text := 'ROLLBACK';
   frmOrdersMaintenance.fdqQueries.ExecSQL;
 end;
 
@@ -80,10 +73,10 @@ begin
   query := frmOrdersMaintenance.fdqOrderItems;
   itemsSQL :=
   	'SELECT ' +
-      'i.product_id AS "C√≥d. Produto", ' +
-      'p.description AS "Descri√ß√£o do Produto", ' +
+      'i.product_id AS "CÛd. Produto", ' +
+      'p.description AS "DescriÁ„o do Produto", ' +
       'i.quantity AS "Quantidade", ' +
-      'p.price AS "Valor Unit√°rio", ' +
+      'p.price AS "Valor Unit·rio", ' +
       'i.quantity * p.price AS "Valor Total" '+
   	'FROM items i ' +
     'INNER JOIN products p ON p.product_id = i.product_id ' +
@@ -125,15 +118,13 @@ end;
 
 procedure TfrmOrdersMaintenance.btnSaveClick(Sender: TObject);
 begin
-	ShowMessage('Pedido registrado com sucesso!');
-  AddDateToOrder(frmOrders.currentOrderId);
+  CommitChanges();
   Self.Close;
 end;
 
 procedure TfrmOrdersMaintenance.btnCancelClick(Sender: TObject);
 begin
-	ShowMessage('Pedido cancelado.');
-  DeleteOrder(frmOrders.currentOrderId);
+  RollbackChanges();
   Self.Close;
 end;
 

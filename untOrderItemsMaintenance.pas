@@ -11,7 +11,7 @@ uses
   FireDAC.DApt.Intf, FireDAC.DApt, Data.DB, FireDAC.Comp.DataSet,
   FireDAC.Comp.Client, Vcl.StdCtrls, Vcl.DBCtrls, Vcl.Grids, Vcl.ValEdit,
 
-  untProductsList;
+  untProducts;
 
 type
   TfrmOrderItemsMaintenance = class(TForm)
@@ -29,6 +29,7 @@ type
     procedure btnShowProductsClick(Sender: TObject);
     procedure edtProductCodeExit(Sender: TObject);
     procedure btnSaveClick(Sender: TObject);
+    procedure btnCancelClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -45,27 +46,6 @@ uses
 
 {$R *.dfm}
 
-//function IsOrderCreated();
-//var query : TFDQuery;
-//begin
-//	query := frmOrderItemsMaintenance.fdqQueries;
-//
-//  query.SQL.Clear;
-//  query.SQL.Text :=
-//  	'INSERT INTO Orders (order_id, product_id, quantity) ' +
-//    'VALUES(:orderId, :productId, :quantity)';
-//
-//  orderId   := frmOrdersMaintenance.edtOrderNumber.Text;
-//  productId := frmOrderItemsMaintenance.edtProductCode.Text;
-//  quantity  := frmOrderItemsMaintenance.edtQuantity.Text;
-//
-//
-//  query.ParamByName('orderId').AsString := orderId;
-//  query.ParamByName('productId').AsString := productId;
-//  query.ParamByName('quantity').AsString := quantity;
-//
-//end;
-
 procedure CreateItem();
   var orderId, productId, quantity: String;
   var query : TFDQuery;
@@ -81,10 +61,11 @@ begin
   productId := frmOrderItemsMaintenance.edtProductCode.Text;
   quantity  := frmOrderItemsMaintenance.edtQuantity.Text;
 
-
   query.ParamByName('orderId').AsString := orderId;
   query.ParamByName('productId').AsString := productId;
   query.ParamByName('quantity').AsString := quantity;
+
+  query.ExecSQL;
 end;
 
 procedure GetProductName(productId: String);
@@ -112,17 +93,19 @@ begin
  	frmOrderItemsMaintenance.fdqQueries.RowsAffected
 end;
 
+procedure TfrmOrderItemsMaintenance.btnCancelClick(Sender: TObject);
+begin
+	Self.Close;
+end;
+
 procedure TfrmOrderItemsMaintenance.btnSaveClick(Sender: TObject);
 begin
-//	if not IsOrderCreated then
-//  	CreateEmptyOrder();
-
 	CreateItem();
 end;
 
 procedure TfrmOrderItemsMaintenance.btnShowProductsClick(Sender: TObject);
 begin
-	frmProductsList.ShowModal;
+	frmProducts.ShowModal;
 end;
 
 procedure TfrmOrderItemsMaintenance.edtProductCodeExit(Sender: TObject);

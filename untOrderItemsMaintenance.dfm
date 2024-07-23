@@ -80,6 +80,7 @@ object frmOrderItemsMaintenance: TfrmOrderItemsMaintenance
     Height = 31
     Caption = 'Cancelar'
     TabOrder = 5
+    OnClick = btnCancelClick
   end
   object fdcDatabaseConnection: TFDConnection
     Params.Strings = (
