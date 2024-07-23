@@ -28,5 +28,4 @@ CREATE TABLE Items(
     
     PRIMARY KEY(order_id, product_id)
 );
-CREATE SEQUENCE seq_item_id;
 

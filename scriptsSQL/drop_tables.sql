@@ -1,4 +1,3 @@
-DROP SEQUENCE seq_item_id;
 DROP SEQUENCE seq_product_id;
 DROP SEQUENCE seq_order_id;
 
