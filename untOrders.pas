@@ -12,7 +12,8 @@ uses
   FireDAC.DApt, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.ExtCtrls,
 
  	//Addittional Forms
-	untOrdersMaintenance;
+	untOrdersMaintenance,
+  untOrderItemsMaintenance;
 
 type
   TfrmOrders = class(TForm)
@@ -46,6 +47,8 @@ type
     currentOrderId: String;
     currentItemId: String;
     actionType: String;
+
+    procedure displayOrderItems;
   end;
 
 var
@@ -88,7 +91,7 @@ begin
   frmOrders.fdqOrders.Open;
 end;
 
-procedure displayOrderItems(orderId: String);
+procedure displayOrderItems(orderId: String; queryComponent: TFDQuery);
 	var
   	itemsSQL: string;
 begin
@@ -103,16 +106,24 @@ begin
     'INNER JOIN products p ON p.product_id = i.product_id ' +
     'WHERE i.order_id = :orderId';
 
-  frmOrders.fdqItems.SQL.Clear;
-	frmOrders.fdqItems.SQL.Text := itemsSQL;
-  frmOrders.fdqItems.ParamByName('orderId').AsString := orderId;
-	frmOrders.fdqItems.Open;
+  queryComponent.SQL.Clear;
+	queryComponent.SQL.Text := itemsSQL;
+  queryComponent.ParamByName('orderId').AsString := orderId;
+	queryComponent.Open;
 end;
 
 procedure TfrmOrders.btnCreateClick(Sender: TObject);
 begin
-	actionType := 'createOrder';
-	frmOrdersMaintenance.ShowModal;
+	if currentItemId.IsEmpty then
+  begin
+  	actionType := 'createOrder';
+    frmOrdersMaintenance.ShowModal;
+  end
+  else
+  begin
+  	actionType := 'createItem';
+    frmOrderItemsMaintenance.ShowModal;
+  end;
 end;
 
 procedure TfrmOrders.btnEditClick(Sender: TObject);
@@ -141,16 +152,18 @@ end;
 
 procedure TfrmOrders.dbgOrdersCellClick(Column: TColumn);
 begin
+	currentItemId := '';
 	currentOrderId := frmOrders.dbgOrders.Fields[0].AsString;
-	displayOrderItems(currentOrderId);
+	displayOrderItems(currentOrderId, frmOrders.fdqItems);
   edtTest.Text := currentOrderId;
 end;
 
 procedure TfrmOrders.FormCreate(Sender: TObject);
 begin
 	displayOrders();
+  frmOrders.dbgOrders.DataSource.DataSet.First;
   currentOrderId := frmOrders.dbgOrders.Fields[0].AsString;
-  displayOrderItems(currentOrderId);
+  displayOrderItems(currentOrderId, frmOrders.fdqItems);
 end;
 
 

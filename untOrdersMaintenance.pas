@@ -40,6 +40,7 @@ type
     { Private declarations }
   public
     { Public declarations }
+    procedure InsertOrderItem;
   end;
 
 var
@@ -115,28 +116,6 @@ begin
   	.GetLastAutoGenValue('seq_order_id');
 end;
 
-procedure displayOrderItems(orderId: String);
-	var itemsSQL: string;
-  var query: TFDQuery;
-begin
-  query := frmOrdersMaintenance.fdqOrderItems;
-  itemsSQL :=
-  	'SELECT ' +
-      'i.product_id AS "Cód. Produto", ' +
-      'p.description AS "Descrição do Produto", ' +
-      'i.quantity AS "Quantidade", ' +
-      'p.price AS "Valor Unitário", ' +
-      'i.quantity * p.price AS "Valor Total" '+
-  	'FROM items i ' +
-    'INNER JOIN products p ON p.product_id = i.product_id ' +
-    'WHERE i.order_id = :orderId';
-
-  query.SQL.Clear;
-	query.SQL.Text := itemsSQL;
-  query.ParamByName('orderId').AsString := orderId;
-	query.Open;
-end;
-
 function GetNextOrderId(): Integer;
 begin
 	frmOrdersMaintenance.fdqQueries.SQL.Text :=
@@ -183,7 +162,7 @@ begin
   AddItemsToOrder(orderId);
   ShowMessage(saveMessage);
   frmOrders.dbgOrders.DataSource.DataSet.Refresh;
-  displayOrderItems(orderId);
+  frmOrders.displayOrderItems(orderId, frmOrdersMaintenance.fdqOrderItems);
   Self.Close;
 end;
 
@@ -200,7 +179,7 @@ begin
   	lblOrderNumber.Caption := 'Novo Pedido';
     edtOrderNumber.Visible := False;
     dtpOrderDate.Date := Now;
-    displayOrderItems('');
+    frmOrders.displayOrderItems('', frmOrdersMaintenance.fdqOrderItems);
     initialNumberOfItems := 0;
   end
 	else if frmOrders.actionType = 'editOrder' then
@@ -208,7 +187,7 @@ begin
   	lblOrderNumber.Caption := 'Código do Pedido';
   	edtOrderNumber.Text := frmOrders.currentOrderId;
     dtpOrderDate.Date := GetOrderDate(frmOrders.currentOrderId);
-    displayOrderItems(frmOrders.currentOrderId);
+    frmOrders.displayOrderItems(frmOrders.currentOrderId, frmOrdersMaintenance.fdqOrderItems);
     initialNumberOfItems := dbgOrderItems.DataSource.DataSet.RecordCount;
   end;
 

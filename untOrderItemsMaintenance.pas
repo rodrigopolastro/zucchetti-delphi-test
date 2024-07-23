@@ -44,7 +44,8 @@ var
 implementation
 
 uses
-	untOrdersMaintenance;
+	untOrdersMaintenance,
+  untOrders;
 
 {$R *.dfm}
 
@@ -62,7 +63,8 @@ procedure AddItemToList();
 
   var dataSet: TFDQuery;
 begin
-	dataset := frmOrdersMaintenance.fdqOrderItems;
+  dataset := frmOrdersMaintenance.fdqOrderItems;
+
   productId := frmOrderItemsMaintenance.edtProductCode.Text;
   productName := frmOrderItemsMaintenance.edtProductName.Text;
   quantity := StrToInt(frmOrderItemsMaintenance.edtQuantity.Text);
@@ -111,7 +113,16 @@ end;
 procedure TfrmOrderItemsMaintenance.btnSaveClick(Sender: TObject);
 begin
 //	CreateItem();
-	AddItemToList();
+	if (frmOrders.actionType = 'createOrder') or
+  	 (frmOrders.actionType = 'editOrder') then
+    frmOrdersMaintenance.InsertOrderItem(
+      frmOrders.currentOrderId,
+      frmOrderItemsMaintenance.edtProductCode.Text,
+      StrToInt(frmOrderItemsMaintenance.edtProductName.Text)
+    )
+  else
+		AddItemToList();
+
   ClearFormFields();
 //  frmOrdersMaintenance.dtsOrderItems.DataSet.Refresh;
 end;
