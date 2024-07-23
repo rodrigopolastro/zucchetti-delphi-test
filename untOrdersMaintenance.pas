@@ -183,6 +183,7 @@ begin
   AddItemsToOrder(orderId);
   ShowMessage(saveMessage);
   frmOrders.dbgOrders.DataSource.DataSet.Refresh;
+  displayOrderItems(orderId);
   Self.Close;
 end;
 

@@ -80,7 +80,8 @@ begin
     'INNER JOIN products p ON i.product_id = p.product_id ' +
     'GROUP BY ' +
       'o.order_id, ' +
-      'o.order_date ';
+      'o.order_date ' +
+    'ORDER BY o.order_id DESC';
 
   frmOrders.fdqItems.SQL.Clear;
 	frmOrders.fdqOrders.SQL.Add(ordersSQL);
