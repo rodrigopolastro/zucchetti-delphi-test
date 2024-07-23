@@ -79,12 +79,13 @@ object frmOrdersMaintenance: TfrmOrdersMaintenance
     Caption = 'Excluir'
     TabOrder = 4
   end
-  object DBGrid1: TDBGrid
+  object dbgOrderItems: TDBGrid
     Left = 24
-    Top = 104
+    Top = 120
     Width = 689
     Height = 120
     DataSource = dtsOrderItems
+    Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
     TabOrder = 5
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText
@@ -110,6 +111,14 @@ object frmOrdersMaintenance: TfrmOrdersMaintenance
     TabOrder = 7
     OnClick = btnCancelClick
   end
+  object Edit1: TEdit
+    Left = 80
+    Top = 328
+    Width = 449
+    Height = 21
+    TabOrder = 8
+    Text = 'Edit1'
+  end
   object fdcDatabaseConnection: TFDConnection
     Params.Strings = (
       'Database=SRV-ORACLE'
@@ -131,9 +140,6 @@ object frmOrdersMaintenance: TfrmOrdersMaintenance
   end
   object fdqQueries: TFDQuery
     Connection = fdcDatabaseConnection
-    SQL.Strings = (
-      ''
-      '')
     Left = 360
     Top = 251
   end

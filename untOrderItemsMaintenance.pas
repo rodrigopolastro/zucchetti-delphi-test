@@ -26,6 +26,7 @@ type
     fdcDatabaseConnection: TFDConnection;
     edtQuantity: TEdit;
     btnCancel: TButton;
+    here: TEdit;
     procedure btnShowProductsClick(Sender: TObject);
     procedure edtProductCodeExit(Sender: TObject);
     procedure btnSaveClick(Sender: TObject);
@@ -34,6 +35,7 @@ type
     { Private declarations }
   public
     selectedProductId: String;
+    productPrice: Real;
   end;
 
 var
@@ -53,26 +55,29 @@ begin
   frmOrderItemsMaintenance.edtQuantity.Text := '';
 end;
 
-procedure CreateItem();
-  var orderId, productId, quantity: String;
-  var query : TFDQuery;
+procedure AddItemToList();
+  var productId, productName: String;
+  var quantity: Integer;
+  var unitPrice, totalPrice: Real;
+
+  var dataSet: TFDQuery;
 begin
-	query := frmOrderItemsMaintenance.fdqQueries;
-
-  query.SQL.Clear;
-  query.SQL.Text :=
-  	'INSERT INTO items (order_id, product_id, quantity) ' +
-    'VALUES(:orderId, :productId, :quantity)';
-
-  orderId   := frmOrdersMaintenance.edtOrderNumber.Text;
+	dataset := frmOrdersMaintenance.fdqOrderItems;
   productId := frmOrderItemsMaintenance.edtProductCode.Text;
-  quantity  := frmOrderItemsMaintenance.edtQuantity.Text;
+  productName := frmOrderItemsMaintenance.edtProductName.Text;
+  quantity := StrToInt(frmOrderItemsMaintenance.edtQuantity.Text);
+  unitPrice := frmOrderItemsMaintenance.productPrice;
+  totalPrice := quantity * unitPrice;
 
-  query.ParamByName('orderId').AsString := orderId;
-  query.ParamByName('productId').AsString := productId;
-  query.ParamByName('quantity').AsString := quantity;
+  //Store items in memory, only update if the order is saved
+  dataset.CachedUpdates := True;
 
-  query.ExecSQL;
+	dataset.Append;
+  dataset.FieldByName('Cód. Produto').AsString := productId;
+  dataset.FieldByName('Descrição do Produto').AsString := productName;
+  dataset.FieldByName('Quantidade').AsString := IntToStr(quantity);
+  dataset.FieldByName('Valor Unitário').AsString := FormatFloat('0.00', unitPrice);
+  dataset.FieldByName('Valor Total').AsString := FormatFloat('0.00', totalPrice);
 end;
 
 procedure DisplayProductName(productId: String);
@@ -105,9 +110,10 @@ end;
 
 procedure TfrmOrderItemsMaintenance.btnSaveClick(Sender: TObject);
 begin
-	CreateItem();
+//	CreateItem();
+	AddItemToList();
   ClearFormFields();
-  frmOrdersMaintenance.dtsOrderItems.DataSet.Refresh;
+//  frmOrdersMaintenance.dtsOrderItems.DataSet.Refresh;
 end;
 
 procedure TfrmOrderItemsMaintenance.btnShowProductsClick(Sender: TObject);

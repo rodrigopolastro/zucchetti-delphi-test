@@ -40,6 +40,7 @@ procedure TfrmProducts.dbgProductsDblClick(Sender: TObject);
 begin
 	frmOrderItemsMaintenance.edtProductCode.Text := dbgProducts.Fields[0].AsString;
   frmOrderItemsMaintenance.edtProductName.Text := dbgProducts.Fields[1].AsString;
+  frmOrderItemsMaintenance.productPrice := dbgProducts.Fields[2].AsFloat;
   Self.Close;
 end;
 

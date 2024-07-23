@@ -84,6 +84,14 @@ object frmOrderItemsMaintenance: TfrmOrderItemsMaintenance
     TabOrder = 5
     OnClick = btnCancelClick
   end
+  object here: TEdit
+    Left = 24
+    Top = 216
+    Width = 441
+    Height = 21
+    TabOrder = 6
+    Text = 'here'
+  end
   object fdcDatabaseConnection: TFDConnection
     Params.Strings = (
       'Database=SRV-ORACLE'

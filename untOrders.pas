@@ -55,21 +55,6 @@ implementation
 
 {$R *.dfm}
 
-function createEmptyOrder(): String;
-var createdOrderId: String;
-begin
-  frmOrders.fdqItems.SQL.Clear;
-	frmOrders.fdqOrders.SQL.Text :=
-  'INSERT INTO orders(order_id, order_date) ' +
-  'VALUES (seq_order_id.NEXTVAL, NULL)';
-  frmOrders.fdqOrders.ExecSQL;
-
-  createdOrderId := frmOrders.fdcDatabaseConnection.
-    GetLastAutoGenValue('seq_order_id');
-
-  Result := createdOrderId;
-end;
-
 procedure ShowHideSearchComponents(optionNumber: Integer);
 begin
 	frmOrders.edtTest.Text := IntToStr(optionNumber);
@@ -125,7 +110,6 @@ end;
 
 procedure TfrmOrders.btnCreateClick(Sender: TObject);
 begin
-  currentOrderId := CreateEmptyOrder();
 	actionType := 'createOrder';
 	frmOrdersMaintenance.ShowModal;
 end;
