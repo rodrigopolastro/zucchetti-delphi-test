@@ -149,8 +149,9 @@ begin
 	else if frmOrders.actionType = 'editOrder' then
   begin
     dtpOrderDate.Date := GetOrderDate(frmOrders.currentOrderId);
-    displayOrderItems(frmOrders.currentOrderId);
   end;
+
+  displayOrderItems(frmOrders.currentOrderId);
 
 end;
 

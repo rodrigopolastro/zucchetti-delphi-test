@@ -46,6 +46,13 @@ uses
 
 {$R *.dfm}
 
+procedure ClearFormFields();
+begin
+  frmOrderItemsMaintenance.edtProductCode.Text := '';
+  frmOrderItemsMaintenance.edtProductName.Text := '';
+  frmOrderItemsMaintenance.edtQuantity.Text := '';
+end;
+
 procedure CreateItem();
   var orderId, productId, quantity: String;
   var query : TFDQuery;
@@ -68,7 +75,7 @@ begin
   query.ExecSQL;
 end;
 
-procedure GetProductName(productId: String);
+procedure DisplayProductName(productId: String);
 var query: TFDQuery;
 begin
 	query := frmOrderItemsMaintenance.fdqQueries;
@@ -87,10 +94,8 @@ begin
   else
 	begin
     frmOrderItemsMaintenance.edtProductName.Text := '';
-    ShowMessage('Nenhum produto encontrado com o c�digo' + productId);
-
+    ShowMessage('Nenhum produto encontrado com o código ' + productId);
   end;
- 	frmOrderItemsMaintenance.fdqQueries.RowsAffected
 end;
 
 procedure TfrmOrderItemsMaintenance.btnCancelClick(Sender: TObject);
@@ -101,6 +106,8 @@ end;
 procedure TfrmOrderItemsMaintenance.btnSaveClick(Sender: TObject);
 begin
 	CreateItem();
+  ClearFormFields();
+  frmOrdersMaintenance.dtsOrderItems.DataSet.Refresh;
 end;
 
 procedure TfrmOrderItemsMaintenance.btnShowProductsClick(Sender: TObject);
@@ -113,7 +120,7 @@ var productId: String;
 begin
 	productId := edtProductCode.Text;
   if not productId.IsEmpty then
-		GetProductName(productId);
+		DisplayProductName(productId);
 end;
 
 end.

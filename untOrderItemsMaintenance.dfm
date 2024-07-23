@@ -1,7 +1,7 @@
 object frmOrderItemsMaintenance: TfrmOrderItemsMaintenance
   Left = 0
   Top = 0
-  ClientHeight = 210
+  ClientHeight = 289
   ClientWidth = 494
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -39,6 +39,7 @@ object frmOrderItemsMaintenance: TfrmOrderItemsMaintenance
     Width = 49
     Height = 21
     TabOrder = 0
+    OnExit = edtProductCodeExit
   end
   object btnShowProducts: TButton
     Left = 182
@@ -54,7 +55,7 @@ object frmOrderItemsMaintenance: TfrmOrderItemsMaintenance
     Top = 68
     Width = 272
     Height = 21
-    Enabled = False
+    ReadOnly = True
     TabOrder = 2
   end
   object btnSave: TButton
@@ -64,6 +65,7 @@ object frmOrderItemsMaintenance: TfrmOrderItemsMaintenance
     Height = 31
     Caption = 'Salvar'
     TabOrder = 3
+    OnClick = btnSaveClick
   end
   object edtQuantity: TEdit
     Left = 94
@@ -88,13 +90,13 @@ object frmOrderItemsMaintenance: TfrmOrderItemsMaintenance
       'User_Name=RODRIGO_TESTE'
       'Password=LARANJA'
       'DriverID=Ora')
+    Connected = True
     Left = 80
     Top = 138
   end
   object fdqQueries: TFDQuery
     Connection = fdcDatabaseConnection
     SQL.Strings = (
-      'SELECT description FROM products'
       '')
     Left = 184
     Top = 146
