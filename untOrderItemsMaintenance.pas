@@ -175,6 +175,7 @@ begin
 
     ClearFormFields();
     frmOrders.currentItemProductId := frmOrdersMaintenance.dbgOrderItems.Fields[0].AsString;
+    UpdateItemPriceOnList(productId, quantity);
 
 
 

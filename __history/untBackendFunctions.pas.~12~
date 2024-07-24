@@ -15,7 +15,6 @@ procedure DeleteItem(orderId, productId: String);
 procedure DeleteOrder(orderId: String);
 procedure InsertOrderItem(orderId, productId: String; quantity: Integer);
 procedure UpdateItemQuantity(orderId, productId: String; quantity: Integer);
-procedure UpdateItemPriceOnList(productId: String; quantity: Integer);
 procedure UpdateOrderDate(orderId: String);
 function GetOrderDate(orderId: String): TDate;
 procedure DisplayItemInfo(orderId, productId: String);
@@ -163,23 +162,6 @@ begin
   frmOrdersMaintenance.fdqQueries.ParamByName('productId').AsString := productId;
   frmOrdersMaintenance.fdqQueries.ParamByName('quantity').AsInteger := quantity;
   frmOrdersMaintenance.fdqQueries.ExecSQL;
-end;
-
-procedure UpdateItemPriceOnList(productId: String; quantity: Integer);
-	var unitPrice, totalPrice: Real;
-begin
-	frmOrdersMaintenance.fdqQueries.SQL.Text :=
-  	'SELECT price FROM products WHERE product_id = :productId';
-  frmOrdersMaintenance.fdqQueries.ParamByName('productId').AsString := productId;
-
-  frmOrdersMaintenance.fdqQueries.Open;
-  unitPrice := frmOrdersMaintenance.fdqQueries.FieldByName('price').AsFloat;
-  totalPrice := quantity * unitPrice;
-
-  frmOrdersMaintenance.fdqOrderItems.FieldByName('Valor Unitário').AsString :=
-  	FormatFloat('0.00', unitPrice);
-  frmOrdersMaintenance.fdqOrderItems.FieldByName('Valor Total').AsString :=
-  FormatFloat('0.00', totalPrice);
 end;
 
 procedure UpdateOrderDate(orderId: String);
