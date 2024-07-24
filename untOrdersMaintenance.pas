@@ -40,6 +40,7 @@ type
     procedure dbgOrderItemsCellClick(Column: TColumn);
     procedure btnUpdateClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure btnDeleteClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -59,6 +60,10 @@ uses
   untBackendFunctions,
 	untOrders;
 
+procedure RemoveOrderItemFromList(productId: String);
+begin
+	frmOrdersMaintenance.dbgOrderItems.DataSource.DataSet.Delete;
+end;
 
 procedure AddItemsToOrder(orderId: String);
 	var i, quantity: Integer;
@@ -115,6 +120,21 @@ begin
 	frmOrderItemsMaintenance.ShowModal;
 end;
 
+procedure TfrmOrdersMaintenance.btnDeleteClick(Sender: TObject);
+begin
+	if frmOrders.actionType = 'createOrder' then
+  	RemoveOrderItemFromList(frmOrders.currentItemProductId)
+//  else if frmOrders.actionType = 'editOrder' then
+//    if DoesOrderContainProduct(frmOrders.currentOrderId, frmOrders.currentItemProductId) then
+//    else
+//    	RemoveOrderItemFromList(frmOrders.currentItemProductId);
+
+
+
+//	if DoesOrderContainProduct() then
+
+end;
+
 procedure TfrmOrdersMaintenance.btnUpdateClick(Sender: TObject);
 begin
   secActionType := 'editOrderItem';
@@ -129,7 +149,6 @@ procedure TfrmOrdersMaintenance.dbgOrderItemsCellClick(Column: TColumn);
 begin
 
   frmOrders.currentItemProductId := dbgOrderItems.Fields[0].AsString;
-  showmessage(frmOrders.currentItemProductId);
 end;
 
 procedure TfrmOrdersMaintenance.FormClose(Sender: TObject;

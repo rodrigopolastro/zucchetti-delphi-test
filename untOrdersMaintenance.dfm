@@ -80,6 +80,7 @@ object frmOrdersMaintenance: TfrmOrdersMaintenance
     Height = 25
     Caption = 'Excluir'
     TabOrder = 4
+    OnClick = btnDeleteClick
   end
   object dbgOrderItems: TDBGrid
     Left = 24
