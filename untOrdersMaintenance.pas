@@ -12,7 +12,8 @@ uses
   FireDAC.DApt.Intf, FireDAC.DApt, FireDAC.Comp.DataSet, FireDAC.Comp.Client,
   Vcl.Grids, Vcl.DBGrids,
 
-  untOrderItemsMaintenance;
+  untOrderItemsMaintenance,
+  untConfirmDeletion;
 
 type
   TfrmOrdersMaintenance = class(TForm)
@@ -122,17 +123,14 @@ end;
 
 procedure TfrmOrdersMaintenance.btnDeleteClick(Sender: TObject);
 begin
-	if frmOrders.actionType = 'createOrder' then
-  	RemoveOrderItemFromList(frmOrders.currentItemProductId)
-//  else if frmOrders.actionType = 'editOrder' then
-//    if DoesOrderContainProduct(frmOrders.currentOrderId, frmOrders.currentItemProductId) then
-//    else
-//    	RemoveOrderItemFromList(frmOrders.currentItemProductId);
-
-
-
-//	if DoesOrderContainProduct() then
-
+  if DoesOrderContainProduct(frmOrders.currentOrderId, frmOrders.currentItemProductId) then
+  begin
+    DeleteItem(frmOrders.currentOrderId, frmOrders.currentItemProductId);
+    secActionType := 'deleteItem';
+    frmConfirmDeletion.ShowModal;
+  end;
+  RemoveOrderItemFromList(frmOrders.currentItemProductId);
+  frmOrders.currentItemProductId := dbgOrderItems.Fields[0].AsString;
 end;
 
 procedure TfrmOrdersMaintenance.btnUpdateClick(Sender: TObject);
@@ -172,6 +170,7 @@ begin
 	else if frmOrders.actionType = 'editOrder' then
   begin
   	lblOrderNumber.Caption := 'Nº Pedido';
+    edtOrderNumber.Visible := True;
   	edtOrderNumber.Text := frmOrders.currentOrderId;
     dtpOrderDate.Date := GetOrderDate(frmOrders.currentOrderId);
     displayOrderItems(frmOrders.currentOrderId, frmOrdersMaintenance.fdqOrderItems);

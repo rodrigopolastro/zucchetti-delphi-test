@@ -36,15 +36,17 @@ implementation
 
 uses
 	untBackendFunctions,
-  untOrders;
+  untOrders,
+  untOrdersMaintenance;
 
 procedure TfrmConfirmDeletion.FormShow(Sender: TObject);
 begin
   if frmOrders.actionType = 'deleteOrder' then
-    lblMessage.Caption := 'Confirmar exclusão do Pedido Nº ' +
+    lblMessage.Caption := 'Tem certeza que deseja excluir o Pedido Nº ' +
       frmOrders.currentOrderId + '?'
-  else if frmOrders.actionType = 'deleteItem' then
-    lblMessage.Caption := 'Confirmar exclusão do Produto de Código ' +
+  else if (frmOrders.actionType = 'deleteItem') or
+          (frmOrdersMaintenance.secActionType = 'deleteItem') then
+    lblMessage.Caption := 'Tem certeza que deseja excluir o Produto de Código ' +
       frmOrders.currentItemProductId +
       ' do Pedido Nº ' + frmOrders.currentOrderId + '?'
 end;
@@ -61,7 +63,8 @@ begin
     	frmOrders.dbgOrders.DataSource.DataSet.Fields[0].AsString;
     DisplayOrderItems(frmOrders.currentOrderId, frmOrders.fdqItems);
   end
-  else if frmOrders.actionType = 'deleteItem' then
+  else if (frmOrders.actionType = 'deleteItem') or
+          (frmOrdersMaintenance.secActionType = 'deleteItem') then
   begin
   	DeleteItem(
     	frmOrders.currentOrderId,

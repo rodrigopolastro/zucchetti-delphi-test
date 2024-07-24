@@ -163,7 +163,10 @@ begin
       if DoesOrderContainProduct(orderId, productId) then
         ShowMessage('Esse produto já faz parte desse pedido!')
       else
-        InsertOrderItem(orderId, productId, quantity)
+      begin
+      	InsertOrderItem(orderId, productId, quantity);
+        frmOrders.dbgItems.DataSource.DataSet.Refresh;
+      end
     else if frmOrders.actionType = 'editItem' then
     begin
       UpdateItemQuantity(orderId, productId, quantity);
@@ -171,7 +174,9 @@ begin
     end;
 
     ClearFormFields();
-    frmOrders.dbgItems.DataSource.DataSet.Refresh;
+    frmOrders.currentItemProductId := frmOrdersMaintenance.dbgOrderItems.Fields[0].AsString;
+
+
 
 end;
 

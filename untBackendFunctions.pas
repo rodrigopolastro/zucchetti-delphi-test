@@ -7,6 +7,7 @@ uses
   FireDAC.Comp.Client, FireDAC.Stan.Intf, FireDAC.Stan.Param, FireDAC.Stan.Option, FireDAC.Stan.Error,
   FireDAC.Phys.Intf, FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Comp.DataSet;
 
+function DoesOrderContainProduct(orderId, productId: String): Boolean;
 procedure DisplayOrders;
 procedure DisplayOrderItems(orderId: String; queryComponent: TFDQuery);
 function  CreateOrder: Integer;
@@ -17,7 +18,7 @@ procedure UpdateItemQuantity(orderId, productId: String; quantity: Integer);
 procedure UpdateOrderDate(orderId: String);
 function GetOrderDate(orderId: String): TDate;
 procedure DisplayItemInfo(orderId, productId: String);
-function DoesOrderContainProduct(orderId, productId: String): Boolean;
+
 
 implementation
 
@@ -26,6 +27,26 @@ uses
   untOrdersMaintenance,
   untOrderItemsMaintenance,
   untConfirmDeletion;
+
+function DoesOrderContainProduct(orderId, productId: String): Boolean;
+var query: TFDQuery;
+begin
+	query := frmOrderItemsMaintenance.fdqQueries;
+
+  query.SQL.Clear;
+  query.SQL.Text :=
+  	'SELECT order_id FROM items ' +
+    'WHERE order_id = :orderId AND product_id = :productId';
+  query.ParamByName('orderId').AsString := orderId;
+  query.ParamByName('productId').AsString := productId;
+  query.Open;
+
+  if query.RowsAffected = 1 then
+    Result := True
+  else
+	  Result := False
+
+end;
 
 procedure DisplayOrders();
 	var
@@ -170,46 +191,36 @@ begin
 end;
 
 procedure DisplayItemInfo(orderId, productId: String);
+  var productName: String;
+  var quantity: Integer;
 begin
-  frmOrderItemsMaintenance.fdqQueries.SQL.Clear;
-	frmOrderItemsMaintenance.fdqQueries.SQL.Text :=
-  	'SELECT ' +
-    'p.description AS "productName", ' +
-    'i.quantity AS "quantity" ' +
-    'FROM items i ' +
-    'INNER JOIN products p ON p.product_id = i.product_id ' +
-    'WHERE i.product_id = :productId ' +
-    'AND i.order_id = :orderId';
-  frmOrderItemsMaintenance.fdqQueries.ParamByName('productId').AsString := productId;
-  frmOrderItemsMaintenance.fdqQueries.ParamByName('orderId').AsString := orderId;
-  frmOrderItemsMaintenance.fdqQueries.Open;
+	if DoesOrderContainProduct(orderId, productId) then
+  begin
+  	frmOrderItemsMaintenance.fdqQueries.SQL.Clear;
+    frmOrderItemsMaintenance.fdqQueries.SQL.Text :=
+      'SELECT ' +
+      'p.description AS "productName", ' +
+      'i.quantity AS "quantity" ' +
+      'FROM items i ' +
+      'INNER JOIN products p ON p.product_id = i.product_id ' +
+      'WHERE i.product_id = :productId ' +
+      'AND i.order_id = :orderId';
+    frmOrderItemsMaintenance.fdqQueries.ParamByName('productId').AsString := productId;
+    frmOrderItemsMaintenance.fdqQueries.ParamByName('orderId').AsString := orderId;
+    frmOrderItemsMaintenance.fdqQueries.Open;
+
+    productName := frmOrderItemsMaintenance.fdqQueries.FieldByName('productName').AsString;
+    quantity := frmOrderItemsMaintenance.fdqQueries.FieldByName('quantity').AsInteger;
+  end
+  else
+	begin
+		productName := frmOrdersMaintenance.dbgOrderItems.Fields[1].AsString;
+    quantity := frmOrdersMaintenance.dbgOrderItems.Fields[2].AsInteger;
+  end;
 
   frmOrderItemsMaintenance.edtProductCode.Text := productId;
-  frmOrderItemsMaintenance.edtProductName.Text :=
-    frmOrderItemsMaintenance.fdqQueries.FieldByName('productName').AsString;
-  frmOrderItemsMaintenance.edtQuantity.Text :=
-    frmOrderItemsMaintenance.fdqQueries.FieldByName('quantity').AsString;
-
-end;
-
-function DoesOrderContainProduct(orderId, productId: String): Boolean;
-var query: TFDQuery;
-begin
-	query := frmOrderItemsMaintenance.fdqQueries;
-
-  query.SQL.Clear;
-  query.SQL.Text :=
-  	'SELECT order_id FROM items ' +
-    'WHERE order_id = :orderId AND product_id = :productId';
-  query.ParamByName('orderId').AsString := orderId;
-  query.ParamByName('productId').AsString := productId;
-  query.Open;
-
-  if query.RowsAffected = 1 then
-    Result := True
-  else
-	  Result := False
-
+  frmOrderItemsMaintenance.edtProductName.Text := productName;
+  frmOrderItemsMaintenance.edtQuantity.Text := IntToStr(quantity);
 end;
 
 end.
