@@ -6,8 +6,7 @@ uses
   untOrdersMaintenance in 'untOrdersMaintenance.pas' {frmOrdersMaintenance},
   untOrderItemsMaintenance in 'untOrderItemsMaintenance.pas' {frmOrderItemsMaintenance},
   untProducts in 'untProducts.pas' {frmProducts},
-  untBackendFunctions in 'untBackendFunctions.pas',
-  untConfirmDeletion in 'untConfirmDeletion.pas' {frmConfirmDeletion};
+  untBackendFunctions in 'untBackendFunctions.pas';
 
 {$R *.res}
 
@@ -18,6 +17,5 @@ begin
   Application.CreateForm(TfrmProducts, frmProducts);
   Application.CreateForm(TfrmOrdersMaintenance, frmOrdersMaintenance);
   Application.CreateForm(TfrmOrderItemsMaintenance, frmOrderItemsMaintenance);
-  Application.CreateForm(TfrmConfirmDeletion, frmConfirmDeletion);
   Application.Run;
 end.

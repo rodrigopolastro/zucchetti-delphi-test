@@ -14,7 +14,8 @@ uses
  	//Addittional Forms
   untBackendFunctions,
 	untOrdersMaintenance,
-  untOrderItemsMaintenance;
+  untOrderItemsMaintenance,
+  untConfirmDeletion;
 
 type
   TfrmOrders = class(TForm)
@@ -42,6 +43,7 @@ type
     procedure btnSearchClick(Sender: TObject);
     procedure dbgItemsCellClick(Column: TColumn);
     procedure btnEditClick(Sender: TObject);
+    procedure btnDeleteClick(Sender: TObject);
   private
 
   public
@@ -83,6 +85,20 @@ begin
 end;
 
 procedure TfrmOrders.btnEditClick(Sender: TObject);
+begin
+	if currentItemProductId.IsEmpty then
+  begin
+    actionType := 'deleteOrder';
+    frmConfirmDeletion.ShowModal;
+  end
+  else
+  begin
+  	actionType := 'deleteItem';
+    frmConfirmDeletion.ShowModal;
+  end;
+end;
+
+procedure TfrmOrders.btnDeleteClick(Sender: TObject);
 begin
 	if currentItemProductId.IsEmpty then
   begin

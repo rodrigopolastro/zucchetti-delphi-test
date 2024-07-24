@@ -118,6 +118,10 @@
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="untBackendFunctions.pas"/>
+        <DCCReference Include="untConfirmDeletion.pas">
+            <Form>frmConfirmDeletion</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

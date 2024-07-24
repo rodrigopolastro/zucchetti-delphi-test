@@ -59,6 +59,7 @@ object frmOrders: TfrmOrders
     Height = 25
     Caption = 'Excluir'
     TabOrder = 4
+    OnClick = btnDeleteClick
   end
   object dbgOrders: TDBGrid
     Left = 8

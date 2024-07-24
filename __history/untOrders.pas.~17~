@@ -12,7 +12,10 @@ uses
   FireDAC.DApt, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.ExtCtrls,
 
  	//Addittional Forms
-	untOrdersMaintenance;
+  untBackendFunctions,
+	untOrdersMaintenance,
+  untOrderItemsMaintenance,
+  untConfirmDeletion;
 
 type
   TfrmOrders = class(TForm)
@@ -40,11 +43,12 @@ type
     procedure btnSearchClick(Sender: TObject);
     procedure dbgItemsCellClick(Column: TColumn);
     procedure btnEditClick(Sender: TObject);
+    procedure btnDeleteClick(Sender: TObject);
   private
 
   public
     currentOrderId: String;
-    currentItemId: String;
+    currentItemProductId: String;
     actionType: String;
   end;
 
@@ -54,21 +58,6 @@ var
 implementation
 
 {$R *.dfm}
-
-function createEmptyOrder(): String;
-var createdOrderId: String;
-begin
-  frmOrders.fdqItems.SQL.Clear;
-	frmOrders.fdqOrders.SQL.Text :=
-  'INSERT INTO orders(order_id, order_date) ' +
-  'VALUES (seq_order_id.NEXTVAL, NULL)';
-  frmOrders.fdqOrders.ExecSQL;
-
-  createdOrderId := frmOrders.fdcDatabaseConnection.
-    GetLastAutoGenValue('seq_order_id');
-
-  Result := createdOrderId;
-end;
 
 procedure ShowHideSearchComponents(optionNumber: Integer);
 begin
@@ -81,59 +70,46 @@ begin
 end;
 
 
-procedure displayOrders();
-	var
-  	ordersSQL: string;
-begin
-	ordersSQL :=
-    'SELECT ' +
-      'o.order_id AS "Nº do Pedido", ' +
-      'o.order_date AS "Data do Pedido", ' +
-      'SUM(i.quantity * p.price) AS "Valor Total" ' +
-    'FROM orders o ' +
-    'INNER JOIN items i ON i.order_id = o.order_id ' +
-    'INNER JOIN products p ON i.product_id = p.product_id ' +
-    'GROUP BY ' +
-      'o.order_id, ' +
-      'o.order_date ';
-
-  frmOrders.fdqItems.SQL.Clear;
-	frmOrders.fdqOrders.SQL.Add(ordersSQL);
-  frmOrders.fdqOrders.Open;
-end;
-
-procedure displayOrderItems(orderId: String);
-	var
-  	itemsSQL: string;
-begin
-  itemsSQL :=
-  	'SELECT ' +
-      'i.product_id AS "Cód. Produto", ' +
-      'p.description AS "Descrição do Produto", ' +
-      'i.quantity AS "Quantidade", ' +
-      'p.price AS "Valor Unitário", ' +
-      'i.quantity * p.price AS "Valor Total" '+
-  	'FROM items i ' +
-    'INNER JOIN products p ON p.product_id = i.product_id ' +
-    'WHERE i.order_id = :orderId';
-
-  frmOrders.fdqItems.SQL.Clear;
-	frmOrders.fdqItems.SQL.Text := itemsSQL;
-  frmOrders.fdqItems.ParamByName('orderId').AsString := orderId;
-	frmOrders.fdqItems.Open;
-end;
-
 procedure TfrmOrders.btnCreateClick(Sender: TObject);
 begin
-  currentOrderId := CreateEmptyOrder();
-	actionType := 'createOrder';
-	frmOrdersMaintenance.ShowModal;
+	if currentItemProductId.IsEmpty then
+  begin
+    actionType := 'createOrder';
+    frmOrdersMaintenance.ShowModal;
+  end
+  else
+  begin
+  	actionType := 'createItem';
+    frmOrderItemsMaintenance.ShowModal;
+  end;
 end;
 
 procedure TfrmOrders.btnEditClick(Sender: TObject);
 begin
-	actionType := 'editOrder';
-	frmOrdersMaintenance.ShowModal;
+	if currentItemProductId.IsEmpty then
+  begin
+    actionType := 'DeleteOrder';
+    frmConfirmDeletion.ShowModal;
+  end
+  else
+  begin
+  	actionType := 'deleteItem';
+    frmConfirmDeletion.ShowModal;
+  end;
+end;
+
+procedure TfrmOrders.btnDeleteClick(Sender: TObject);
+begin
+	if currentItemProductId.IsEmpty then
+  begin
+    actionType := 'editOrder';
+    frmOrdersMaintenance.ShowModal;
+  end
+  else
+  begin
+  	actionType := 'editItem';
+    frmOrderItemsMaintenance.ShowModal;
+  end;
 end;
 
 procedure TfrmOrders.btnSearchClick(Sender: TObject);
@@ -151,21 +127,23 @@ end;
 
 procedure TfrmOrders.dbgItemsCellClick(Column: TColumn);
 begin
-	currentItemId := frmOrders.dbgItems.Fields[0].AsString;
+	currentItemProductId := frmOrders.dbgItems.Fields[0].AsString;
 end;
 
 procedure TfrmOrders.dbgOrdersCellClick(Column: TColumn);
 begin
+	currentItemProductId := '';
 	currentOrderId := frmOrders.dbgOrders.Fields[0].AsString;
-	displayOrderItems(currentOrderId);
+	displayOrderItems(currentOrderId, frmOrders.fdqItems);
   edtTest.Text := currentOrderId;
 end;
 
 procedure TfrmOrders.FormCreate(Sender: TObject);
 begin
 	displayOrders();
+  frmOrders.dbgOrders.DataSource.DataSet.First;
   currentOrderId := frmOrders.dbgOrders.Fields[0].AsString;
-  displayOrderItems(currentOrderId);
+  displayOrderItems(currentOrderId, frmOrders.fdqItems);
 end;
 
 
