@@ -57,21 +57,6 @@ begin
   frmOrderItemsMaintenance.edtQuantity.Text := '';
 end;
 
-function DoesListContainProduct(productId: String): Boolean;
-	var i: Integer;
-  var dataset: TDataSet;
-begin
-	dataset := frmOrdersMaintenance.fdqOrderItems;
-	for i := 1 to frmOrdersMaintenance.currentNumberOfItems do
-  begin
-  	frmOrdersMaintenance.fdqOrderItems.RecNo := i;
-    if dataset.FieldByName('Cód. Produto').AsString = productId then
-      Result := True;
-  end;
-
-  Result := False;
-end;
-
 procedure AddItemToList();
   var productId, productName: String;
   var quantity: Integer;
@@ -96,7 +81,6 @@ begin
   dataset.FieldByName('Quantidade').AsString := IntToStr(quantity);
   dataset.FieldByName('Valor Unitário').AsString := FormatFloat('0.00', unitPrice);
   dataset.FieldByName('Valor Total').AsString := FormatFloat('0.00', totalPrice);
-  Inc(frmOrdersMaintenance.currentNumberOfItems);
 end;
 
 procedure ModifyItemQuantityOnList(quantity: Integer);
@@ -141,23 +125,23 @@ procedure TfrmOrderItemsMaintenance.btnSaveClick(Sender: TObject);
   var orderId, productId: String;
   var quantity: Integer;
 begin
+  Inc(frmOrdersMaintenance.currentNumberOfItems);
+
   orderId := frmOrders.currentOrderId;
   productId := frmOrderItemsMaintenance.edtProductCode.Text;
   quantity := StrToInt(frmOrderItemsMaintenance.edtQuantity.Text);
 
   if frmOrdersMaintenance.isOrdersMaintenanceOpen then
-  begin
-    if frmOrdersMaintenance.secActionType = 'createOrderItem' then
-      if DoesListContainProduct(productId) then
+    if frmOrders.actionType = 'createOrderItem' then
+      if DoesOrderContainProduct(orderId, productId) then
         ShowMessage('Esse produto já faz parte desse pedido!')
       else
         AddItemToList()
-    else if frmOrdersMaintenance.secActionType = 'editOrderItem' then
+    else if frmOrders.actionType = 'editOrderItem' then
     begin
       ModifyItemQuantityOnList(quantity);
       Self.Close;
     end
-  end
   else if not frmOrdersMaintenance.isOrdersMaintenanceOpen then
     if frmOrders.actionType = 'createItem' then
       if DoesOrderContainProduct(orderId, productId) then
@@ -172,6 +156,7 @@ begin
 
     ClearFormFields();
     frmOrders.dbgItems.DataSource.DataSet.Refresh;
+    frmOrdersMaintenance.dbgOrderItems.DataSource.DataSet.Refresh;
 
 end;
 
@@ -190,15 +175,13 @@ end;
 
 procedure TfrmOrderItemsMaintenance.FormShow(Sender: TObject);
 begin
-  if (frmOrders.actionType = 'createItem') or 
-     (frmOrders.actionType = 'createOrderItem') then
+  if frmOrders.actionType = 'createItem' then
   begin
     ClearFormFields();
     edtProductCode.ReadOnly := False;
     edtProductName.ReadOnly := False;
   end
-  else if (frmOrders.actionType = 'editItem') or 
-          (frmOrders.actionType = 'editOrderItem') then
+  else if frmOrders.actionType = 'editItem' then
   begin
     DisplayItemInfo(
       frmOrders.currentOrderId,

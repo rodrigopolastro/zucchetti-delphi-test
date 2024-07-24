@@ -1,4 +1,4 @@
-unit untOrderItemsMaintenance;
+﻿unit untOrderItemsMaintenance;
 
 interface
 
@@ -134,6 +134,8 @@ begin
   quantity := StrToInt(frmOrderItemsMaintenance.edtQuantity.Text);
 
   if frmOrdersMaintenance.isOrdersMaintenanceOpen then
+  begin
+//       showMessage('yes');
     if frmOrders.actionType = 'createOrderItem' then
       if DoesOrderContainProduct(orderId, productId) then
         ShowMessage('Esse produto já faz parte desse pedido!')
@@ -144,7 +146,8 @@ begin
       ModifyItemQuantityOnList(quantity);
       Self.Close;
     end
-  else 
+  end
+  else if not frmOrdersMaintenance.isOrdersMaintenanceOpen then
     if frmOrders.actionType = 'createItem' then
       if DoesOrderContainProduct(orderId, productId) then
         ShowMessage('Esse produto já faz parte desse pedido!')

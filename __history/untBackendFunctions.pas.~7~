@@ -30,7 +30,7 @@ procedure DisplayOrders();
 begin
 	ordersSQL :=
     'SELECT ' +
-      'o.order_id AS "NÂº do Pedido", ' +
+      'o.order_id AS "Nº do Pedido", ' +
       'o.order_date AS "Data do Pedido", ' +
       'SUM(i.quantity * p.price) AS "Valor Total" ' +
     'FROM orders o ' +
@@ -52,10 +52,10 @@ procedure DisplayOrderItems(orderId: String; queryComponent: TFDQuery);
 begin
   itemsSQL :=
   	'SELECT ' +
-      'i.product_id AS "CÃ³d. Produto", ' +
-      'p.description AS "DescriÃ§Ã£o do Produto", ' +
+      'i.product_id AS "Cód. Produto", ' +
+      'p.description AS "Descrição do Produto", ' +
       'i.quantity AS "Quantidade", ' +
-      'p.price AS "Valor UnitÃ¡rio", ' +
+      'p.price AS "Valor Unitário", ' +
       'i.quantity * p.price AS "Valor Total" '+
   	'FROM items i ' +
     'INNER JOIN products p ON p.product_id = i.product_id ' +
@@ -95,7 +95,6 @@ begin
   frmOrdersMaintenance.fdqQueries.ParamByName('orderId').AsString := orderId;
   frmOrdersMaintenance.fdqQueries.ParamByName('productId').AsString := productId;
   frmOrdersMaintenance.fdqQueries.ParamByName('quantity').AsInteger := quantity;
-  frmOrdersMaintenance.fdqQueries.Open;
   frmOrdersMaintenance.fdqQueries.ExecSQL;
 end;
 
@@ -109,7 +108,6 @@ begin
   frmOrdersMaintenance.fdqQueries.ParamByName('orderId').AsString := orderId;
   frmOrdersMaintenance.fdqQueries.ParamByName('productId').AsString := productId;
   frmOrdersMaintenance.fdqQueries.ParamByName('quantity').AsInteger := quantity;
-  frmOrdersMaintenance.fdqQueries.Open;
   frmOrdersMaintenance.fdqQueries.ExecSQL;
 end;
 

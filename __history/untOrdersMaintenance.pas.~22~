@@ -96,7 +96,6 @@ begin
   ShowMessage(saveMessage);
   frmOrders.dbgOrders.DataSource.DataSet.First;
   frmOrders.dbgOrders.DataSource.DataSet.Refresh;
-  frmOrders.currentOrderId := frmOrders.dbgOrders.Fields[0].AsString;
   DisplayOrderItems(orderId, frmOrders.fdqItems);
   Self.Close;
 end;
