@@ -11,6 +11,7 @@ procedure DisplayOrders;
 procedure DisplayOrderItems(orderId: String; queryComponent: TFDQuery);
 function  CreateOrder: Integer;
 procedure InsertOrderItem(orderId, productId: String; quantity: Integer);
+procedure UpdateItemQuantity(orderId, productId: String; quantity: Integer);
 procedure UpdateOrderDate(orderId: String);
 function GetOrderDate(orderId: String): TDate;
 procedure DisplayItemInfo(orderId, productId: String);
@@ -90,6 +91,19 @@ begin
   frmOrdersMaintenance.fdqQueries.SQL.Text :=
     'INSERT INTO items(order_id, product_id, quantity) ' +
     'VALUES (:orderId, :productId, :quantity)';
+
+  frmOrdersMaintenance.fdqQueries.ParamByName('orderId').AsString := orderId;
+  frmOrdersMaintenance.fdqQueries.ParamByName('productId').AsString := productId;
+  frmOrdersMaintenance.fdqQueries.ParamByName('quantity').AsInteger := quantity;
+  frmOrdersMaintenance.fdqQueries.ExecSQL;
+end;
+
+procedure UpdateItemQuantity(orderId, productId: String; quantity: Integer);
+begin
+  frmOrdersMaintenance.fdqQueries.SQL.Clear;
+  frmOrdersMaintenance.fdqQueries.SQL.Text :=
+    'UPDATE items SET quantity = :quantity ' +
+    'WHERE order_id = :orderId AND product_id = :productId';
 
   frmOrdersMaintenance.fdqQueries.ParamByName('orderId').AsString := orderId;
   frmOrdersMaintenance.fdqQueries.ParamByName('productId').AsString := productId;

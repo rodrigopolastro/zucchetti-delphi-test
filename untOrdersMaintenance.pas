@@ -45,6 +45,7 @@ type
   public
     currentNumberOfItems: Integer;
     isOrdersMaintenanceOpen : Boolean;
+    secActionType: String;
   end;
 
 var
@@ -105,16 +106,20 @@ begin
   Self.Close;
 end;
 
-procedure TfrmOrdersMaintenance.btnUpdateClick(Sender: TObject);
-begin
-  frmOrders.actionType := 'editOrder';
-  frmOrderItemsMaintenance.ShowModal;
-end;
-
 procedure TfrmOrdersMaintenance.btnCreateClick(Sender: TObject);
 begin
-  frmOrders.actionType := 'createOrder';
+  secActionType := 'createOrderItem';
 	frmOrderItemsMaintenance.ShowModal;
+end;
+
+procedure TfrmOrdersMaintenance.btnUpdateClick(Sender: TObject);
+begin
+  secActionType := 'editOrderItem';
+  DisplayItemInfo(
+    frmOrders.currentOrderId,
+    frmOrders.currentItemProductId
+  );
+  frmOrderItemsMaintenance.ShowModal;
 end;
 
 procedure TfrmOrdersMaintenance.dbgOrderItemsCellClick(Column: TColumn);

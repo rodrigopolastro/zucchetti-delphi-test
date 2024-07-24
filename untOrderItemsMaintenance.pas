@@ -83,12 +83,13 @@ begin
   dataset.FieldByName('Valor Total').AsString := FormatFloat('0.00', totalPrice);
 end;
 
-procedure ApplyChangesToList();
+procedure ModifyItemQuantityOnList(quantity: Integer);
   var dataSet: TFDQuery;
 begin
   dataset := frmOrdersMaintenance.fdqOrderItems;
+  dataset.CachedUpdates := True;
 
-  dataset.FieldByName('Cód.Produto').AsString := '777';
+  dataset.FieldByName('Quantidade').AsInteger := quantity;
 end;
 
 procedure DisplayProductName(productId: String);
@@ -130,29 +131,32 @@ begin
   productId := frmOrderItemsMaintenance.edtProductCode.Text;
   quantity := StrToInt(frmOrderItemsMaintenance.edtQuantity.Text);
 
-  if frmOrders.actionType = 'createItem' then
-    if DoesOrderContainProduct(orderId, productId) then
-      ShowMessage('Esse produto já faz parte desse pedido!')
-    else
-    begin
-      if frmOrdersMaintenance.isOrdersMaintenanceOpen then
-        AddItemToList()
+  if frmOrdersMaintenance.isOrdersMaintenanceOpen then
+    if frmOrders.actionType = 'createOrderItem' then
+      if DoesOrderContainProduct(orderId, productId) then
+        ShowMessage('Esse produto já faz parte desse pedido!')
       else
-      begin
-        InsertOrderItem(orderId, productId, quantity);
-        frmOrders.dbgItems.DataSource.DataSet.Refresh;
-      end;
-      ClearFormFields();
+        AddItemToList()
+    else if frmOrders.actionType = 'editOrderItem' then
+    begin
+      ModifyItemQuantityOnList(quantity);
+      Self.Close;
     end
-  else if frmOrders.actionType = 'editItem' then
-  begin
-    if frmOrdersMaintenance.isOrdersMaintenanceOpen then
-      ApplyChangesToList()
-    else
-//      UpdateItem(orderId, productId, quantity);
-//    Self.Close();
+  else if not frmOrdersMaintenance.isOrdersMaintenanceOpen then
+    if frmOrders.actionType = 'createItem' then
+      if DoesOrderContainProduct(orderId, productId) then
+        ShowMessage('Esse produto já faz parte desse pedido!')
+      else
+        InsertOrderItem(orderId, productId, quantity)
+    else if frmOrders.actionType = 'editItem' then
+    begin
+      UpdateItemQuantity(orderId, productId, quantity);
+      Self.Close;
+    end;
+
     ClearFormFields();
-  end;
+    frmOrders.dbgItems.DataSource.DataSet.Refresh;
+    frmOrdersMaintenance.dbgOrderItems.DataSource.DataSet.Refresh;
 
 end;
 
@@ -174,8 +178,8 @@ begin
   if frmOrders.actionType = 'createItem' then
   begin
     ClearFormFields();
-    edtProductCode.ReadOnly := True;
-    edtProductName.ReadOnly := True;
+    edtProductCode.ReadOnly := False;
+    edtProductName.ReadOnly := False;
   end
   else if frmOrders.actionType = 'editItem' then
   begin
