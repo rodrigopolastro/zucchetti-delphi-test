@@ -2,7 +2,7 @@ object frmProducts: TfrmProducts
   Left = 0
   Top = 0
   Caption = 'Produtos'
-  ClientHeight = 295
+  ClientHeight = 298
   ClientWidth = 591
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET

@@ -96,8 +96,9 @@ begin
 
   AddItemsToOrder(orderId);
   ShowMessage(saveMessage);
+  frmOrders.dbgOrders.DataSource.DataSet.First;
   frmOrders.dbgOrders.DataSource.DataSet.Refresh;
-  displayOrderItems(orderId, frmOrdersMaintenance.fdqOrderItems);
+  DisplayOrderItems(orderId, frmOrders.fdqItems);
   Self.Close;
 end;
 

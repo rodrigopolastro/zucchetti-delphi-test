@@ -26,7 +26,6 @@ type
     fdcDatabaseConnection: TFDConnection;
     edtQuantity: TEdit;
     btnCancel: TButton;
-    here: TEdit;
     procedure btnShowProductsClick(Sender: TObject);
     procedure edtProductCodeExit(Sender: TObject);
     procedure btnSaveClick(Sender: TObject);
@@ -108,24 +107,24 @@ end;
 
 procedure TfrmOrderItemsMaintenance.btnCancelClick(Sender: TObject);
 begin
+  ClearFormFields();
 	Self.Close;
 end;
 
 procedure TfrmOrderItemsMaintenance.btnSaveClick(Sender: TObject);
 begin
-//	CreateItem();
-	if (frmOrders.actionType = 'createOrder') or
-  	 (frmOrders.actionType = 'editOrder') then
+	if frmOrders.actionType = 'createItem' then
+  begin
     InsertOrderItem(
       frmOrders.currentOrderId,
       frmOrderItemsMaintenance.edtProductCode.Text,
-      StrToInt(frmOrderItemsMaintenance.edtProductName.Text)
-    )
+      StrToInt(frmOrderItemsMaintenance.edtQuantity.Text)
+    );
+    frmOrders.dbgItems.DataSource.DataSet.Refresh;
+  end
   else
-		AddItemToList();
-
+    AddItemToList();
   ClearFormFields();
-//  frmOrdersMaintenance.dtsOrderItems.DataSet.Refresh;
 end;
 
 procedure TfrmOrderItemsMaintenance.btnShowProductsClick(Sender: TObject);

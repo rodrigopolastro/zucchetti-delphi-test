@@ -62,6 +62,7 @@ begin
 	queryComponent.SQL.Text := itemsSQL;
   queryComponent.ParamByName('orderId').AsString := orderId;
 	queryComponent.Open;
+  queryComponent.Refresh;
 end;
 
 function CreateOrder(): Integer;
@@ -83,7 +84,7 @@ end;
 
 procedure InsertOrderItem(orderId, productId: String; quantity: Integer);
 begin
-	frmOrdersMaintenance.fdqQueries.SQL.Clear;
+  frmOrdersMaintenance.fdqQueries.SQL.Clear;
   frmOrdersMaintenance.fdqQueries.SQL.Text :=
     'INSERT INTO items(order_id, product_id, quantity) ' +
     'VALUES (:orderId, :productId, :quantity)';
