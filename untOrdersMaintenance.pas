@@ -50,7 +50,6 @@ type
 
 var
   frmOrdersMaintenance: TfrmOrdersMaintenance;
-	initialNumberOfItems: Integer;
 
 implementation
 
@@ -67,13 +66,16 @@ procedure AddItemsToOrder(orderId: String);
   var productId: String;
 begin
 	dataset := frmOrdersMaintenance.fdqOrderItems;
-	for i := initialNumberOfItems+1 to frmOrdersMaintenance.currentNumberOfItems do
+	for i := 1 to frmOrdersMaintenance.currentNumberOfItems do
   begin
   	frmOrdersMaintenance.fdqOrderItems.RecNo := i;
     productId := dataset.FieldByName('Cód. Produto').AsString;
     quantity := dataset.FieldByName('Quantidade').AsInteger;
 
-    InsertOrderItem(orderId, productId, quantity);
+    if DoesOrderContainProduct(orderId, productId) then
+      UpdateItemQuantity(orderId, productId, quantity)
+    else
+      InsertOrderItem(orderId, productId, quantity);
   end;
 end;
 
@@ -125,7 +127,9 @@ end;
 
 procedure TfrmOrdersMaintenance.dbgOrderItemsCellClick(Column: TColumn);
 begin
-  frmOrders.currentItemProductId := frmOrders.dbgItems.Fields[0].AsString;
+
+  frmOrders.currentItemProductId := dbgOrderItems.Fields[0].AsString;
+  showmessage(frmOrders.currentItemProductId);
 end;
 
 procedure TfrmOrdersMaintenance.FormClose(Sender: TObject;
@@ -144,7 +148,6 @@ begin
     edtOrderNumber.Visible := False;
     dtpOrderDate.Date := Now;
     displayOrderItems('', frmOrdersMaintenance.fdqOrderItems);
-    initialNumberOfItems := 0;
     currentNumberOfItems := 0;
   end
 	else if frmOrders.actionType = 'editOrder' then
@@ -153,9 +156,11 @@ begin
   	edtOrderNumber.Text := frmOrders.currentOrderId;
     dtpOrderDate.Date := GetOrderDate(frmOrders.currentOrderId);
     displayOrderItems(frmOrders.currentOrderId, frmOrdersMaintenance.fdqOrderItems);
-    initialNumberOfItems := dbgOrderItems.DataSource.DataSet.RecordCount;
-    currentNumberOfItems := initialNumberOfItems;
+    currentNumberOfItems := dbgOrderItems.DataSource.DataSet.RecordCount;
   end;
+
+  dbgOrderItems.DataSource.DataSet.First;
+  frmOrders.currentItemProductId := dbgOrderItems.Fields[0].AsString;
 
 end;
 

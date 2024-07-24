@@ -103,7 +103,7 @@ procedure ModifyItemQuantityOnList(quantity: Integer);
   var dataSet: TFDQuery;
 begin
   dataset := frmOrdersMaintenance.fdqOrderItems;
-  dataset.CachedUpdates := True;
+  dataset.Edit;
 
   dataset.FieldByName('Quantidade').AsInteger := quantity;
 end;
@@ -191,14 +191,14 @@ end;
 procedure TfrmOrderItemsMaintenance.FormShow(Sender: TObject);
 begin
   if (frmOrders.actionType = 'createItem') or 
-     (frmOrders.actionType = 'createOrderItem') then
+     (frmOrdersMaintenance.secActionType = 'createOrderItem') then
   begin
     ClearFormFields();
     edtProductCode.ReadOnly := False;
     edtProductName.ReadOnly := False;
   end
   else if (frmOrders.actionType = 'editItem') or 
-          (frmOrders.actionType = 'editOrderItem') then
+          (frmOrdersMaintenance.secActionType = 'editOrderItem') then
   begin
     DisplayItemInfo(
       frmOrders.currentOrderId,
