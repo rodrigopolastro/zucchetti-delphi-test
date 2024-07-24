@@ -12,6 +12,7 @@ uses
   FireDAC.DApt, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.ExtCtrls,
 
  	//Addittional Forms
+  untBackendFunctions,
 	untOrdersMaintenance,
   untOrderItemsMaintenance;
 
@@ -47,8 +48,6 @@ type
     currentOrderId: String;
     currentItemId: String;
     actionType: String;
-
-    procedure displayOrderItems;
   end;
 
 var
@@ -68,49 +67,6 @@ begin
 //  end;
 end;
 
-
-procedure displayOrders();
-	var
-  	ordersSQL: string;
-begin
-	ordersSQL :=
-    'SELECT ' +
-      'o.order_id AS "Nº do Pedido", ' +
-      'o.order_date AS "Data do Pedido", ' +
-      'SUM(i.quantity * p.price) AS "Valor Total" ' +
-    'FROM orders o ' +
-    'INNER JOIN items i ON i.order_id = o.order_id ' +
-    'INNER JOIN products p ON i.product_id = p.product_id ' +
-    'GROUP BY ' +
-      'o.order_id, ' +
-      'o.order_date ' +
-    'ORDER BY o.order_id DESC';
-
-  frmOrders.fdqItems.SQL.Clear;
-	frmOrders.fdqOrders.SQL.Add(ordersSQL);
-  frmOrders.fdqOrders.Open;
-end;
-
-procedure displayOrderItems(orderId: String; queryComponent: TFDQuery);
-	var
-  	itemsSQL: string;
-begin
-  itemsSQL :=
-  	'SELECT ' +
-      'i.product_id AS "Cód. Produto", ' +
-      'p.description AS "Descrição do Produto", ' +
-      'i.quantity AS "Quantidade", ' +
-      'p.price AS "Valor Unitário", ' +
-      'i.quantity * p.price AS "Valor Total" '+
-  	'FROM items i ' +
-    'INNER JOIN products p ON p.product_id = i.product_id ' +
-    'WHERE i.order_id = :orderId';
-
-  queryComponent.SQL.Clear;
-	queryComponent.SQL.Text := itemsSQL;
-  queryComponent.ParamByName('orderId').AsString := orderId;
-	queryComponent.Open;
-end;
 
 procedure TfrmOrders.btnCreateClick(Sender: TObject);
 begin

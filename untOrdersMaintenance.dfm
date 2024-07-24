@@ -10,9 +10,7 @@ object frmOrdersMaintenance: TfrmOrdersMaintenance
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
-  OldCreateOrder = True
   OnShow = FormShow
-  PixelsPerInch = 96
   TextHeight = 13
   object lblOrderNumber: TLabel
     Left = 24
@@ -121,8 +119,8 @@ object frmOrdersMaintenance: TfrmOrdersMaintenance
   end
   object fdcDatabaseConnection: TFDConnection
     Params.Strings = (
-      'Database=SRV-ORACLE'
-      'User_Name=RODRIGO_TESTE'
+      'Database=XE'
+      'User_Name=RODRIGO'
       'Password=LARANJA'
       'DriverID=Ora')
     Left = 56

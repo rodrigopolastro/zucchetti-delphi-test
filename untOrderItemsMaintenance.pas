@@ -44,6 +44,7 @@ var
 implementation
 
 uses
+  untBackendFunctions,
 	untOrdersMaintenance,
   untOrders;
 
@@ -115,7 +116,7 @@ begin
 //	CreateItem();
 	if (frmOrders.actionType = 'createOrder') or
   	 (frmOrders.actionType = 'editOrder') then
-    frmOrdersMaintenance.InsertOrderItem(
+    InsertOrderItem(
       frmOrders.currentOrderId,
       frmOrderItemsMaintenance.edtProductCode.Text,
       StrToInt(frmOrderItemsMaintenance.edtProductName.Text)

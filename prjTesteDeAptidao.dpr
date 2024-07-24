@@ -5,7 +5,8 @@ uses
   untOrders in 'untOrders.pas' {frmOrders},
   untOrdersMaintenance in 'untOrdersMaintenance.pas' {frmOrdersMaintenance},
   untOrderItemsMaintenance in 'untOrderItemsMaintenance.pas' {frmOrderItemsMaintenance},
-  untProducts in 'untProducts.pas' {frmProducts};
+  untProducts in 'untProducts.pas' {frmProducts},
+  untBackendFunctions in 'untBackendFunctions.pas';
 
 {$R *.res}
 

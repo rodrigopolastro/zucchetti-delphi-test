@@ -40,7 +40,6 @@ type
     { Private declarations }
   public
     { Public declarations }
-    procedure InsertOrderItem;
   end;
 
 var
@@ -52,21 +51,9 @@ implementation
 {$R *.dfm}
 
 uses
+  untBackendFunctions,
 	untOrders;
 
-
-procedure InsertOrderItem(orderId, productId: String; quantity: Integer);
-begin
-	frmOrdersMaintenance.fdqQueries.SQL.Clear;
-  frmOrdersMaintenance.fdqQueries.SQL.Text :=
-    'INSERT INTO items(order_id, product_id, quantity) ' +
-    'VALUES (:orderId, :productId, :quantity)';
-
-  frmOrdersMaintenance.fdqQueries.ParamByName('orderId').AsString := orderId;
-  frmOrdersMaintenance.fdqQueries.ParamByName('productId').AsString := productId;
-  frmOrdersMaintenance.fdqQueries.ParamByName('quantity').AsInteger := quantity;
-  frmOrdersMaintenance.fdqQueries.ExecSQL;
-end;
 
 procedure AddItemsToOrder(orderId: String);
 	var i, quantity: Integer;
@@ -84,59 +71,7 @@ begin
   end;
 end;
 
-procedure UpdateOrderDate(orderId: String);
-	var orderDate: String;
-begin
-  orderDate := DateToStr(frmOrdersMaintenance.dtpOrderDate.Date);
 
-  frmOrdersMaintenance.fdqQueries.SQL.Clear;
-  frmOrdersMaintenance.fdqQueries.SQL.Text :=
-    'UPDATE orders SET order_date = :orderDate ' +
-    'WHERE order_id = :orderId';
-
-  frmOrdersMaintenance.fdqQueries.ParamByName('orderDate').AsString := orderDate;
-  frmOrdersMaintenance.fdqQueries.ParamByName('orderId').AsString := orderId;
-  frmOrdersMaintenance.fdqQueries.ExecSQL;
-end;
-
-function CreateOrder(): Integer;
-	var orderDate : String;
-begin
-	orderDate := DateToStr(frmOrdersMaintenance.dtpOrderDate.Date);
-
-  frmOrdersMaintenance.fdqQueries.SQL.Clear;
-  frmOrdersMaintenance.fdqQueries.SQL.Text :=
-    'INSERT INTO orders(order_id, order_date) ' +
-    'VALUES (seq_order_id.NEXTVAL, :orderDate)';
-
-  frmOrdersMaintenance.fdqQueries.ParamByName('orderDate').AsString := orderDate;
-  frmOrdersMaintenance.fdqQueries.ExecSQL;
-
-  Result := frmOrdersMaintenance.fdcDatabaseConnection
-  	.GetLastAutoGenValue('seq_order_id');
-end;
-
-function GetNextOrderId(): Integer;
-begin
-	frmOrdersMaintenance.fdqQueries.SQL.Text :=
-  	'select seq_order_id.NEXTVAL from user_sequences ' +
-    'WHERE sequence_name = ''SEQ_ORDER_ID'' ';
-
-  frmOrdersMaintenance.fdqQueries.Open;
-  Result := frmOrdersMaintenance.fdqQueries.Fields[0].AsInteger;
-end;
-
-function GetOrderDate(orderId: String): TDate;
-begin
-	frmOrdersMaintenance.fdqQueries.SQL.Text :=
-  	'SELECT order_date FROM orders WHERE order_id = :orderId';
-  frmOrdersMaintenance.fdqQueries.ParamByName('orderId').AsString
-  	:= frmOrders.currentOrderId;
-
-  frmOrdersMaintenance.fdqQueries.Open;
-  Result := frmOrdersMaintenance.fdqQueries.
-  								FieldByName('order_date').AsDateTime;
-end;
 
 
 procedure TfrmOrdersMaintenance.btnCreateClick(Sender: TObject);
@@ -162,7 +97,7 @@ begin
   AddItemsToOrder(orderId);
   ShowMessage(saveMessage);
   frmOrders.dbgOrders.DataSource.DataSet.Refresh;
-  frmOrders.displayOrderItems(orderId, frmOrdersMaintenance.fdqOrderItems);
+  displayOrderItems(orderId, frmOrdersMaintenance.fdqOrderItems);
   Self.Close;
 end;
 
@@ -179,7 +114,7 @@ begin
   	lblOrderNumber.Caption := 'Novo Pedido';
     edtOrderNumber.Visible := False;
     dtpOrderDate.Date := Now;
-    frmOrders.displayOrderItems('', frmOrdersMaintenance.fdqOrderItems);
+    displayOrderItems('', frmOrdersMaintenance.fdqOrderItems);
     initialNumberOfItems := 0;
   end
 	else if frmOrders.actionType = 'editOrder' then
@@ -187,7 +122,7 @@ begin
   	lblOrderNumber.Caption := 'Código do Pedido';
   	edtOrderNumber.Text := frmOrders.currentOrderId;
     dtpOrderDate.Date := GetOrderDate(frmOrders.currentOrderId);
-    frmOrders.displayOrderItems(frmOrders.currentOrderId, frmOrdersMaintenance.fdqOrderItems);
+    displayOrderItems(frmOrders.currentOrderId, frmOrdersMaintenance.fdqOrderItems);
     initialNumberOfItems := dbgOrderItems.DataSource.DataSet.RecordCount;
   end;
 
