@@ -3,7 +3,7 @@ object frmOrders: TfrmOrders
   Top = 0
   Caption = 'Pedidos'
   ClientHeight = 504
-  ClientWidth = 774
+  ClientWidth = 780
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -15,26 +15,27 @@ object frmOrders: TfrmOrders
   PixelsPerInch = 96
   TextHeight = 13
   object lblOrderNumber: TLabel
-    Left = 187
+    Left = 8
     Top = 13
-    Width = 87
+    Width = 68
     Height = 13
-    Caption = 'N'#250'mero do Pedido'
+    Caption = 'Filtrar Pedidos'
   end
   object btnPrint: TButton
-    Left = 8
-    Top = 8
+    Left = 675
+    Top = 488
     Width = 75
     Height = 25
     Caption = 'Imprimir'
     TabOrder = 0
   end
-  object edtOrderNumber: TEdit
-    Left = 279
-    Top = 10
-    Width = 112
+  object edtSearchText: TEdit
+    Left = 127
+    Top = 38
+    Width = 90
     Height = 21
     TabOrder = 1
+    Visible = False
   end
   object btnCreate: TButton
     Left = 529
@@ -65,7 +66,7 @@ object frmOrders: TfrmOrders
   end
   object dbgOrders: TDBGrid
     Left = 8
-    Top = 56
+    Top = 64
     Width = 758
     Height = 129
     DataSource = dtsOrders
@@ -79,31 +80,34 @@ object frmOrders: TfrmOrders
     OnCellClick = dbgOrdersCellClick
   end
   object btnSearch: TButton
-    Left = 397
-    Top = 8
+    Left = 223
+    Top = 17
     Width = 75
-    Height = 25
+    Height = 33
     Caption = 'Buscar'
     TabOrder = 6
+    Visible = False
     OnClick = btnSearchClick
   end
   object cbbOrderField: TComboBox
-    Left = 610
-    Top = 434
-    Width = 119
-    Height = 21
+    Left = 82
+    Top = 9
+    Width = 135
+    Height = 22
+    Style = csOwnerDrawFixed
+    ItemIndex = 0
     TabOrder = 7
-    Text = 'Selecione o Campo'
-    Visible = False
+    Text = 'Todos'
     OnChange = cbbOrderFieldChange
     Items.Strings = (
+      'Todos'
       'N'#250'mero'
-      'Data'
-      'Valor Total')
+      'Valor Total'
+      'Data')
   end
   object dbgItems: TDBGrid
     Left = 8
-    Top = 208
+    Top = 224
     Width = 758
     Height = 129
     DataSource = dtsItems
@@ -116,13 +120,34 @@ object frmOrders: TfrmOrders
     TitleFont.Style = []
     OnCellClick = dbgItemsCellClick
   end
-  object edtTest: TEdit
-    Left = 8
-    Top = 343
-    Width = 721
+  object dtpOrderDate: TDateTimePicker
+    Left = 119
+    Top = 65
+    Width = 98
     Height = 21
+    Date = 45497.000000000000000000
+    Time = 0.588267048609850500
     TabOrder = 9
-    Text = 'edtTest'
+    Visible = False
+  end
+  object cbbComparisonOperator: TComboBox
+    Left = 82
+    Top = 37
+    Width = 39
+    Height = 22
+    Style = csOwnerDrawFixed
+    ItemIndex = 0
+    TabOrder = 10
+    Text = '='
+    Visible = False
+    OnChange = cbbOrderFieldChange
+    Items.Strings = (
+      '='
+      '<>'
+      '>'
+      '<'
+      '>='
+      '<=')
   end
   object fdcDatabaseConnection: TFDConnection
     Params.Strings = (

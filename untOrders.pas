@@ -15,12 +15,12 @@ uses
   untBackendFunctions,
 	untOrdersMaintenance,
   untOrderItemsMaintenance,
-  untConfirmDeletion;
+  untConfirmDeletion, Vcl.ComCtrls;
 
 type
   TfrmOrders = class(TForm)
     btnPrint: TButton;
-    edtOrderNumber: TEdit;
+    edtSearchText: TEdit;
     lblOrderNumber: TLabel;
     btnCreate: TButton;
     btnEdit: TButton;
@@ -34,8 +34,9 @@ type
     dbgItems: TDBGrid;
     fdqItems: TFDQuery;
     dtsItems: TDataSource;
-    edtTest: TEdit;
     fdqActionQueries: TFDQuery;
+    dtpOrderDate: TDateTimePicker;
+    cbbComparisonOperator: TComboBox;
     procedure cbbOrderFieldChange(Sender: TObject);
     procedure btnCreateClick(Sender: TObject);
     procedure dbgOrdersCellClick(Column: TColumn);
@@ -59,16 +60,62 @@ implementation
 
 {$R *.dfm}
 
-procedure ShowHideSearchComponents(optionNumber: Integer);
+procedure ShowHideSearchComponents(searchField: String);
 begin
-	frmOrders.edtTest.Text := IntToStr(optionNumber);
-//	case optionNumber of
-//  	1: //search one order by id;
-//    2: //search by value (greater, less than or equal to)
-//    3: //search by date  (before, after or at specific date)
-//  end;
+  if searchField = 'Todos' then
+  begin
+    frmOrders.edtSearchText.Visible := False;
+    frmOrders.dtpOrderDate.Visible := False;
+    frmOrders.btnSearch.Visible := False;
+    frmOrders.cbbComparisonOperator.Visible := False;
+    displayOrders('', '');
+  end
+  else if searchField = 'Data' then
+  begin
+    frmOrders.edtSearchText.Visible := False;
+    frmOrders.dtpOrderDate.Visible := True;
+    frmOrders.btnSearch.Visible := True;
+    frmOrders.cbbComparisonOperator.Visible := True;
+  end
+  else //'Valor Total' and 'Número'
+  begin
+    frmOrders.edtSearchText.Visible := True;
+    frmOrders.dtpOrderDate.Visible := False;
+    frmOrders.btnSearch.Visible := True;
+    frmOrders.cbbComparisonOperator.Visible := True;
+  end;
 end;
 
+procedure DisplayFilteredOrders(searchField, comparisonOperator: String);
+	var ordersWhereSQL, ordersHavingSQL: String;
+begin
+  if searchField = 'Número' then
+  begin
+  	ordersWhereSQL  :=
+    	'WHERE o.order_id ' +
+    	comparisonOperator + ' ' +
+      frmOrders.edtSearchText.Text;
+    ordersHavingSQL := '';
+  end
+	else if searchField = 'Valor Total' then
+  begin
+  	ordersWhereSQL := '';
+    ordersHavingSQL :=
+    	'HAVING SUM(i.quantity * p.price) ' +
+    	comparisonOperator + ' ' +
+      StringReplace(frmOrders.edtSearchText.Text, ',', '.', []);
+  end
+  else if searchField = 'Data' then
+  begin
+  	ordersWhereSQL :=
+    	'WHERE o.order_date' +
+    	comparisonOperator + ' ' +
+      QuotedStr(DateToStr(frmOrders.dtpOrderDate.Date));
+    ordersHavingSQL := '';
+  end;
+
+  DisplayOrders(ordersWhereSQL, ordersHavingSQL);
+end;
 
 procedure TfrmOrders.btnCreateClick(Sender: TObject);
 begin
@@ -113,16 +160,24 @@ begin
 end;
 
 procedure TfrmOrders.btnSearchClick(Sender: TObject);
+	var searchField, comparisonOperator: String;
 begin
-//	fdqOrders.Open;
+	searchField := cbbOrderField.Text;
+  comparisonOperator := cbbComparisonOperator.Text;
+
+  DisplayFilteredOrders(searchField, comparisonOperator);
+
+  fdqOrders.First;
+  currentOrderId := fdqOrders.Fields[0].AsString;
+  displayOrderItems(currentOrderId, fdqItems);
 end;
 
 procedure TfrmOrders.cbbOrderFieldChange(Sender: TObject);
 var
-	searchOptionIndex: Integer;
+	searchField: String;
 begin
-	searchOptionIndex := frmOrders.cbbOrderField.ItemIndex;
-	ShowHideSearchComponents(searchOptionIndex+1); //index starts at 0
+	searchField := frmOrders.cbbOrderField.Text;
+  ShowHideSearchComponents(searchField);
 end;
 
 procedure TfrmOrders.dbgItemsCellClick(Column: TColumn);
@@ -135,12 +190,14 @@ begin
 	currentItemProductId := '';
 	currentOrderId := frmOrders.dbgOrders.Fields[0].AsString;
 	displayOrderItems(currentOrderId, frmOrders.fdqItems);
-  edtTest.Text := currentOrderId;
 end;
 
 procedure TfrmOrders.FormCreate(Sender: TObject);
 begin
-	displayOrders();
+	dtpOrderDate.Top := edtSearchText.Top;
+  dtpOrderDate.Left := edtSearchText.Left;
+
+	displayOrders('', '');
   frmOrders.dbgOrders.DataSource.DataSet.First;
   currentOrderId := frmOrders.dbgOrders.Fields[0].AsString;
   displayOrderItems(currentOrderId, frmOrders.fdqItems);

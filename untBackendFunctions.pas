@@ -8,7 +8,7 @@ uses
   FireDAC.Phys.Intf, FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Comp.DataSet;
 
 function DoesOrderContainProduct(orderId, productId: String): Boolean;
-procedure DisplayOrders;
+procedure DisplayOrders(whereSQL, havingSQL: String);
 procedure DisplayOrderItems(orderId: String; queryComponent: TFDQuery);
 function  CreateOrder: Integer;
 procedure DeleteItem(orderId, productId: String);
@@ -49,7 +49,7 @@ begin
 
 end;
 
-procedure DisplayOrders();
+procedure DisplayOrders(whereSQL, havingSQL: String);
 	var
   	ordersSQL: string;
 begin
@@ -61,13 +61,15 @@ begin
     'FROM orders o ' +
     'INNER JOIN items i ON i.order_id = o.order_id ' +
     'INNER JOIN products p ON i.product_id = p.product_id ' +
+    ' ' + whereSQL + ' ' +
     'GROUP BY ' +
       'o.order_id, ' +
       'o.order_date ' +
-    'ORDER BY o.order_id DESC';
+    ' ' + havingSQL + ' ' +
+    'ORDER BY o.order_id DESC ';
 
-  frmOrders.fdqItems.SQL.Clear;
-	frmOrders.fdqOrders.SQL.Add(ordersSQL);
+
+	frmOrders.fdqOrders.SQL.Text := ordersSQL;
   frmOrders.fdqOrders.Open;
 end;
 
