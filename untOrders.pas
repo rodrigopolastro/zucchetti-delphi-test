@@ -46,7 +46,7 @@ type
 
   public
     currentOrderId: String;
-    currentItemId: String;
+    currentItemProductId: String;
     actionType: String;
   end;
 
@@ -70,9 +70,9 @@ end;
 
 procedure TfrmOrders.btnCreateClick(Sender: TObject);
 begin
-	if currentItemId.IsEmpty then
+	if currentItemProductId.IsEmpty then
   begin
-  	actionType := 'createOrder';
+    actionType := 'createOrder';
     frmOrdersMaintenance.ShowModal;
   end
   else
@@ -84,8 +84,16 @@ end;
 
 procedure TfrmOrders.btnEditClick(Sender: TObject);
 begin
-	actionType := 'editOrder';
-	frmOrdersMaintenance.ShowModal;
+	if currentItemProductId.IsEmpty then
+  begin
+    actionType := 'editOrder';
+    frmOrdersMaintenance.ShowModal;
+  end
+  else
+  begin
+  	actionType := 'editItem';
+    frmOrderItemsMaintenance.ShowModal;
+  end;
 end;
 
 procedure TfrmOrders.btnSearchClick(Sender: TObject);
@@ -103,12 +111,12 @@ end;
 
 procedure TfrmOrders.dbgItemsCellClick(Column: TColumn);
 begin
-	currentItemId := frmOrders.dbgItems.Fields[0].AsString;
+	currentItemProductId := frmOrders.dbgItems.Fields[0].AsString;
 end;
 
 procedure TfrmOrders.dbgOrdersCellClick(Column: TColumn);
 begin
-	currentItemId := '';
+	currentItemProductId := '';
 	currentOrderId := frmOrders.dbgOrders.Fields[0].AsString;
 	displayOrderItems(currentOrderId, frmOrders.fdqItems);
   edtTest.Text := currentOrderId;

@@ -30,7 +30,6 @@ type
     procedure edtProductCodeExit(Sender: TObject);
     procedure btnSaveClick(Sender: TObject);
     procedure btnCancelClick(Sender: TObject);
-    procedure FormShow(Sender: TObject);
   private
     { Private declarations }
   public
@@ -83,14 +82,6 @@ begin
   dataset.FieldByName('Valor Total').AsString := FormatFloat('0.00', totalPrice);
 end;
 
-procedure ApplyChangesToList();
-  var dataSet: TFDQuery;
-begin
-  dataset := frmOrdersMaintenance.fdqOrderItems;
-
-  dataset.FieldByName('Cód.Produto').AsString := '777';
-end;
-
 procedure DisplayProductName(productId: String);
 var query: TFDQuery;
 begin
@@ -130,30 +121,17 @@ begin
   productId := frmOrderItemsMaintenance.edtProductCode.Text;
   quantity := StrToInt(frmOrderItemsMaintenance.edtQuantity.Text);
 
-  if frmOrders.actionType = 'createItem' then
-    if DoesOrderContainProduct(orderId, productId) then
-      ShowMessage('Esse produto já faz parte desse pedido!')
-    else
+  if DoesOrderContainProduct(orderId, productId) then
+    ShowMessage('Esse produto já faz parte desse pedido!')
+  else
+    if frmOrders.actionType = 'createItem' then
     begin
-      if frmOrdersMaintenance.isOrdersMaintenanceOpen then
-        AddItemToList()
-      else
-      begin
-        InsertOrderItem(orderId, productId, quantity);
-        frmOrders.dbgItems.DataSource.DataSet.Refresh;
-      end;
-      ClearFormFields();
+      InsertOrderItem(orderId, productId, quantity);
+      frmOrders.dbgItems.DataSource.DataSet.Refresh;
     end
-  else if frmOrders.actionType = 'editItem' then
-  begin
-    if frmOrdersMaintenance.isOrdersMaintenanceOpen then
-      ApplyChangesToList()
     else
-//      UpdateItem(orderId, productId, quantity);
-//    Self.Close();
-    ClearFormFields();
-  end;
-
+      AddItemToList();
+  ClearFormFields();
 end;
 
 procedure TfrmOrderItemsMaintenance.btnShowProductsClick(Sender: TObject);
@@ -167,25 +145,6 @@ begin
 	productId := edtProductCode.Text;
   if not productId.IsEmpty then
 		DisplayProductName(productId);
-end;
-
-procedure TfrmOrderItemsMaintenance.FormShow(Sender: TObject);
-begin
-  if frmOrders.actionType = 'createItem' then
-  begin
-    ClearFormFields();
-    edtProductCode.ReadOnly := True;
-    edtProductName.ReadOnly := True;
-  end
-  else if frmOrders.actionType = 'editItem' then
-  begin
-    DisplayItemInfo(
-      frmOrders.currentOrderId,
-      frmOrders.currentItemProductId
-    );
-    edtProductCode.ReadOnly := True;
-    edtProductName.ReadOnly := True;
-  end;
 end;
 
 end.

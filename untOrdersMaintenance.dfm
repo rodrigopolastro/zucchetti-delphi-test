@@ -10,6 +10,7 @@ object frmOrdersMaintenance: TfrmOrdersMaintenance
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
+  OnClose = FormClose
   OnShow = FormShow
   TextHeight = 13
   object lblOrderNumber: TLabel
@@ -68,6 +69,7 @@ object frmOrdersMaintenance: TfrmOrdersMaintenance
     Height = 25
     Caption = 'Alterar'
     TabOrder = 3
+    OnClick = btnUpdateClick
   end
   object btnDelete: TButton
     Left = 523
@@ -125,7 +127,6 @@ object frmOrdersMaintenance: TfrmOrdersMaintenance
     Height = 25
     Caption = 'Button1'
     TabOrder = 9
-    OnClick = Button1Click
   end
   object fdcDatabaseConnection: TFDConnection
     Params.Strings = (

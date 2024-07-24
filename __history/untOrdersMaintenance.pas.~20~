@@ -39,12 +39,10 @@ type
     procedure btnCancelClick(Sender: TObject);
     procedure dbgOrderItemsCellClick(Column: TColumn);
     procedure btnUpdateClick(Sender: TObject);
-    procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
     { Private declarations }
   public
     currentNumberOfItems: Integer;
-    isOrdersMaintenanceOpen : Boolean;
   end;
 
 var
@@ -122,16 +120,8 @@ begin
   frmOrders.currentItemProductId := frmOrders.dbgItems.Fields[0].AsString;
 end;
 
-procedure TfrmOrdersMaintenance.FormClose(Sender: TObject;
-  var Action: TCloseAction);
-begin
-  isOrdersMaintenanceOpen := False;
-end;
-
 procedure TfrmOrdersMaintenance.FormShow(Sender: TObject);
 begin
-  isOrdersMaintenanceOpen := True;
-
   if frmOrders.actionType = 'createOrder' then
 	begin
   	lblOrderNumber.Caption := 'Novo Pedido';

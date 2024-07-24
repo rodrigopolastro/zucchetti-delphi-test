@@ -10,9 +10,7 @@ object frmOrdersMaintenance: TfrmOrdersMaintenance
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
-  OldCreateOrder = False
   OnShow = FormShow
-  PixelsPerInch = 96
   TextHeight = 13
   object lblOrderNumber: TLabel
     Left = 24
@@ -31,7 +29,7 @@ object frmOrdersMaintenance: TfrmOrdersMaintenance
   object lblItens: TLabel
     Left = 274
     Top = 72
-    Width = 33
+    Width = 25
     Height = 13
     Caption = 'Itens'
   end
@@ -50,6 +48,7 @@ object frmOrdersMaintenance: TfrmOrdersMaintenance
     Top = 29
     Width = 102
     Height = 21
+    Date = 45495.000000000000000000
     Time = 0.250000000000000000
     TabOrder = 1
   end
@@ -78,18 +77,20 @@ object frmOrdersMaintenance: TfrmOrdersMaintenance
     Caption = 'Excluir'
     TabOrder = 4
   end
-  object DBGrid1: TDBGrid
-    Left = 292
-    Top = -8
+  object dbgOrderItems: TDBGrid
+    Left = 24
+    Top = 120
     Width = 689
     Height = 120
     DataSource = dtsOrderItems
+    Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
     TabOrder = 5
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText
     TitleFont.Height = -11
     TitleFont.Name = 'Tahoma'
     TitleFont.Style = []
+    OnCellClick = dbgOrderItemsCellClick
   end
   object btnSave: TButton
     Left = 442
@@ -107,14 +108,31 @@ object frmOrdersMaintenance: TfrmOrdersMaintenance
     Height = 25
     Caption = 'Cancelar'
     TabOrder = 7
+    OnClick = btnCancelClick
+  end
+  object Edit1: TEdit
+    Left = 80
+    Top = 328
+    Width = 449
+    Height = 21
+    TabOrder = 8
+    Text = 'Edit1'
+  end
+  object Button1: TButton
+    Left = 616
+    Top = 320
+    Width = 75
+    Height = 25
+    Caption = 'Button1'
+    TabOrder = 9
+    OnClick = Button1Click
   end
   object fdcDatabaseConnection: TFDConnection
     Params.Strings = (
-      'Database=SRV-ORACLE'
-      'User_Name=RODRIGO_TESTE'
+      'Database=XE'
+      'User_Name=RODRIGO'
       'Password=LARANJA'
       'DriverID=Ora')
-    Connected = True
     Left = 56
     Top = 267
   end
@@ -130,10 +148,7 @@ object frmOrdersMaintenance: TfrmOrdersMaintenance
   end
   object fdqQueries: TFDQuery
     Connection = fdcDatabaseConnection
-    SQL.Strings = (
-      ''
-      '')
-    Left = 344
-    Top = 267
+    Left = 360
+    Top = 251
   end
 end

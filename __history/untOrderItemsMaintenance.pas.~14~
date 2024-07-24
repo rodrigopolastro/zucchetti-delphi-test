@@ -83,14 +83,6 @@ begin
   dataset.FieldByName('Valor Total').AsString := FormatFloat('0.00', totalPrice);
 end;
 
-procedure ApplyChangesToList();
-  var dataSet: TFDQuery;
-begin
-  dataset := frmOrdersMaintenance.fdqOrderItems;
-
-  dataset.FieldByName('Cód.Produto').AsString := '777';
-end;
-
 procedure DisplayProductName(productId: String);
 var query: TFDQuery;
 begin
@@ -130,29 +122,19 @@ begin
   productId := frmOrderItemsMaintenance.edtProductCode.Text;
   quantity := StrToInt(frmOrderItemsMaintenance.edtQuantity.Text);
 
-  if frmOrders.actionType = 'createItem' then
-    if DoesOrderContainProduct(orderId, productId) then
-      ShowMessage('Esse produto já faz parte desse pedido!')
-    else
-    begin
-      if frmOrdersMaintenance.isOrdersMaintenanceOpen then
-        AddItemToList()
-      else
-      begin
-        InsertOrderItem(orderId, productId, quantity);
-        frmOrders.dbgItems.DataSource.DataSet.Refresh;
-      end;
-      ClearFormFields();
-    end
-  else if frmOrders.actionType = 'editItem' then
-  begin
-    if frmOrdersMaintenance.isOrdersMaintenanceOpen then
-      ApplyChangesToList()
-    else
-//      UpdateItem(orderId, productId, quantity);
+//  if frmOrders.actionType = 'createItem' then
+//    if DoesOrderContainProduct(orderId, productId) then
+//      ShowMessage('Esse produto já faz parte desse pedido!')
+//    else
+//    begin
+//      InsertOrderItem(orderId, productId, quantity);
+//      frmOrders.dbgItems.DataSource.DataSet.Refresh;
+//      ClearFormFields();
+//    end
+//  else if frmOrders.actionType = 'editItem' then
 //    Self.Close();
-    ClearFormFields();
-  end;
+//
+//    AddItemToList();
 
 end;
 

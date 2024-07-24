@@ -13,7 +13,6 @@ function  CreateOrder: Integer;
 procedure InsertOrderItem(orderId, productId: String; quantity: Integer);
 procedure UpdateOrderDate(orderId: String);
 function GetOrderDate(orderId: String): TDate;
-procedure DisplayItemInfo(orderId, productId: String);
 function DoesOrderContainProduct(orderId, productId: String): Boolean;
 
 implementation
@@ -121,29 +120,6 @@ begin
 
   frmOrdersMaintenance.fdqQueries.Open;
   Result := frmOrdersMaintenance.fdqQueries.FieldByName('order_date').AsDateTime;
-end;
-
-procedure DisplayItemInfo(orderId, productId: String);
-begin
-  frmOrderItemsMaintenance.fdqQueries.SQL.Clear;
-	frmOrderItemsMaintenance.fdqQueries.SQL.Text :=
-  	'SELECT ' +
-    'p.description AS "productName", ' +
-    'i.quantity AS "quantity" ' +
-    'FROM items i ' +
-    'INNER JOIN products p ON p.product_id = i.product_id ' +
-    'WHERE i.product_id = :productId ' +
-    'AND i.order_id = :orderId';
-  frmOrderItemsMaintenance.fdqQueries.ParamByName('productId').AsString := productId;
-  frmOrderItemsMaintenance.fdqQueries.ParamByName('orderId').AsString := orderId;
-  frmOrderItemsMaintenance.fdqQueries.Open;
-
-  frmOrderItemsMaintenance.edtProductCode.Text := productId;
-  frmOrderItemsMaintenance.edtProductName.Text :=
-    frmOrderItemsMaintenance.fdqQueries.FieldByName('productName').AsString;
-  frmOrderItemsMaintenance.edtQuantity.Text :=
-    frmOrderItemsMaintenance.fdqQueries.FieldByName('quantity').AsString;
-
 end;
 
 function DoesOrderContainProduct(orderId, productId: String): Boolean;

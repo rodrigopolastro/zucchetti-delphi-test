@@ -38,18 +38,17 @@ type
     procedure btnCreateClick(Sender: TObject);
     procedure btnCancelClick(Sender: TObject);
     procedure dbgOrderItemsCellClick(Column: TColumn);
-    procedure btnUpdateClick(Sender: TObject);
-    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure Button1Click(Sender: TObject);
   private
     { Private declarations }
   public
     currentNumberOfItems: Integer;
-    isOrdersMaintenanceOpen : Boolean;
   end;
 
 var
   frmOrdersMaintenance: TfrmOrdersMaintenance;
 	initialNumberOfItems: Integer;
+  currentItemId: String;
 
 implementation
 
@@ -76,6 +75,14 @@ begin
   end;
 end;
 
+
+
+
+procedure TfrmOrdersMaintenance.btnCreateClick(Sender: TObject);
+begin
+	frmOrderItemsMaintenance.ShowModal;
+end;
+
 procedure TfrmOrdersMaintenance.btnSaveClick(Sender: TObject);
 	var orderId, saveMessage: String;
 begin
@@ -99,39 +106,24 @@ begin
   Self.Close;
 end;
 
+procedure TfrmOrdersMaintenance.Button1Click(Sender: TObject);
+begin
+  showmessage(inttostr(frmOrdersMaintenance.fdqOrderItems.RecordCount));
+end;
+
+procedure TfrmOrdersMaintenance.dbgOrderItemsCellClick(Column: TColumn);
+begin
+  currentItemId := frmOrders.dbgItems.Fields[0].AsString;
+end;
+
 procedure TfrmOrdersMaintenance.btnCancelClick(Sender: TObject);
 begin
 	ShowMessage('Pedido cancelado.');
   Self.Close;
 end;
 
-procedure TfrmOrdersMaintenance.btnUpdateClick(Sender: TObject);
-begin
-  frmOrders.actionType := 'editOrder';
-  frmOrderItemsMaintenance.ShowModal;
-end;
-
-procedure TfrmOrdersMaintenance.btnCreateClick(Sender: TObject);
-begin
-  frmOrders.actionType := 'createOrder';
-	frmOrderItemsMaintenance.ShowModal;
-end;
-
-procedure TfrmOrdersMaintenance.dbgOrderItemsCellClick(Column: TColumn);
-begin
-  frmOrders.currentItemProductId := frmOrders.dbgItems.Fields[0].AsString;
-end;
-
-procedure TfrmOrdersMaintenance.FormClose(Sender: TObject;
-  var Action: TCloseAction);
-begin
-  isOrdersMaintenanceOpen := False;
-end;
-
 procedure TfrmOrdersMaintenance.FormShow(Sender: TObject);
 begin
-  isOrdersMaintenanceOpen := True;
-
   if frmOrders.actionType = 'createOrder' then
 	begin
   	lblOrderNumber.Caption := 'Novo Pedido';

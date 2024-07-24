@@ -125,14 +125,13 @@ end;
 
 procedure DisplayItemInfo(orderId, productId: String);
 begin
-  frmOrderItemsMaintenance.fdqQueries.SQL.Clear;
 	frmOrderItemsMaintenance.fdqQueries.SQL.Text :=
   	'SELECT ' +
     'p.description AS "productName", ' +
     'i.quantity AS "quantity" ' +
-    'FROM items i ' +
+    'FROM items i' +
     'INNER JOIN products p ON p.product_id = i.product_id ' +
-    'WHERE i.product_id = :productId ' +
+    'WHERE i.product_id = :productId' +
     'AND i.order_id = :orderId';
   frmOrderItemsMaintenance.fdqQueries.ParamByName('productId').AsString := productId;
   frmOrderItemsMaintenance.fdqQueries.ParamByName('orderId').AsString := orderId;
@@ -140,9 +139,9 @@ begin
 
   frmOrderItemsMaintenance.edtProductCode.Text := productId;
   frmOrderItemsMaintenance.edtProductName.Text :=
-    frmOrderItemsMaintenance.fdqQueries.FieldByName('productName').AsString;
+    frmOrdersMaintenance.fdqQueries.FieldByName('productName').AsString;
   frmOrderItemsMaintenance.edtQuantity.Text :=
-    frmOrderItemsMaintenance.fdqQueries.FieldByName('quantity').AsString;
+    frmOrdersMaintenance.fdqQueries.FieldByName('quantity').AsString;
 
 end;
 
