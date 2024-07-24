@@ -112,18 +112,25 @@ begin
 end;
 
 procedure TfrmOrderItemsMaintenance.btnSaveClick(Sender: TObject);
+  var orderId, productId: String;
+  var quantity: Integer;
 begin
-	if frmOrders.actionType = 'createItem' then
-  begin
-    InsertOrderItem(
-      frmOrders.currentOrderId,
-      frmOrderItemsMaintenance.edtProductCode.Text,
-      StrToInt(frmOrderItemsMaintenance.edtQuantity.Text)
-    );
-    frmOrders.dbgItems.DataSource.DataSet.Refresh;
-  end
+  Inc(frmOrdersMaintenance.currentNumberOfItems);
+
+  orderId := frmOrders.currentOrderId;
+  productId := frmOrderItemsMaintenance.edtProductCode.Text;
+  quantity := StrToInt(frmOrderItemsMaintenance.edtQuantity.Text);
+
+  if DoesOrderContainProduct(orderId, productId) then
+    ShowMessage('Esse produto já faz parte desse pedido!')
   else
-    AddItemToList();
+    if frmOrders.actionType = 'createItem' then
+    begin
+      InsertOrderItem(orderId, productId, quantity);
+      frmOrders.dbgItems.DataSource.DataSet.Refresh;
+    end
+    else
+      AddItemToList();
   ClearFormFields();
 end;
 

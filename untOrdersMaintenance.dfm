@@ -83,13 +83,14 @@ object frmOrdersMaintenance: TfrmOrdersMaintenance
     Width = 689
     Height = 120
     DataSource = dtsOrderItems
-    Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
+    Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
     TabOrder = 5
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText
     TitleFont.Height = -11
     TitleFont.Name = 'Tahoma'
     TitleFont.Style = []
+    OnCellClick = dbgOrderItemsCellClick
   end
   object btnSave: TButton
     Left = 442
@@ -116,6 +117,15 @@ object frmOrdersMaintenance: TfrmOrdersMaintenance
     Height = 21
     TabOrder = 8
     Text = 'Edit1'
+  end
+  object Button1: TButton
+    Left = 616
+    Top = 320
+    Width = 75
+    Height = 25
+    Caption = 'Button1'
+    TabOrder = 9
+    OnClick = Button1Click
   end
   object fdcDatabaseConnection: TFDConnection
     Params.Strings = (

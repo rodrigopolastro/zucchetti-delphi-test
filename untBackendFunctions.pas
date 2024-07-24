@@ -13,6 +13,7 @@ function  CreateOrder: Integer;
 procedure InsertOrderItem(orderId, productId: String; quantity: Integer);
 procedure UpdateOrderDate(orderId: String);
 function GetOrderDate(orderId: String): TDate;
+function DoesOrderContainProduct(orderId, productId: String): Boolean;
 
 implementation
 
@@ -119,6 +120,26 @@ begin
 
   frmOrdersMaintenance.fdqQueries.Open;
   Result := frmOrdersMaintenance.fdqQueries.FieldByName('order_date').AsDateTime;
+end;
+
+function DoesOrderContainProduct(orderId, productId: String): Boolean;
+var query: TFDQuery;
+begin
+	query := frmOrderItemsMaintenance.fdqQueries;
+
+  query.SQL.Clear;
+  query.SQL.Text :=
+  	'SELECT order_id FROM items ' +
+    'WHERE order_id = :orderId AND product_id = :productId';
+  query.ParamByName('orderId').AsString := orderId;
+  query.ParamByName('productId').AsString := productId;
+  query.Open;
+
+  if query.RowsAffected = 1 then
+    Result := True
+  else
+	  Result := False
+
 end;
 
 end.

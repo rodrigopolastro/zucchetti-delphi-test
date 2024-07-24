@@ -32,19 +32,23 @@ type
     dtsOrderItems: TDataSource;
     fdqQueries: TFDQuery;
     Edit1: TEdit;
+    Button1: TButton;
     procedure FormShow(Sender: TObject);
     procedure btnSaveClick(Sender: TObject);
     procedure btnCreateClick(Sender: TObject);
     procedure btnCancelClick(Sender: TObject);
+    procedure dbgOrderItemsCellClick(Column: TColumn);
+    procedure Button1Click(Sender: TObject);
   private
     { Private declarations }
   public
-    { Public declarations }
+    currentNumberOfItems: Integer;
   end;
 
 var
   frmOrdersMaintenance: TfrmOrdersMaintenance;
 	initialNumberOfItems: Integer;
+  currentItemId: String;
 
 implementation
 
@@ -60,10 +64,10 @@ procedure AddItemsToOrder(orderId: String);
   var dataset: TDataSet;
   var productId: String;
 begin
-	dataset := frmOrdersMaintenance.dbgOrderItems.DataSource.DataSet;
-	for i := initialNumberOfItems to dataset.RecordCount do
+	dataset := frmOrdersMaintenance.fdqOrderItems;
+	for i := initialNumberOfItems+1 to frmOrdersMaintenance.currentNumberOfItems do
   begin
-  	dataset.RecNo := i+1;
+  	frmOrdersMaintenance.fdqOrderItems.RecNo := i;
     productId := dataset.FieldByName('Cód. Produto').AsString;
     quantity := dataset.FieldByName('Quantidade').AsInteger;
 
@@ -102,6 +106,16 @@ begin
   Self.Close;
 end;
 
+procedure TfrmOrdersMaintenance.Button1Click(Sender: TObject);
+begin
+  showmessage(inttostr(frmOrdersMaintenance.fdqOrderItems.RecordCount));
+end;
+
+procedure TfrmOrdersMaintenance.dbgOrderItemsCellClick(Column: TColumn);
+begin
+  currentItemId := frmOrders.dbgItems.Fields[0].AsString;
+end;
+
 procedure TfrmOrdersMaintenance.btnCancelClick(Sender: TObject);
 begin
 	ShowMessage('Pedido cancelado.');
@@ -117,14 +131,16 @@ begin
     dtpOrderDate.Date := Now;
     displayOrderItems('', frmOrdersMaintenance.fdqOrderItems);
     initialNumberOfItems := 0;
+    currentNumberOfItems := 0;
   end
 	else if frmOrders.actionType = 'editOrder' then
   begin
-  	lblOrderNumber.Caption := 'Código do Pedido';
+  	lblOrderNumber.Caption := 'Nº Pedido';
   	edtOrderNumber.Text := frmOrders.currentOrderId;
     dtpOrderDate.Date := GetOrderDate(frmOrders.currentOrderId);
     displayOrderItems(frmOrders.currentOrderId, frmOrdersMaintenance.fdqOrderItems);
     initialNumberOfItems := dbgOrderItems.DataSource.DataSet.RecordCount;
+    currentNumberOfItems := initialNumberOfItems;
   end;
 
 end;
