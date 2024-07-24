@@ -4,12 +4,14 @@ interface
 
 uses
   System.SysUtils, System.Variants, System.Classes,
-  FireDAC.Comp.Client, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Error,
+  FireDAC.Comp.Client, FireDAC.Stan.Intf, FireDAC.Stan.Param, FireDAC.Stan.Option, FireDAC.Stan.Error,
   FireDAC.Phys.Intf, FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Comp.DataSet;
 
 procedure DisplayOrders;
 procedure DisplayOrderItems(orderId: String; queryComponent: TFDQuery);
 function  CreateOrder: Integer;
+procedure DeleteItem(orderId, productId: String);
+procedure DeleteOrder(orderId: String);
 procedure InsertOrderItem(orderId, productId: String; quantity: Integer);
 procedure UpdateItemQuantity(orderId, productId: String; quantity: Integer);
 procedure UpdateOrderDate(orderId: String);
@@ -22,7 +24,8 @@ implementation
 uses
   untOrders,
   untOrdersMaintenance,
-  untOrderItemsMaintenance;
+  untOrderItemsMaintenance,
+  untConfirmDeletion;
 
 procedure DisplayOrders();
 	var
@@ -83,6 +86,35 @@ begin
 
   Result := frmOrdersMaintenance.fdcDatabaseConnection
   	.GetLastAutoGenValue('seq_order_id');
+end;
+
+procedure DeleteItem(orderId, productId: String);
+begin
+  frmOrdersMaintenance.fdqQueries.SQL.Clear;
+  frmOrdersMaintenance.fdqQueries.SQL.Text :=
+    'DELETE FROM items WHERE ' +
+    'order_id = :orderId AND product_id = :productId';
+
+  frmOrdersMaintenance.fdqQueries.ParamByName('orderId').AsString := orderId;
+  frmOrdersMaintenance.fdqQueries.ParamByName('productId').AsString := productId;
+  frmOrdersMaintenance.fdqQueries.ExecSQL;
+end;
+
+procedure DeleteOrder(orderId: String);
+begin
+	//Delete order items
+	frmConfirmDeletion.fdqQueries.SQL.Clear;
+  frmConfirmDeletion.fdqQueries.SQL.Text :=
+    'DELETE FROM items WHERE order_id = :orderId';
+  frmConfirmDeletion.fdqQueries.ParamByName('orderId').AsString := orderId;
+  frmConfirmDeletion.fdqQueries.ExecSQL;
+
+  //Delete order
+  frmConfirmDeletion.fdqQueries.SQL.Clear;
+  frmConfirmDeletion.fdqQueries.SQL.Text :=
+    'DELETE FROM orders WHERE order_id = :orderId';
+  frmConfirmDeletion.fdqQueries.ParamByName('orderId').AsString := orderId;
+  frmConfirmDeletion.fdqQueries.ExecSQL;
 end;
 
 procedure InsertOrderItem(orderId, productId: String; quantity: Integer);

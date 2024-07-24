@@ -4,16 +4,23 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, FireDAC.Stan.Intf,
+  FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
+  FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt,
+  FireDAC.UI.Intf, FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Phys,
+  FireDAC.Phys.Oracle, FireDAC.Phys.OracleDef, FireDAC.VCLUI.Wait, Data.DB,
+  FireDAC.Comp.Client, FireDAC.Comp.DataSet;
 
 type
   TfrmConfirmDeletion = class(TForm)
     lblMessage: TLabel;
-    btnSave: TButton;
+    btnDelete: TButton;
     btnCancel: TButton;
-    procedure FormCreate(Sender: TObject);
-    procedure btnSaveClick(Sender: TObject);
+    fdqQueries: TFDQuery;
+    fdcDatabaseConnection: TFDConnection;
+    procedure btnDeleteClick(Sender: TObject);
     procedure btnCancelClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
   private
     { Private declarations }
   public
@@ -28,9 +35,10 @@ implementation
 {$R *.dfm}
 
 uses
+	untBackendFunctions,
   untOrders;
 
-procedure TfrmConfirmDeletion.FormCreate(Sender: TObject);
+procedure TfrmConfirmDeletion.FormShow(Sender: TObject);
 begin
   if frmOrders.actionType = 'deleteOrder' then
     lblMessage.Caption := 'Confirmar exclusão do Pedido Nº ' +
@@ -38,15 +46,31 @@ begin
   else if frmOrders.actionType = 'deleteItem' then
     lblMessage.Caption := 'Confirmar exclusão do Produto de Código ' +
       frmOrders.currentItemProductId +
-      'do Pedido Nº ' + frmOrders.currentOrderId + '?'
+      ' do Pedido Nº ' + frmOrders.currentOrderId + '?'
 end;
 
-procedure TfrmConfirmDeletion.btnSaveClick(Sender: TObject);
+procedure TfrmConfirmDeletion.btnDeleteClick(Sender: TObject);
 begin
   if frmOrders.actionType = 'deleteOrder' then
-    lblMessage.Caption := 'Confirmar exclusão do Pedido Nº ' +
-      frmOrders.currentOrderId + '?'
+  begin
+    DeleteOrder(frmOrders.currentOrderId);
+	  ShowMessage('Pedido excluído.');
+    frmOrders.dbgOrders.DataSource.DataSet.Refresh;
+    frmOrders.dbgOrders.DataSource.DataSet.First;
+    frmOrders.currentOrderId :=
+    	frmOrders.dbgOrders.DataSource.DataSet.Fields[0].AsString;
+    DisplayOrderItems(frmOrders.currentOrderId, frmOrders.fdqItems);
+  end
   else if frmOrders.actionType = 'deleteItem' then
+  begin
+  	DeleteItem(
+    	frmOrders.currentOrderId,
+    	frmOrders.currentItemProductId
+    );
+    ShowMessage('Item excluído.');
+    frmOrders.dbgItems.DataSource.DataSet.Refresh;
+  end;
+  Self.Close;
 end;
 
 procedure TfrmConfirmDeletion.btnCancelClick(Sender: TObject);

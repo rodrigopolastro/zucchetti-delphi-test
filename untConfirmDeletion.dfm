@@ -10,23 +10,25 @@ object frmConfirmDeletion: TfrmConfirmDeletion
   Font.Height = -12
   Font.Name = 'Segoe UI'
   Font.Style = []
-  OnCreate = FormCreate
+  OldCreateOrder = True
+  OnShow = FormShow
+  PixelsPerInch = 96
   TextHeight = 15
   object lblMessage: TLabel
-    Left = 24
+    Left = 96
     Top = 64
     Width = 59
     Height = 15
     Caption = 'lblMessage'
   end
-  object btnSave: TButton
+  object btnDelete: TButton
     Left = 304
     Top = 136
     Width = 78
     Height = 41
     Caption = 'Excluir'
     TabOrder = 0
-    OnClick = btnSaveClick
+    OnClick = btnDeleteClick
   end
   object btnCancel: TButton
     Left = 396
@@ -36,5 +38,21 @@ object frmConfirmDeletion: TfrmConfirmDeletion
     Caption = 'Cancelar'
     TabOrder = 1
     OnClick = btnCancelClick
+  end
+  object fdqQueries: TFDQuery
+    Connection = fdcDatabaseConnection
+    SQL.Strings = (
+      '')
+    Left = 184
+    Top = 138
+  end
+  object fdcDatabaseConnection: TFDConnection
+    Params.Strings = (
+      'Database=SRV-ORACLE'
+      'User_Name=RODRIGO_TESTE'
+      'Password=LARANJA'
+      'DriverID=Ora')
+    Left = 80
+    Top = 138
   end
 end

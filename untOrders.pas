@@ -88,20 +88,6 @@ procedure TfrmOrders.btnEditClick(Sender: TObject);
 begin
 	if currentItemProductId.IsEmpty then
   begin
-    actionType := 'deleteOrder';
-    frmConfirmDeletion.ShowModal;
-  end
-  else
-  begin
-  	actionType := 'deleteItem';
-    frmConfirmDeletion.ShowModal;
-  end;
-end;
-
-procedure TfrmOrders.btnDeleteClick(Sender: TObject);
-begin
-	if currentItemProductId.IsEmpty then
-  begin
     actionType := 'editOrder';
     frmOrdersMaintenance.ShowModal;
   end
@@ -109,6 +95,20 @@ begin
   begin
   	actionType := 'editItem';
     frmOrderItemsMaintenance.ShowModal;
+  end;
+end;
+
+procedure TfrmOrders.btnDeleteClick(Sender: TObject);
+begin
+	if currentItemProductId.IsEmpty then
+  begin
+    actionType := 'deleteOrder';
+    frmConfirmDeletion.ShowModal;
+  end
+  else
+  begin
+  	actionType := 'deleteItem';
+    frmConfirmDeletion.ShowModal;
   end;
 end;
 
