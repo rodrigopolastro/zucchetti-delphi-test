@@ -3,8 +3,6 @@ __history/
 __recovery/
 
 *.local
-*.dpr
-*.dproj
 *.exe
 *.bak
 *.identcache
