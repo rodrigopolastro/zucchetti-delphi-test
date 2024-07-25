@@ -26,6 +26,7 @@ type
     fdcDatabaseConnection: TFDConnection;
     edtQuantity: TEdit;
     btnCancel: TButton;
+    FDMemTable1: TFDMemTable;
     procedure btnShowProductsClick(Sender: TObject);
     procedure edtProductCodeExit(Sender: TObject);
     procedure btnSaveClick(Sender: TObject);
@@ -157,7 +158,7 @@ begin
       end
     else if frmOrdersMaintenance.secActionType = 'editOrderItem' then
     begin
-      ModifyItemQuantityOnList(quantity, frmOrdersMaintenance.fdqQueries);
+      ModifyItemQuantityOnList(quantity, frmOrdersMaintenance.fdqOrderItems);
       UpdateItemPriceOnList(productId, quantity, frmOrdersMaintenance.fdqOrderItems);
       Self.Close;
     end

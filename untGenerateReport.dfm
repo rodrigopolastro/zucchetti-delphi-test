@@ -56,16 +56,21 @@ object frmGenerateReport: TfrmGenerateReport
     Top = 299
   end
   object fdqItems: TFDQuery
+    Active = True
     Connection = fdcDatabaseConnection
     SQL.Strings = (
-      
-        'SELECT i.order_id AS "N'#186' do Pedido", o.order_date AS "Data do Pe' +
-        'dido", i.product_id AS "C'#243'd. Produto", p.description AS "Descri'#231 +
-        #227'o do Produto", i.quantity AS "Quantidade", p.price AS "Valor Un' +
-        'it'#225'rio", i.quantity * p.price AS "Valor Total" FROM items i INNE' +
-        'R JOIN products p ON p.product_id = i.product_id INNER JOIN orde' +
-        'rs o ON o.order_id = i.order_id ORDER BY i.order_id, i.product_i' +
-        'd')
+      'SELECT '
+      'i.order_id AS "N'#186' do Pedido", '
+      'o.order_date AS "Data do Pedido", '
+      'i.product_id AS "C'#243'd. Produto", '
+      'p.description AS "Descri'#231#227'o do Produto", '
+      'i.quantity AS "Quantidade", '
+      'p.price AS "Valor Unit'#225'rio", '
+      'i.quantity * p.price AS "Valor Total" '
+      'FROM items i '
+      'INNER JOIN products p ON p.product_id = i.product_id '
+      'INNER JOIN orders o ON o.order_id = i.order_id'
+      'ORDER BY i.order_id, i.product_id')
     Left = 160
     Top = 299
   end

@@ -1,7 +1,7 @@
 object frmOrderItemsMaintenance: TfrmOrderItemsMaintenance
   Left = 0
   Top = 0
-  ClientHeight = 289
+  ClientHeight = 201
   ClientWidth = 494
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -100,5 +100,16 @@ object frmOrderItemsMaintenance: TfrmOrderItemsMaintenance
       '')
     Left = 184
     Top = 146
+  end
+  object FDMemTable1: TFDMemTable
+    FetchOptions.AssignedValues = [evMode]
+    FetchOptions.Mode = fmAll
+    ResourceOptions.AssignedValues = [rvSilentMode]
+    ResourceOptions.SilentMode = True
+    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
+    UpdateOptions.CheckRequired = False
+    UpdateOptions.AutoCommitUpdates = True
+    Left = 24
+    Top = 16
   end
 end

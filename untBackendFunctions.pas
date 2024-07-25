@@ -61,7 +61,7 @@ begin
     'FROM orders o ' +
     'INNER JOIN items i ON i.order_id = o.order_id ' +
     'INNER JOIN products p ON i.product_id = p.product_id ' +
-    ' ' + whereSQL + ' ' +
+    ' /*W*/' + whereSQL + '/*F*/ ' +
     'GROUP BY ' +
       'o.order_id, ' +
       'o.order_date ' +
@@ -78,7 +78,7 @@ procedure DisplayOrderItems(orderId: String; queryComponent: TFDQuery);
   	itemsSQL: string;
 begin
   itemsSQL :=
-  	'SELECT ' +
+  	'SELECT' + #13#10 +
       'i.product_id AS "Cód. Produto", ' +
       'p.description AS "Descrição do Produto", ' +
       'i.quantity AS "Quantidade", ' +

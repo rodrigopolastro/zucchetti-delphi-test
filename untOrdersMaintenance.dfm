@@ -115,22 +115,6 @@ object frmOrdersMaintenance: TfrmOrdersMaintenance
     TabOrder = 7
     OnClick = btnCancelClick
   end
-  object Edit1: TEdit
-    Left = 80
-    Top = 328
-    Width = 449
-    Height = 21
-    TabOrder = 8
-    Text = 'Edit1'
-  end
-  object Button1: TButton
-    Left = 616
-    Top = 320
-    Width = 75
-    Height = 25
-    Caption = 'Button1'
-    TabOrder = 9
-  end
   object fdcDatabaseConnection: TFDConnection
     Params.Strings = (
       'Database=SRV-ORACLE'
@@ -138,17 +122,17 @@ object frmOrdersMaintenance: TfrmOrdersMaintenance
       'Password=LARANJA'
       'DriverID=Ora')
     Left = 56
-    Top = 267
+    Top = 251
   end
   object fdqOrderItems: TFDQuery
     Connection = fdcDatabaseConnection
     Left = 160
-    Top = 267
+    Top = 251
   end
   object dtsOrderItems: TDataSource
     DataSet = fdqOrderItems
     Left = 248
-    Top = 267
+    Top = 251
   end
   object fdqQueries: TFDQuery
     Connection = fdcDatabaseConnection

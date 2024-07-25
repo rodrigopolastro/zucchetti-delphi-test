@@ -16,9 +16,9 @@ begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TfrmOrders, frmOrders);
-  Application.CreateForm(TfrmProducts, frmProducts);
   Application.CreateForm(TfrmOrdersMaintenance, frmOrdersMaintenance);
   Application.CreateForm(TfrmOrderItemsMaintenance, frmOrderItemsMaintenance);
+  Application.CreateForm(TfrmProducts, frmProducts);
   Application.CreateForm(TfrmConfirmDeletion, frmConfirmDeletion);
   Application.CreateForm(TfrmGenerateReport, frmGenerateReport);
   Application.Run;

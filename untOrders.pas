@@ -22,14 +22,13 @@ type
   TfrmOrders = class(TForm)
     btnPrint: TButton;
     edtSearchText: TEdit;
-    lblOrderNumber: TLabel;
+    lblFilterOrders: TLabel;
     btnCreate: TButton;
     btnEdit: TButton;
     btnDelete: TButton;
     fdcDatabaseConnection: TFDConnection;
     fdqOrders: TFDQuery;
     dtsOrders: TDataSource;
-    dbgOrders: TDBGrid;
     btnSearch: TButton;
     cbbOrderField: TComboBox;
     dbgItems: TDBGrid;
@@ -38,6 +37,11 @@ type
     fdqActionQueries: TFDQuery;
     dtpOrderDate: TDateTimePicker;
     cbbComparisonOperator: TComboBox;
+    dbgOrders: TDBGrid;
+    lblOrder: TLabel;
+    cbbOrderBy: TComboBox;
+    rbAsc: TRadioButton;
+    rbDesc: TRadioButton;
     procedure cbbOrderFieldChange(Sender: TObject);
     procedure btnCreateClick(Sender: TObject);
     procedure dbgOrdersCellClick(Column: TColumn);
@@ -47,6 +51,7 @@ type
     procedure btnEditClick(Sender: TObject);
     procedure btnDeleteClick(Sender: TObject);
     procedure btnPrintClick(Sender: TObject);
+    procedure dtsItemsUpdateData(Sender: TObject; Field: TField);
   private
 
   public
@@ -125,6 +130,7 @@ begin
   begin
     actionType := 'createOrder';
     currentOrderId := '';
+    frmOrdersMaintenance := TfrmOrdersMaintenance.Create(Self);
     frmOrdersMaintenance.ShowModal;
   end
   else
@@ -198,6 +204,11 @@ begin
 	currentItemProductId := '';
 	currentOrderId := frmOrders.dbgOrders.Fields[0].AsString;
 	displayOrderItems(currentOrderId, frmOrders.fdqItems);
+end;
+
+procedure TfrmOrders.dtsItemsUpdateData(Sender: TObject; Field: TField);
+begin
+//	DisplayOrders('', '');
 end;
 
 procedure TfrmOrders.FormCreate(Sender: TObject);
