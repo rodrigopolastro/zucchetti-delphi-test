@@ -1,4 +1,4 @@
-unit untOrders;
+﻿unit untOrders;
  
 interface
 
@@ -89,7 +89,7 @@ end;
 procedure DisplayFilteredOrders(searchField, comparisonOperator: String);
 	var ordersWhereSQL, ordersHavingSQL: String;
 begin
-  if searchField = 'N�mero' then
+  if searchField = 'Número' then
   begin
   	ordersWhereSQL  :=
     	'WHERE o.order_id ' +

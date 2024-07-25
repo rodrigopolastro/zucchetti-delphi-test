@@ -6,3 +6,4 @@ __recovery/
 *.exe
 *.bak
 *.identcache
+*.res
