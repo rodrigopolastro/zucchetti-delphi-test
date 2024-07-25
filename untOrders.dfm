@@ -10,7 +10,9 @@ object frmOrders: TfrmOrders
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
+  OldCreateOrder = True
   OnCreate = FormCreate
+  PixelsPerInch = 96
   TextHeight = 13
   object lblOrderNumber: TLabel
     Left = 8
@@ -20,12 +22,13 @@ object frmOrders: TfrmOrders
     Caption = 'Filtrar Pedidos'
   end
   object btnPrint: TButton
-    Left = 675
-    Top = 488
+    Left = 683
+    Top = 368
     Width = 75
     Height = 25
     Caption = 'Imprimir'
     TabOrder = 0
+    OnClick = btnPrintClick
   end
   object edtSearchText: TEdit
     Left = 127
@@ -149,8 +152,8 @@ object frmOrders: TfrmOrders
   end
   object fdcDatabaseConnection: TFDConnection
     Params.Strings = (
-      'Database=XE'
-      'User_Name=RODRIGO'
+      'Database=SRV-ORACLE'
+      'User_Name=RODRIGO_TESTE'
       'Password=LARANJA'
       'DriverID=Ora')
     Left = 48

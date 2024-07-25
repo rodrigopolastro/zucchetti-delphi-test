@@ -10,7 +10,9 @@ object frmConfirmDeletion: TfrmConfirmDeletion
   Font.Height = -12
   Font.Name = 'Segoe UI'
   Font.Style = []
+  OldCreateOrder = True
   OnShow = FormShow
+  PixelsPerInch = 96
   TextHeight = 15
   object lblMessage: TLabel
     Left = 96
@@ -46,8 +48,8 @@ object frmConfirmDeletion: TfrmConfirmDeletion
   end
   object fdcDatabaseConnection: TFDConnection
     Params.Strings = (
-      'Database=XE'
-      'User_Name=RODRIGO'
+      'Database=SRV-ORACLE'
+      'User_Name=RODRIGO_TESTE'
       'Password=LARANJA'
       'DriverID=Ora')
     Left = 80

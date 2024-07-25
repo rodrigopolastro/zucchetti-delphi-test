@@ -140,6 +140,7 @@ end;
 procedure TfrmOrderItemsMaintenance.btnSaveClick(Sender: TObject);
   var orderId, productId: String;
   var quantity: Integer;
+  var queryComponent: TFDQuery;
 begin
   orderId := frmOrders.currentOrderId;
   productId := frmOrderItemsMaintenance.edtProductCode.Text;
@@ -147,11 +148,15 @@ begin
 
   if frmOrdersMaintenance.isOrdersMaintenanceOpen then
   begin
+  	queryComponent := frmOrdersMaintenance.fdqQueries;
     if frmOrdersMaintenance.secActionType = 'createOrderItem' then
       if DoesListContainProduct(productId) then
         ShowMessage('Esse produto já faz parte desse pedido!')
       else
-        AddItemToList()
+      begin
+      	AddItemToList();
+        frmOrders.currentItemProductId := frmOrdersMaintenance.dbgOrderItems.Fields[0].AsString;
+      end
     else if frmOrdersMaintenance.secActionType = 'editOrderItem' then
     begin
       ModifyItemQuantityOnList(quantity);
@@ -159,26 +164,32 @@ begin
     end
   end
   else if not frmOrdersMaintenance.isOrdersMaintenanceOpen then
+  begin
+  	queryComponent := frmOrders.fdqItems;
     if frmOrders.actionType = 'createItem' then
       if DoesOrderContainProduct(orderId, productId) then
         ShowMessage('Esse produto já faz parte desse pedido!')
       else
       begin
-      	InsertOrderItem(orderId, productId, quantity);
+      	InsertOrderItem(orderId, productId, quantity, queryComponent);
+    		showmessage(BooltoStr(queryComponent.Active));
+        displayOrderItems(orderId, frmOrders.fdqItems);
+//        UpdateItemPriceOnList(productId, quantity, queryComponent);
         frmOrders.dbgItems.DataSource.DataSet.Refresh;
+//        frmOrders.dbgItems.DataSource.DataSet.Last;
+//        frmOrders.currentItemProductId := frmOrders.dbgItems.Fields[0].AsString;
+//
+
       end
     else if frmOrders.actionType = 'editItem' then
     begin
       UpdateItemQuantity(orderId, productId, quantity);
       Self.Close;
     end;
+  end;
 
-    ClearFormFields();
-    frmOrders.currentItemProductId := frmOrdersMaintenance.dbgOrderItems.Fields[0].AsString;
-    UpdateItemPriceOnList(productId, quantity);
-
-
-
+  ClearFormFields();
+//  UpdateItemPriceOnList(productId, quantity, queryComponent);
 end;
 
 procedure TfrmOrderItemsMaintenance.btnShowProductsClick(Sender: TObject);

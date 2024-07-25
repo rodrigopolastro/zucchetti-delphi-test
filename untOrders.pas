@@ -9,13 +9,14 @@ uses
   FireDAC.UI.Intf, FireDAC.Phys.Intf, FireDAC.Stan.Def, FireDAC.Stan.Pool,
   FireDAC.Stan.Async, FireDAC.Phys, FireDAC.Phys.Oracle, FireDAC.Phys.OracleDef,
   FireDAC.VCLUI.Wait, FireDAC.Stan.Param, FireDAC.DatS, FireDAC.DApt.Intf,
-  FireDAC.DApt, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.ExtCtrls,
+  FireDAC.DApt, FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.ExtCtrls, Vcl.ComCtrls,
 
  	//Addittional Forms
   untBackendFunctions,
 	untOrdersMaintenance,
   untOrderItemsMaintenance,
-  untConfirmDeletion, Vcl.ComCtrls;
+  untConfirmDeletion,
+  untGenerateReport;
 
 type
   TfrmOrders = class(TForm)
@@ -45,6 +46,7 @@ type
     procedure dbgItemsCellClick(Column: TColumn);
     procedure btnEditClick(Sender: TObject);
     procedure btnDeleteClick(Sender: TObject);
+    procedure btnPrintClick(Sender: TObject);
   private
 
   public
@@ -143,6 +145,11 @@ begin
   	actionType := 'editItem';
     frmOrderItemsMaintenance.ShowModal;
   end;
+end;
+
+procedure TfrmOrders.btnPrintClick(Sender: TObject);
+begin
+	frmGenerateReport.Show;
 end;
 
 procedure TfrmOrders.btnDeleteClick(Sender: TObject);

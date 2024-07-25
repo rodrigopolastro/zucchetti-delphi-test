@@ -10,7 +10,9 @@ object frmProducts: TfrmProducts
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
+  OldCreateOrder = True
   OnCreate = FormCreate
+  PixelsPerInch = 96
   TextHeight = 13
   object dbgProducts: TDBGrid
     Left = 8
@@ -30,8 +32,8 @@ object frmProducts: TfrmProducts
   end
   object fdcDatabaseConnection: TFDConnection
     Params.Strings = (
-      'Database=XE'
-      'User_Name=RODRIGO'
+      'Database=SRV-ORACLE'
+      'User_Name=RODRIGO_TESTE'
       'Password=LARANJA'
       'DriverID=Ora')
     Left = 72

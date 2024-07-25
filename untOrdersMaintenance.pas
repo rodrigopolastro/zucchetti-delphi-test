@@ -81,7 +81,7 @@ begin
     if DoesOrderContainProduct(orderId, productId) then
       UpdateItemQuantity(orderId, productId, quantity)
     else
-      InsertOrderItem(orderId, productId, quantity);
+      InsertOrderItem(orderId, productId, quantity, frmOrdersMaintenance.fdqQueries);
   end;
 end;
 
