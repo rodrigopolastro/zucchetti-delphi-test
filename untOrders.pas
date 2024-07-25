@@ -1,5 +1,5 @@
 unit untOrders;
-
+ 
 interface
 
 uses
@@ -77,7 +77,7 @@ begin
     frmOrders.btnSearch.Visible := True;
     frmOrders.cbbComparisonOperator.Visible := True;
   end
-  else //'Valor Total' and 'Número'
+  else //'Valor Total' and 'Nï¿½mero'
   begin
     frmOrders.edtSearchText.Visible := True;
     frmOrders.dtpOrderDate.Visible := False;
@@ -89,7 +89,7 @@ end;
 procedure DisplayFilteredOrders(searchField, comparisonOperator: String);
 	var ordersWhereSQL, ordersHavingSQL: String;
 begin
-  if searchField = 'Número' then
+  if searchField = 'Nï¿½mero' then
   begin
   	ordersWhereSQL  :=
     	'WHERE o.order_id ' +

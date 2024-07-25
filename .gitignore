@@ -1,5 +1,10 @@
-oci.dll
-ociw32.dll
-oraocci21.dll
-oraociei.dll
-orasql.dll
+Win32/
+__history/
+__recovery/
+
+*.local
+*.dpr
+*.dproj
+*.exe
+*.bak
+*.identcache
