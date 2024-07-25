@@ -1,9 +1,10 @@
-Win32/
+Win32
 __history/
 __recovery/
 
-*.bak
 *.local
-
-./prjTesteDeAptidao.dproj.local
-untOrders.pas
+*.dpr
+*.dproj
+*.exe
+*.bak
+*.identcache
