@@ -123,7 +123,10 @@ end;
 
 procedure TfrmOrdersMaintenance.btnDeleteClick(Sender: TObject);
 begin
-  if DoesOrderContainProduct(frmOrders.currentOrderId, frmOrders.currentItemProductId) then
+	if frmOrders.currentItemProductId.IsEmpty then Exit();
+
+  if (frmOrders.actionType = 'editOrder') and
+     (DoesOrderContainProduct(frmOrders.currentOrderId, frmOrders.currentItemProductId)) then
   begin
     DeleteItem(frmOrders.currentOrderId, frmOrders.currentItemProductId);
     secActionType := 'deleteItem';
@@ -135,6 +138,8 @@ end;
 
 procedure TfrmOrdersMaintenance.btnUpdateClick(Sender: TObject);
 begin
+	if frmOrders.currentItemProductId.IsEmpty then Exit();
+
   secActionType := 'editOrderItem';
   DisplayItemInfo(
     frmOrders.currentOrderId,
@@ -145,7 +150,6 @@ end;
 
 procedure TfrmOrdersMaintenance.dbgOrderItemsCellClick(Column: TColumn);
 begin
-
   frmOrders.currentItemProductId := dbgOrderItems.Fields[0].AsString;
 end;
 
@@ -179,7 +183,6 @@ begin
 
   dbgOrderItems.DataSource.DataSet.First;
   frmOrders.currentItemProductId := dbgOrderItems.Fields[0].AsString;
-
 end;
 
 end.

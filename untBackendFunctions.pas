@@ -169,20 +169,21 @@ end;
 
 procedure UpdateItemPriceOnList(productId: String; quantity: Integer; queryComponent: TFDQuery);
 	var unitPrice, totalPrice: Real;
-  var priceQuery : TFDQuery;
 begin
-//	query.SQL.Text :=
-//  	'SELECT price FROM products WHERE product_id = :productId';
-//  query.ParamByName('productId').AsString := productId;
-//
-//  query.Open;
-//  unitPrice := frmOrdersMaintenance.fdqQueries.FieldByName('price').AsFloat;
-//  totalPrice := quantity * unitPrice;
-//
-//  query.FieldByName('Valor Unitário').AsString :=
-//  	FormatFloat('0.00', unitPrice);
-//  query.FieldByName('Valor Total').AsString :=
-//  FormatFloat('0.00', totalPrice);
+	frmOrderItemsMaintenance.fdqQueries.SQL.Text :=
+  	'SELECT price FROM products WHERE product_id = :productId';
+  frmOrderItemsMaintenance.fdqQueries.ParamByName('productId').AsString := productId;
+  frmOrderItemsMaintenance.fdqQueries.Open;
+
+  unitPrice := frmOrderItemsMaintenance.fdqQueries.FieldByName('price').AsFloat;
+  totalPrice := quantity * unitPrice;
+
+//  queryComponent.FieldByName('Valor Unitário').AsString :=
+	queryComponent.Edit;
+  queryComponent.FieldByName('Valor Unitário').AsString :=
+  FormatFloat('0.00', unitPrice);
+  queryComponent.FieldByName('Valor Total').AsString :=
+  FormatFloat('0.00', totalPrice);
 end;
 
 procedure UpdateOrderDate(orderId: String);

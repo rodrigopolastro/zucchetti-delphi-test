@@ -124,6 +124,7 @@ begin
 	if currentItemProductId.IsEmpty then
   begin
     actionType := 'createOrder';
+    currentOrderId := '';
     frmOrdersMaintenance.ShowModal;
   end
   else

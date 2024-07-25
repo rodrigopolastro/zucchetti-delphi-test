@@ -99,12 +99,9 @@ begin
   Inc(frmOrdersMaintenance.currentNumberOfItems);
 end;
 
-procedure ModifyItemQuantityOnList(quantity: Integer);
-  var dataSet: TFDQuery;
+procedure ModifyItemQuantityOnList(quantity: Integer; dataset: TFDQuery);
 begin
-  dataset := frmOrdersMaintenance.fdqOrderItems;
   dataset.Edit;
-
   dataset.FieldByName('Quantidade').AsInteger := quantity;
 end;
 
@@ -115,7 +112,7 @@ begin
 
   query.SQL.Clear;
   query.SQL.Text :=
-  	'SELECT description FROM products WHERE product_id = :productId';
+  	'SELECT description, price FROM products WHERE product_id = :productId';
   query.ParamByName('productId').AsString := productId;
   query.Open;
 
@@ -123,6 +120,8 @@ begin
 	begin
     frmOrderItemsMaintenance.edtProductName.Text :=
     	query.FieldByName('description').AsString;
+    frmOrderItemsMaintenance.productPrice :=
+    	query.FieldByName('price').AsFloat;
   end
   else
 	begin
@@ -140,7 +139,6 @@ end;
 procedure TfrmOrderItemsMaintenance.btnSaveClick(Sender: TObject);
   var orderId, productId: String;
   var quantity: Integer;
-  var queryComponent: TFDQuery;
 begin
   orderId := frmOrders.currentOrderId;
   productId := frmOrderItemsMaintenance.edtProductCode.Text;
@@ -148,48 +146,42 @@ begin
 
   if frmOrdersMaintenance.isOrdersMaintenanceOpen then
   begin
-  	queryComponent := frmOrdersMaintenance.fdqQueries;
     if frmOrdersMaintenance.secActionType = 'createOrderItem' then
       if DoesListContainProduct(productId) then
         ShowMessage('Esse produto já faz parte desse pedido!')
       else
       begin
       	AddItemToList();
+        UpdateItemPriceOnList(productId, quantity, frmOrdersMaintenance.fdqOrderItems);
         frmOrders.currentItemProductId := frmOrdersMaintenance.dbgOrderItems.Fields[0].AsString;
       end
     else if frmOrdersMaintenance.secActionType = 'editOrderItem' then
     begin
-      ModifyItemQuantityOnList(quantity);
+      ModifyItemQuantityOnList(quantity, frmOrdersMaintenance.fdqQueries);
+      UpdateItemPriceOnList(productId, quantity, frmOrdersMaintenance.fdqOrderItems);
       Self.Close;
     end
   end
   else if not frmOrdersMaintenance.isOrdersMaintenanceOpen then
   begin
-  	queryComponent := frmOrders.fdqItems;
     if frmOrders.actionType = 'createItem' then
       if DoesOrderContainProduct(orderId, productId) then
         ShowMessage('Esse produto já faz parte desse pedido!')
       else
       begin
-      	InsertOrderItem(orderId, productId, quantity, queryComponent);
-    		showmessage(BooltoStr(queryComponent.Active));
-        displayOrderItems(orderId, frmOrders.fdqItems);
-//        UpdateItemPriceOnList(productId, quantity, queryComponent);
-        frmOrders.dbgItems.DataSource.DataSet.Refresh;
-//        frmOrders.dbgItems.DataSource.DataSet.Last;
-//        frmOrders.currentItemProductId := frmOrders.dbgItems.Fields[0].AsString;
-//
-
+      	InsertOrderItem(orderId, productId, quantity, frmOrders.fdqItems);
+        DisplayOrderItems(orderId, frmOrders.fdqItems);
       end
     else if frmOrders.actionType = 'editItem' then
     begin
       UpdateItemQuantity(orderId, productId, quantity);
+      ModifyItemQuantityOnList(quantity, frmOrders.fdqItems);
+      UpdateItemPriceOnList(productId, quantity, frmOrders.fdqItems);
       Self.Close;
     end;
   end;
 
   ClearFormFields();
-//  UpdateItemPriceOnList(productId, quantity, queryComponent);
 end;
 
 procedure TfrmOrderItemsMaintenance.btnShowProductsClick(Sender: TObject);
