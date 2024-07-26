@@ -157,7 +157,7 @@ begin
       end
     else if frmOrdersMaintenance.secActionType = 'editOrderItem' then
     begin
-      ModifyItemQuantityOnList(quantity, frmOrdersMaintenance.fdqQueries);
+      ModifyItemQuantityOnList(quantity, frmOrdersMaintenance.fdqOrderItems);
       UpdateItemPriceOnList(productId, quantity, frmOrdersMaintenance.fdqOrderItems);
       Self.Close;
     end

@@ -32,8 +32,6 @@ type
     fdqOrderItems: TFDQuery;
     dtsOrderItems: TDataSource;
     fdqQueries: TFDQuery;
-    Edit1: TEdit;
-    Button1: TButton;
     procedure FormShow(Sender: TObject);
     procedure btnSaveClick(Sender: TObject);
     procedure btnCreateClick(Sender: TObject);
@@ -134,6 +132,7 @@ begin
   end;
   RemoveOrderItemFromList(frmOrders.currentItemProductId);
   frmOrders.currentItemProductId := dbgOrderItems.Fields[0].AsString;
+  Dec(frmOrdersMaintenance.currentNumberOfItems);
 end;
 
 procedure TfrmOrdersMaintenance.btnUpdateClick(Sender: TObject);
