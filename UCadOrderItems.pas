@@ -66,9 +66,10 @@ begin
   begin
   	Frm_CadOrders.FDQ_OrderItems.RecNo := iCounter;
     if FDQ_dataset.FieldByName('Cód. Produto').AsString = sProductId then
-      Result := True;
+      Result := True
+    else
+	    Result := False;
   end;
-
   Result := False;
 end;
 
@@ -112,7 +113,7 @@ begin
 
   FDQ_Query.SQL.Clear;
   FDQ_Query.SQL.Text :=
-  	'SELECT description, price FROM products WHERE product_id = :productId';
+  	'SELECT description, price FROM produtos WHERE product_id = :productId';
   FDQ_Query.ParamByName('productId').AsString := sProductId;
   FDQ_Query.Open;
 

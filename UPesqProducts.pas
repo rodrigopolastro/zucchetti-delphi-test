@@ -54,9 +54,7 @@ begin
         'product_id AS "Código do Produto", ' +
         'description AS "Descrição", ' +
         'price AS "Valor Unitário" ' +
-      'FROM products';
-
-  sProductsSQL := 'select * from products';
+      'FROM produtos';
 
 	FDQ_Products.SQL.Clear;
 	FDQ_Products.SQL.Text := sProductsSQL;

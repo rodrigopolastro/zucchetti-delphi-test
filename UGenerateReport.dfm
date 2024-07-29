@@ -56,9 +56,9 @@ object Frm_GenerateReport: TFrm_GenerateReport
       'i.quantity AS "Quantidade", '
       'p.price AS "Valor Unit'#225'rio", '
       'i.quantity * p.price AS "Valor Total" '
-      'FROM items i '
-      'INNER JOIN products p ON p.product_id = i.product_id '
-      'INNER JOIN orders o ON o.order_id = i.order_id'
+      'FROM itens i '
+      'INNER JOIN produtos p ON p.product_id = i.product_id '
+      'INNER JOIN pedidos o ON o.order_id = i.order_id'
       'ORDER BY i.order_id, i.product_id')
     Left = 56
     Top = 307
