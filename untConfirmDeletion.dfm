@@ -40,19 +40,10 @@ object frmConfirmDeletion: TfrmConfirmDeletion
     OnClick = btnCancelClick
   end
   object fdqQueries: TFDQuery
-    Connection = fdcDatabaseConnection
+    Connection = frmOrders.fdcDatabaseConnection
     SQL.Strings = (
       '')
     Left = 184
-    Top = 138
-  end
-  object fdcDatabaseConnection: TFDConnection
-    Params.Strings = (
-      'Database=SRV-ORACLE'
-      'User_Name=RODRIGO_TESTE'
-      'Password=LARANJA'
-      'DriverID=Ora')
-    Left = 80
     Top = 138
   end
 end

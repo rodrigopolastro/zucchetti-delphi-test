@@ -28,7 +28,6 @@ type
     dbgOrderItems: TDBGrid;
     btnSave: TButton;
     btnCancel: TButton;
-    fdcDatabaseConnection: TFDConnection;
     fdqOrderItems: TFDQuery;
     dtsOrderItems: TDataSource;
     fdqQueries: TFDQuery;

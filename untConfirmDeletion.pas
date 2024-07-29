@@ -17,7 +17,6 @@ type
     btnDelete: TButton;
     btnCancel: TButton;
     fdqQueries: TFDQuery;
-    fdcDatabaseConnection: TFDConnection;
     procedure btnDeleteClick(Sender: TObject);
     procedure btnCancelClick(Sender: TObject);
     procedure FormShow(Sender: TObject);

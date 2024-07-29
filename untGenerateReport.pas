@@ -11,14 +11,15 @@ uses
   FireDAC.Stan.Param, FireDAC.DatS, FireDAC.DApt.Intf, FireDAC.DApt,
   FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.Grids, Vcl.DBGrids, ppCtrls,
   ppBands, ppClass, ppPrnabl, ppDesignLayer, ppCache, ppDB, ppParameter, ppProd,
-  ppReport, ppComm, ppRelatv, ppDBPipe;
+  ppReport, ppComm, ppRelatv, ppDBPipe,
+
+  untOrders;
 
 type
   TfrmGenerateReport = class(TForm)
     btnGenerate: TButton;
     btnCancel: TButton;
     dbgItems: TDBGrid;
-    fdcDatabaseConnection: TFDConnection;
     fdqItems: TFDQuery;
     dtsItems: TDataSource;
     ppDBPipeline: TppDBPipeline;

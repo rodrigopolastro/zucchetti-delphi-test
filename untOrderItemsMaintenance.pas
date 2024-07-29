@@ -23,7 +23,6 @@ type
     lblProductCode: TLabel;
     lblQuantity: TLabel;
     fdqQueries: TFDQuery;
-    fdcDatabaseConnection: TFDConnection;
     edtQuantity: TEdit;
     btnCancel: TButton;
     procedure btnShowProductsClick(Sender: TObject);

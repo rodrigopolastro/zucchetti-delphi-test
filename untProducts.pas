@@ -9,12 +9,13 @@ uses
   FireDAC.Phys.Intf, FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Stan.Async,
   FireDAC.Phys, FireDAC.Phys.Oracle, FireDAC.Phys.OracleDef, FireDAC.VCLUI.Wait,
   FireDAC.Stan.Param, FireDAC.DatS, FireDAC.DApt.Intf, FireDAC.DApt,
-  FireDAC.Comp.DataSet, FireDAC.Comp.Client;
+  FireDAC.Comp.DataSet, FireDAC.Comp.Client,
+
+  untOrders;
 
 type
   TfrmProducts = class(TForm)
     dbgProducts: TDBGrid;
-    fdcDatabaseConnection: TFDConnection;
     fdqProducts: TFDQuery;
     dtsProducts: TDataSource;
     procedure dbgProductsDblClick(Sender: TObject);

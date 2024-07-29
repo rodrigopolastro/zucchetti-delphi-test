@@ -199,7 +199,7 @@ object frmOrders: TfrmOrders
       'DriverID=Ora')
     Connected = True
     Left = 48
-    Top = 408
+    Top = 416
   end
   object fdqOrders: TFDQuery
     Connection = fdcDatabaseConnection

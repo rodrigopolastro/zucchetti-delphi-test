@@ -30,17 +30,8 @@ object frmProducts: TfrmProducts
     TitleFont.Style = []
     OnDblClick = dbgProductsDblClick
   end
-  object fdcDatabaseConnection: TFDConnection
-    Params.Strings = (
-      'Database=SRV-ORACLE'
-      'User_Name=RODRIGO_TESTE'
-      'Password=LARANJA'
-      'DriverID=Ora')
-    Left = 72
-    Top = 171
-  end
   object fdqProducts: TFDQuery
-    Connection = fdcDatabaseConnection
+    Connection = frmOrders.fdcDatabaseConnection
     Left = 168
     Top = 176
   end

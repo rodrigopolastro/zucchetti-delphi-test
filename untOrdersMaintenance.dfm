@@ -115,17 +115,8 @@ object frmOrdersMaintenance: TfrmOrdersMaintenance
     TabOrder = 7
     OnClick = btnCancelClick
   end
-  object fdcDatabaseConnection: TFDConnection
-    Params.Strings = (
-      'Database=SRV-ORACLE'
-      'User_Name=RODRIGO_TESTE'
-      'Password=LARANJA'
-      'DriverID=Ora')
-    Left = 56
-    Top = 251
-  end
   object fdqOrderItems: TFDQuery
-    Connection = fdcDatabaseConnection
+    Connection = frmOrders.fdcDatabaseConnection
     Left = 160
     Top = 251
   end
@@ -135,7 +126,7 @@ object frmOrdersMaintenance: TfrmOrdersMaintenance
     Top = 251
   end
   object fdqQueries: TFDQuery
-    Connection = fdcDatabaseConnection
+    Connection = frmOrders.fdcDatabaseConnection
     Left = 360
     Top = 251
   end

@@ -45,19 +45,8 @@ object frmGenerateReport: TfrmGenerateReport
     TitleFont.Name = 'Tahoma'
     TitleFont.Style = []
   end
-  object fdcDatabaseConnection: TFDConnection
-    Params.Strings = (
-      'Database=SRV-ORACLE'
-      'User_Name=RODRIGO_TESTE'
-      'Password=LARANJA'
-      'DriverID=Ora')
-    Connected = True
-    Left = 56
-    Top = 299
-  end
   object fdqItems: TFDQuery
-    Active = True
-    Connection = fdcDatabaseConnection
+    Connection = frmOrders.fdcDatabaseConnection
     SQL.Strings = (
       'SELECT '
       'i.order_id AS "N'#186' do Pedido", '
