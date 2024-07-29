@@ -1,4 +1,4 @@
-unit UBackendFunctions;
+Ôªøunit UBackendFunctions;
 
 interface
 
@@ -32,7 +32,7 @@ uses
 function DoesOrderContainProduct(orderId, productId: String): Boolean;
 var query: TFDQuery;
 begin
-	query := frmOrderItemsMaintenance.fdqQueries;
+	query := Frm_CadOrderItems.FDQ_Queries;
 
   query.SQL.Clear;
   query.SQL.Text :=
@@ -55,7 +55,7 @@ procedure DisplayOrders(whereSQL, havingSQL: String);
 begin
 	ordersSQL :=
     'SELECT ' +
-      'o.order_id AS "N∫ do Pedido", ' +
+      'o.order_id AS "N¬∫ do Pedido", ' +
       'o.order_date AS "Data do Pedido", ' +
       'SUM(i.quantity * p.price) AS "Valor Total" ' +
     'FROM orders o ' +
@@ -69,8 +69,8 @@ begin
     'ORDER BY o.order_id DESC ';
 
 
-	frmOrders.fdqOrders.SQL.Text := ordersSQL;
-  frmOrders.fdqOrders.Open;
+	Frm_PesqOrders.FDQ_Orders.SQL.Text := ordersSQL;
+  Frm_PesqOrders.FDQ_Orders.Open;
 end;
 
 procedure DisplayOrderItems(orderId: String; queryComponent: TFDQuery);
@@ -79,10 +79,10 @@ procedure DisplayOrderItems(orderId: String; queryComponent: TFDQuery);
 begin
   itemsSQL :=
   	'SELECT ' +
-      'i.product_id AS "CÛd. Produto", ' +
-      'p.description AS "DescriÁ„o do Produto", ' +
+      'i.product_id AS "C√≥d. Produto", ' +
+      'p.description AS "Descri√ß√£o do Produto", ' +
       'i.quantity AS "Quantidade", ' +
-      'p.price AS "Valor Unit·rio", ' +
+      'p.price AS "Valor Unit√°rio", ' +
       'i.quantity * p.price AS "Valor Total" '+
   	'FROM items i ' +
     'INNER JOIN products p ON p.product_id = i.product_id ' +
@@ -98,47 +98,47 @@ end;
 function CreateOrder(): Integer;
 	var orderDate : String;
 begin
-	orderDate := DateToStr(frmOrdersMaintenance.dtpOrderDate.Date);
+	orderDate := DateToStr(Frm_CadOrders.DTP_OrderDate.Date);
 
-  frmOrdersMaintenance.fdqQueries.SQL.Clear;
-  frmOrdersMaintenance.fdqQueries.SQL.Text :=
+  Frm_CadOrders.FDQ_Queries.SQL.Clear;
+  Frm_CadOrders.FDQ_Queries.SQL.Text :=
     'INSERT INTO orders(order_id, order_date) ' +
     'VALUES (seq_order_id.NEXTVAL, :orderDate)';
 
-  frmOrdersMaintenance.fdqQueries.ParamByName('orderDate').AsString := orderDate;
-  frmOrdersMaintenance.fdqQueries.ExecSQL;
+  Frm_CadOrders.FDQ_Queries.ParamByName('orderDate').AsString := orderDate;
+  Frm_CadOrders.FDQ_Queries.ExecSQL;
 
-  Result := frmOrdersMaintenance.fdcDatabaseConnection
+  Result := Frm_PesqOrders.FDC_DatabaseConnection
   	.GetLastAutoGenValue('seq_order_id');
 end;
 
 procedure DeleteItem(orderId, productId: String);
 begin
-  frmOrdersMaintenance.fdqQueries.SQL.Clear;
-  frmOrdersMaintenance.fdqQueries.SQL.Text :=
+  Frm_CadOrders.FDQ_Queries.SQL.Clear;
+  Frm_CadOrders.FDQ_Queries.SQL.Text :=
     'DELETE FROM items WHERE ' +
     'order_id = :orderId AND product_id = :productId';
 
-  frmOrdersMaintenance.fdqQueries.ParamByName('orderId').AsString := orderId;
-  frmOrdersMaintenance.fdqQueries.ParamByName('productId').AsString := productId;
-  frmOrdersMaintenance.fdqQueries.ExecSQL;
+  Frm_CadOrders.FDQ_Queries.ParamByName('orderId').AsString := orderId;
+  Frm_CadOrders.FDQ_Queries.ParamByName('productId').AsString := productId;
+  Frm_CadOrders.FDQ_Queries.ExecSQL;
 end;
 
 procedure DeleteOrder(orderId: String);
 begin
 	//Delete order items
-	frmConfirmDeletion.fdqQueries.SQL.Clear;
-  frmConfirmDeletion.fdqQueries.SQL.Text :=
+	Frm_PesqOrders.FDQ_ActionQueries.SQL.Clear;
+  Frm_PesqOrders.FDQ_ActionQueries.SQL.Text :=
     'DELETE FROM items WHERE order_id = :orderId';
-  frmConfirmDeletion.fdqQueries.ParamByName('orderId').AsString := orderId;
-  frmConfirmDeletion.fdqQueries.ExecSQL;
+  Frm_PesqOrders.FDQ_ActionQueries.ParamByName('orderId').AsString := orderId;
+  Frm_PesqOrders.FDQ_ActionQueries.ExecSQL;
 
   //Delete order
-  frmConfirmDeletion.fdqQueries.SQL.Clear;
-  frmConfirmDeletion.fdqQueries.SQL.Text :=
+  Frm_PesqOrders.FDQ_ActionQueries.SQL.Clear;
+  Frm_PesqOrders.FDQ_ActionQueries.SQL.Text :=
     'DELETE FROM orders WHERE order_id = :orderId';
-  frmConfirmDeletion.fdqQueries.ParamByName('orderId').AsString := orderId;
-  frmConfirmDeletion.fdqQueries.ExecSQL;
+  Frm_PesqOrders.FDQ_ActionQueries.ParamByName('orderId').AsString := orderId;
+  Frm_PesqOrders.FDQ_ActionQueries.ExecSQL;
 end;
 
 procedure InsertOrderItem(orderId, productId: String; quantity: Integer; query: TFDQuery);
@@ -156,31 +156,31 @@ end;
 
 procedure UpdateItemQuantity(orderId, productId: String; quantity: Integer);
 begin
-  frmOrdersMaintenance.fdqQueries.SQL.Clear;
-  frmOrdersMaintenance.fdqQueries.SQL.Text :=
+  Frm_CadOrders.FDQ_Queries.SQL.Clear;
+  Frm_CadOrders.FDQ_Queries.SQL.Text :=
     'UPDATE items SET quantity = :quantity ' +
     'WHERE order_id = :orderId AND product_id = :productId';
 
-  frmOrdersMaintenance.fdqQueries.ParamByName('orderId').AsString := orderId;
-  frmOrdersMaintenance.fdqQueries.ParamByName('productId').AsString := productId;
-  frmOrdersMaintenance.fdqQueries.ParamByName('quantity').AsInteger := quantity;
-  frmOrdersMaintenance.fdqQueries.ExecSQL;
+  Frm_CadOrders.FDQ_Queries.ParamByName('orderId').AsString := orderId;
+  Frm_CadOrders.FDQ_Queries.ParamByName('productId').AsString := productId;
+  Frm_CadOrders.FDQ_Queries.ParamByName('quantity').AsInteger := quantity;
+  Frm_CadOrders.FDQ_Queries.ExecSQL;
 end;
 
 procedure UpdateItemPriceOnList(productId: String; quantity: Integer; queryComponent: TFDQuery);
 	var unitPrice, totalPrice: Real;
 begin
-	frmOrderItemsMaintenance.fdqQueries.SQL.Text :=
+	Frm_CadOrderItems.FDQ_Queries.SQL.Text :=
   	'SELECT price FROM products WHERE product_id = :productId';
-  frmOrderItemsMaintenance.fdqQueries.ParamByName('productId').AsString := productId;
-  frmOrderItemsMaintenance.fdqQueries.Open;
+  Frm_CadOrderItems.FDQ_Queries.ParamByName('productId').AsString := productId;
+  Frm_CadOrderItems.FDQ_Queries.Open;
 
-  unitPrice := frmOrderItemsMaintenance.fdqQueries.FieldByName('price').AsFloat;
+  unitPrice := Frm_CadOrderItems.FDQ_Queries.FieldByName('price').AsFloat;
   totalPrice := quantity * unitPrice;
 
-//  queryComponent.FieldByName('Valor Unit·rio').AsString :=
+//  queryComponent.FieldByName('Valor Unit√°rio').AsString :=
 	queryComponent.Edit;
-  queryComponent.FieldByName('Valor Unit·rio').AsString :=
+  queryComponent.FieldByName('Valor Unit√°rio').AsString :=
   FormatFloat('0.00', unitPrice);
   queryComponent.FieldByName('Valor Total').AsString :=
   FormatFloat('0.00', totalPrice);
@@ -189,27 +189,27 @@ end;
 procedure UpdateOrderDate(orderId: String);
 	var orderDate: String;
 begin
-  orderDate := DateToStr(frmOrdersMaintenance.dtpOrderDate.Date);
+  orderDate := DateToStr(Frm_CadOrders.DTP_OrderDate.Date);
 
-  frmOrdersMaintenance.fdqQueries.SQL.Clear;
-  frmOrdersMaintenance.fdqQueries.SQL.Text :=
+  Frm_CadOrders.FDQ_Queries.SQL.Clear;
+  Frm_CadOrders.FDQ_Queries.SQL.Text :=
     'UPDATE orders SET order_date = :orderDate ' +
     'WHERE order_id = :orderId';
 
-  frmOrdersMaintenance.fdqQueries.ParamByName('orderDate').AsString := orderDate;
-  frmOrdersMaintenance.fdqQueries.ParamByName('orderId').AsString := orderId;
-  frmOrdersMaintenance.fdqQueries.ExecSQL;
+  Frm_CadOrders.FDQ_Queries.ParamByName('orderDate').AsString := orderDate;
+  Frm_CadOrders.FDQ_Queries.ParamByName('orderId').AsString := orderId;
+  Frm_CadOrders.FDQ_Queries.ExecSQL;
 end;
 
 function GetOrderDate(orderId: String): TDate;
 begin
-	frmOrdersMaintenance.fdqQueries.SQL.Text :=
+	Frm_CadOrders.FDQ_Queries.SQL.Text :=
   	'SELECT order_date FROM orders WHERE order_id = :orderId';
-  frmOrdersMaintenance.fdqQueries.ParamByName('orderId').AsString
-  	:= frmOrders.currentOrderId;
+  Frm_CadOrders.FDQ_Queries.ParamByName('orderId').AsString
+  	:= Frm_PesqOrders.currentOrderId;
 
-  frmOrdersMaintenance.fdqQueries.Open;
-  Result := frmOrdersMaintenance.fdqQueries.FieldByName('order_date').AsDateTime;
+  Frm_CadOrders.FDQ_Queries.Open;
+  Result := Frm_CadOrders.FDQ_Queries.FieldByName('order_date').AsDateTime;
 end;
 
 procedure DisplayItemInfo(orderId, productId: String);
@@ -218,8 +218,8 @@ procedure DisplayItemInfo(orderId, productId: String);
 begin
 	if DoesOrderContainProduct(orderId, productId) then
   begin
-  	frmOrderItemsMaintenance.fdqQueries.SQL.Clear;
-    frmOrderItemsMaintenance.fdqQueries.SQL.Text :=
+  	Frm_CadOrderItems.FDQ_Queries.SQL.Clear;
+    Frm_CadOrderItems.FDQ_Queries.SQL.Text :=
       'SELECT ' +
       'p.description AS "productName", ' +
       'i.quantity AS "quantity" ' +
@@ -227,22 +227,22 @@ begin
       'INNER JOIN products p ON p.product_id = i.product_id ' +
       'WHERE i.product_id = :productId ' +
       'AND i.order_id = :orderId';
-    frmOrderItemsMaintenance.fdqQueries.ParamByName('productId').AsString := productId;
-    frmOrderItemsMaintenance.fdqQueries.ParamByName('orderId').AsString := orderId;
-    frmOrderItemsMaintenance.fdqQueries.Open;
+    Frm_CadOrderItems.FDQ_Queries.ParamByName('productId').AsString := productId;
+    Frm_CadOrderItems.FDQ_Queries.ParamByName('orderId').AsString := orderId;
+    Frm_CadOrderItems.FDQ_Queries.Open;
 
-    productName := frmOrderItemsMaintenance.fdqQueries.FieldByName('productName').AsString;
-    quantity := frmOrderItemsMaintenance.fdqQueries.FieldByName('quantity').AsInteger;
+    productName := Frm_CadOrderItems.FDQ_Queries.FieldByName('productName').AsString;
+    quantity := Frm_CadOrderItems.FDQ_Queries.FieldByName('quantity').AsInteger;
   end
   else
 	begin
-		productName := frmOrdersMaintenance.dbgOrderItems.Fields[1].AsString;
-    quantity := frmOrdersMaintenance.dbgOrderItems.Fields[2].AsInteger;
+		productName := Frm_CadOrders.DBG_OrderItems.Fields[1].AsString;
+    quantity := Frm_CadOrders.DBG_OrderItems.Fields[2].AsInteger;
   end;
 
-  frmOrderItemsMaintenance.edtProductCode.Text := productId;
-  frmOrderItemsMaintenance.edtProductName.Text := productName;
-  frmOrderItemsMaintenance.edtQuantity.Text := IntToStr(quantity);
+  Frm_CadOrderItems.E_ProductCode.Text := productId;
+  Frm_CadOrderItems.E_ProductName.Text := productName;
+  Frm_CadOrderItems.E_Quantity.Text := IntToStr(quantity);
 end;
 
 end.

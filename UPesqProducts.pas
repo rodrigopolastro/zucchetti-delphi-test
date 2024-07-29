@@ -1,4 +1,4 @@
-unit UPesqProducts;
+Ôªøunit UPesqProducts;
 
 interface
 
@@ -9,9 +9,9 @@ uses
   FireDAC.Phys.Intf, FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Stan.Async,
   FireDAC.Phys, FireDAC.Phys.Oracle, FireDAC.Phys.OracleDef, FireDAC.VCLUI.Wait,
   FireDAC.Stan.Param, FireDAC.DatS, FireDAC.DApt.Intf, FireDAC.DApt,
-  FireDAC.Comp.DataSet, FireDAC.Comp.Client,
+  FireDAC.Comp.DataSet, FireDAC.Comp.Client;
 
-  UPesqOrders;
+//  UPesqOrders;
 
 type
   TFrm_PesqProducts = class(TForm)
@@ -34,14 +34,15 @@ implementation
 {$R *.dfm}
 
 uses
-	untOrderItemsMaintenance;
+	UCadOrderItems,
+  UPesqOrders;
 
 
 procedure TFrm_PesqProducts.DBG_ProductsDblClick(Sender: TObject);
 begin
-	frmOrderItemsMaintenance.edtProductCode.Text := dbgProducts.Fields[0].AsString;
-  frmOrderItemsMaintenance.edtProductName.Text := dbgProducts.Fields[1].AsString;
-  frmOrderItemsMaintenance.productPrice := dbgProducts.Fields[2].AsFloat;
+	Frm_CadOrderItems.E_ProductCode.Text := DBG_Products.Fields[0].AsString;
+  Frm_CadOrderItems.E_ProductName.Text := DBG_Products.Fields[1].AsString;
+  Frm_CadOrderItems.productPrice := DBG_Products.Fields[2].AsFloat;
   Self.Close;
 end;
 
@@ -50,16 +51,16 @@ procedure TFrm_PesqProducts.FormCreate(Sender: TObject);
 begin
 	productsSQL :=
     'SELECT ' +
-        'product_id AS "CÛdigo do Produto", ' +
-        'description AS "DescriÁ„o", ' +
-        'price AS "Valor Unit·rio" ' +
+        'product_id AS "C√≥digo do Produto", ' +
+        'description AS "Descri√ß√£o", ' +
+        'price AS "Valor Unit√°rio" ' +
       'FROM products';
 
   productsSQL := 'select * from products';
 
-	fdqProducts.SQL.Clear;
-	fdqProducts.SQL.Text := productsSQL;
-  fdqProducts.Open;
+	FDQ_Products.SQL.Clear;
+	FDQ_Products.SQL.Text := productsSQL;
+  FDQ_Products.Open;
 end;
 
 end.

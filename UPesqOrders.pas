@@ -71,25 +71,25 @@ procedure ShowHideSearchComponents(searchField: String);
 begin
   if searchField = 'Todos' then
   begin
-    Frm_Orders.E_SearchText.Visible := False;
-    Frm_Orders.dtpOrderDate.Visible := False;
-    Frm_Orders.B_Search.Visible := False;
-    Frm_Orders.CB_ComparisonOperator.Visible := False;
+    Frm_PesqOrders.E_SearchText.Visible := False;
+    Frm_PesqOrders.dtpOrderDate.Visible := False;
+    Frm_PesqOrders.B_Search.Visible := False;
+    Frm_PesqOrders.CB_ComparisonOperator.Visible := False;
     displayOrders('', '');
   end
   else if searchField = 'Data' then
   begin
-    Frm_Orders.E_SearchText.Visible := False;
-    Frm_Orders.dtpOrderDate.Visible := True;
-    Frm_Orders.B_Search.Visible := True;
-    Frm_Orders.CB_ComparisonOperator.Visible := True;
+    Frm_PesqOrders.E_SearchText.Visible := False;
+    Frm_PesqOrders.dtpOrderDate.Visible := True;
+    Frm_PesqOrders.B_Search.Visible := True;
+    Frm_PesqOrders.CB_ComparisonOperator.Visible := True;
   end
   else //'Valor Total' and 'N�mero'
   begin
-    Frm_Orders.E_SearchText.Visible := True;
-    Frm_Orders.dtpOrderDate.Visible := False;
-    Frm_Orders.B_Search.Visible := True;
-    Frm_Orders.CB_ComparisonOperator.Visible := True;
+    Frm_PesqOrders.E_SearchText.Visible := True;
+    Frm_PesqOrders.dtpOrderDate.Visible := False;
+    Frm_PesqOrders.B_Search.Visible := True;
+    Frm_PesqOrders.CB_ComparisonOperator.Visible := True;
   end;
 end;
 
@@ -101,7 +101,7 @@ begin
   	ordersWhereSQL  :=
     	'WHERE o.order_id ' +
     	comparisonOperator + ' ' +
-      Frm_Orders.E_SearchText.Text;
+      Frm_PesqOrders.E_SearchText.Text;
     ordersHavingSQL := '';
   end
 	else if searchField = 'Valor Total' then
@@ -110,14 +110,14 @@ begin
     ordersHavingSQL :=
     	'HAVING SUM(i.quantity * p.price) ' +
     	comparisonOperator + ' ' +
-      StringReplace(Frm_Orders.E_SearchText.Text, ',', '.', []);
+      StringReplace(Frm_PesqOrders.E_SearchText.Text, ',', '.', []);
   end
   else if searchField = 'Data' then
   begin
   	ordersWhereSQL :=
     	'WHERE o.order_date' +
     	comparisonOperator + ' ' +
-      QuotedStr(DateToStr(Frm_Orders.dtpOrderDate.Date));
+      QuotedStr(DateToStr(Frm_PesqOrders.dtpOrderDate.Date));
     ordersHavingSQL := '';
   end;
 
@@ -130,13 +130,12 @@ begin
   begin
     actionType := 'createOrder';
     currentOrderId := '';
-    Frm_OrdersMaintenance := TFrm_OrdersMaintenance.Create(Self);
-    Frm_OrdersMaintenance.ShowModal;
+    Frm_CadOrders.ShowModal;
   end
   else
   begin
   	actionType := 'createItem';
-    Frm_OrderItems.ShowModal;
+    Frm_CadOrderItems.ShowModal;
   end;
 end;
 
@@ -145,18 +144,19 @@ begin
 	if currentItemProductId.IsEmpty then
   begin
     actionType := 'editOrder';
-    Frm_OrdersMaintenance.ShowModal;
+    Frm_CadOrders.ShowModal;
   end
   else
   begin
   	actionType := 'editItem';
-    frmOrderItemsMaintenance.ShowModal;
+    Frm_CadOrderItems.ShowModal;
   end;
 end;
 
 procedure TFrm_PesqOrders.B_PrintClick(Sender: TObject);
 begin
-	frmGenerateReport.Show;
+showmessage(currentOrderId);
+//	Frm_GenerateReport.Show;
 end;
 
 procedure TFrm_PesqOrders.B_DeleteClick(Sender: TObject);
@@ -164,46 +164,46 @@ begin
 	if currentItemProductId.IsEmpty then
   begin
     actionType := 'deleteOrder';
-    frmConfirmDeletion.ShowModal;
+    Frm_ConfirmDeletion.ShowModal;
   end
   else
   begin
   	actionType := 'deleteItem';
-    frmConfirmDeletion.ShowModal;
+    Frm_ConfirmDeletion.ShowModal;
   end;
 end;
 
 procedure TFrm_PesqOrders.B_SearchClick(Sender: TObject);
 	var searchField, comparisonOperator: String;
 begin
-	searchField := cbbOrderField.Text;
-  comparisonOperator := cbbComparisonOperator.Text;
+	searchField := CB_OrderField.Text;
+  comparisonOperator := CB_ComparisonOperator.Text;
 
   DisplayFilteredOrders(searchField, comparisonOperator);
 
-  fdqOrders.First;
-  currentOrderId := fdqOrders.Fields[0].AsString;
-  displayOrderItems(currentOrderId, fdqItems);
+  FDQ_Orders.First;
+  currentOrderId := FDQ_Orders.Fields[0].AsString;
+  displayOrderItems(currentOrderId, FDQ_Items);
 end;
 
 procedure TFrm_PesqOrders.CB_OrderFieldChange(Sender: TObject);
 var
 	searchField: String;
 begin
-	searchField := Frm_Orders.cbbOrderField.Text;
+	searchField := Frm_PesqOrders.CB_OrderField.Text;
   ShowHideSearchComponents(searchField);
 end;
 
 procedure TFrm_PesqOrders.DBG_ItemsCellClick(Column: TColumn);
 begin
-	currentItemProductId := Frm_Orders.dbgItems.Fields[0].AsString;
+	currentItemProductId := Frm_PesqOrders.DBG_Items.Fields[0].AsString;
 end;
 
 procedure TFrm_PesqOrders.DBG_OrdersCellClick(Column: TColumn);
 begin
 	currentItemProductId := '';
-	currentOrderId := Frm_Orders.dbgOrders.Fields[0].AsString;
-	displayOrderItems(currentOrderId, Frm_Orders.fdqItems);
+	currentOrderId := Frm_PesqOrders.DBG_Orders.Fields[0].AsString;
+	displayOrderItems(currentOrderId, Frm_PesqOrders.FDQ_Items);
 end;
 
 procedure TFrm_PesqOrders.dtsItemsUpdateData(Sender: TObject; Field: TField);
@@ -213,13 +213,13 @@ end;
 
 procedure TFrm_PesqOrders.FormCreate(Sender: TObject);
 begin
-	dtpOrderDate.Top := edtSearchText.Top;
-  dtpOrderDate.Left := edtSearchText.Left;
+	dtpOrderDate.Top := E_SearchText.Top;
+  dtpOrderDate.Left := E_SearchText.Left;
 
 	displayOrders('', '');
-  Frm_Orders.dbgOrders.DataSource.DataSet.First;
-  currentOrderId := Frm_Orders.dbgOrders.Fields[0].AsString;
-  displayOrderItems(currentOrderId, Frm_Orders.fdqItems);
+  Frm_PesqOrders.DBG_Orders.DataSource.DataSet.First;
+  currentOrderId := Frm_PesqOrders.DBG_Orders.Fields[0].AsString;
+  displayOrderItems(currentOrderId, Frm_PesqOrders.FDQ_Items);
 end;
 
 

@@ -11,9 +11,9 @@ uses
   FireDAC.Stan.Param, FireDAC.DatS, FireDAC.DApt.Intf, FireDAC.DApt,
   FireDAC.Comp.DataSet, FireDAC.Comp.Client, Vcl.Grids, Vcl.DBGrids, ppCtrls,
   ppBands, ppClass, ppPrnabl, ppDesignLayer, ppCache, ppDB, ppParameter, ppProd,
-  ppReport, ppComm, ppRelatv, ppDBPipe,
+  ppReport, ppComm, ppRelatv, ppDBPipe;
 
-  UPesqOrders;
+//  UPesqOrders;
 
 type
   TFrm_GenerateReport = class(TForm)
@@ -66,6 +66,9 @@ var
 
 implementation
 
+uses
+	UPesqOrders;
+
 {$R *.dfm}
 
 procedure DisplayItems();
@@ -82,7 +85,7 @@ end;
 
 procedure TFrm_GenerateReport.B_GenerateClick(Sender: TObject);
 begin
-	frmGenerateReport.ppReport.PrintReport;
+	Frm_GenerateReport.PR_Report.PrintReport;
 end;
 
 procedure TFrm_GenerateReport.FormShow(Sender: TObject);

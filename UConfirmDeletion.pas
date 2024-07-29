@@ -1,4 +1,4 @@
-unit UConfirmDeletion;
+ï»¿unit UConfirmDeletion;
 
 interface
 
@@ -39,37 +39,37 @@ uses
 
 procedure TFrm_ConfirmDeletion.FormShow(Sender: TObject);
 begin
-  if frmOrders.actionType = 'deleteOrder' then
-    lblMessage.Caption := 'Tem certeza que deseja excluir o Pedido Nº ' +
-      frmOrders.currentOrderId + '?'
-  else if (frmOrders.actionType = 'deleteItem') or
-          (frmOrdersMaintenance.secActionType = 'deleteItem') then
-    lblMessage.Caption := 'Tem certeza que deseja excluir o Produto de Código ' +
-      frmOrders.currentItemProductId +
-      ' do Pedido Nº ' + frmOrders.currentOrderId + '?'
+  if Frm_PesqOrders.actionType = 'deleteOrder' then
+    L_Message.Caption := 'Tem certeza que deseja excluir o Pedido NÂº ' +
+      Frm_PesqOrders.currentOrderId + '?'
+  else if (Frm_PesqOrders.actionType = 'deleteItem') or
+          (Frm_CadOrders.secActionType = 'deleteItem') then
+    L_Message.Caption := 'Tem certeza que deseja excluir o Produto de CÃ³digo ' +
+      Frm_PesqOrders.currentItemProductId +
+      ' do Pedido NÂº ' + Frm_PesqOrders.currentOrderId + '?'
 end;
 
 procedure TFrm_ConfirmDeletion.B_DeleteClick(Sender: TObject);
 begin
-  if frmOrders.actionType = 'deleteOrder' then
+  if Frm_PesqOrders.actionType = 'deleteOrder' then
   begin
-    DeleteOrder(frmOrders.currentOrderId);
-	  ShowMessage('Pedido excluído.');
-    frmOrders.dbgOrders.DataSource.DataSet.Refresh;
-    frmOrders.dbgOrders.DataSource.DataSet.First;
-    frmOrders.currentOrderId :=
-    	frmOrders.dbgOrders.DataSource.DataSet.Fields[0].AsString;
-    DisplayOrderItems(frmOrders.currentOrderId, frmOrders.fdqItems);
+    DeleteOrder(Frm_PesqOrders.currentOrderId);
+	  ShowMessage('Pedido excluÃ­do.');
+    Frm_PesqOrders.DBG_Orders.DataSource.DataSet.Refresh;
+    Frm_PesqOrders.DBG_Orders.DataSource.DataSet.First;
+    Frm_PesqOrders.currentOrderId :=
+    	Frm_PesqOrders.DBG_Orders.DataSource.DataSet.Fields[0].AsString;
+    DisplayOrderItems(Frm_PesqOrders.currentOrderId, Frm_PesqOrders.FDQ_Items);
   end
-  else if (frmOrders.actionType = 'deleteItem') or
-          (frmOrdersMaintenance.secActionType = 'deleteItem') then
+  else if (Frm_PesqOrders.actionType = 'deleteItem') or
+          (Frm_CadOrders.secActionType = 'deleteItem') then
   begin
   	DeleteItem(
-    	frmOrders.currentOrderId,
-    	frmOrders.currentItemProductId
+    	Frm_PesqOrders.currentOrderId,
+    	Frm_PesqOrders.currentItemProductId
     );
-    ShowMessage('Item excluído.');
-    frmOrders.dbgItems.DataSource.DataSet.Refresh;
+    ShowMessage('Item excluÃ­do.');
+    Frm_PesqOrders.DBG_Items.DataSource.DataSet.Refresh;
   end;
   Self.Close;
 end;

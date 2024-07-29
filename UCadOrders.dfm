@@ -116,6 +116,7 @@ object Frm_CadOrders: TFrm_CadOrders
     OnClick = B_CancelClick
   end
   object FDQ_OrderItems: TFDQuery
+    Connection = Frm_PesqOrders.FDC_DatabaseConnection
     Left = 128
     Top = 251
   end
@@ -125,6 +126,7 @@ object Frm_CadOrders: TFrm_CadOrders
     Top = 251
   end
   object FDQ_Queries: TFDQuery
+    Connection = Frm_PesqOrders.FDC_DatabaseConnection
     Left = 360
     Top = 251
   end

@@ -46,6 +46,7 @@ object Frm_GenerateReport: TFrm_GenerateReport
     TitleFont.Style = []
   end
   object FDQ_Items: TFDQuery
+    Connection = Frm_PesqOrders.FDC_DatabaseConnection
     SQL.Strings = (
       'SELECT '
       'i.order_id AS "N'#186' do Pedido", '

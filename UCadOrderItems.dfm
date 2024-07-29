@@ -11,6 +11,7 @@ object Frm_CadOrderItems: TFrm_CadOrderItems
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = True
+  OnClose = FormClose
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
@@ -87,6 +88,7 @@ object Frm_CadOrderItems: TFrm_CadOrderItems
     OnClick = B_CancelClick
   end
   object FDQ_Queries: TFDQuery
+    Connection = Frm_PesqOrders.FDC_DatabaseConnection
     SQL.Strings = (
       '')
     Left = 184
