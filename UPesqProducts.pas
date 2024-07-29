@@ -1,4 +1,4 @@
-unit untProducts;
+unit UPesqProducts;
 
 interface
 
@@ -11,14 +11,14 @@ uses
   FireDAC.Stan.Param, FireDAC.DatS, FireDAC.DApt.Intf, FireDAC.DApt,
   FireDAC.Comp.DataSet, FireDAC.Comp.Client,
 
-  untOrders;
+  UPesqOrders;
 
 type
-  TfrmProducts = class(TForm)
-    dbgProducts: TDBGrid;
-    fdqProducts: TFDQuery;
-    dtsProducts: TDataSource;
-    procedure dbgProductsDblClick(Sender: TObject);
+  TFrm_PesqProducts = class(TForm)
+    DBG_Products: TDBGrid;
+    FDQ_Products: TFDQuery;
+    DS_Products: TDataSource;
+    procedure DBG_ProductsDblClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
@@ -27,7 +27,7 @@ type
   end;
 
 var
-  frmProducts: TfrmProducts;
+  Frm_PesqProducts: TFrm_PesqProducts;
 
 implementation
 
@@ -37,7 +37,7 @@ uses
 	untOrderItemsMaintenance;
 
 
-procedure TfrmProducts.dbgProductsDblClick(Sender: TObject);
+procedure TFrm_PesqProducts.DBG_ProductsDblClick(Sender: TObject);
 begin
 	frmOrderItemsMaintenance.edtProductCode.Text := dbgProducts.Fields[0].AsString;
   frmOrderItemsMaintenance.edtProductName.Text := dbgProducts.Fields[1].AsString;
@@ -45,7 +45,7 @@ begin
   Self.Close;
 end;
 
-procedure TfrmProducts.FormCreate(Sender: TObject);
+procedure TFrm_PesqProducts.FormCreate(Sender: TObject);
 	var productsSQL: String;
 begin
 	productsSQL :=

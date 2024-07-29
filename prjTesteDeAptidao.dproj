@@ -101,29 +101,29 @@
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
-        <DCCReference Include="untOrders.pas">
-            <Form>frmOrders</Form>
+        <DCCReference Include="UPesqOrders.pas">
+            <Form>Frm_PesqOrders</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="untOrdersMaintenance.pas">
-            <Form>frmOrdersMaintenance</Form>
+        <DCCReference Include="UCadOrders.pas">
+            <Form>Frm_CadOrders</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="untOrderItemsMaintenance.pas">
-            <Form>frmOrderItemsMaintenance</Form>
+        <DCCReference Include="UCadOrderItems.pas">
+            <Form>Frm_CadOrderItems</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="untProducts.pas">
-            <Form>frmProducts</Form>
+        <DCCReference Include="UPesqProducts.pas">
+            <Form>Frm_PesqProducts</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="untBackendFunctions.pas"/>
-        <DCCReference Include="untConfirmDeletion.pas">
-            <Form>frmConfirmDeletion</Form>
+        <DCCReference Include="UBackendFunctions.pas"/>
+        <DCCReference Include="UConfirmDeletion.pas">
+            <Form>Frm_ConfirmDeletion</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="untGenerateReport.pas">
-            <Form>frmGenerateReport</Form>
+        <DCCReference Include="UGenerateReport.pas">
+            <Form>Frm_GenerateReport</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <BuildConfiguration Include="Release">

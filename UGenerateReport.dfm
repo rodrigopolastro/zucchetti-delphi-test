@@ -1,7 +1,7 @@
-object frmGenerateReport: TfrmGenerateReport
+object Frm_GenerateReport: TFrm_GenerateReport
   Left = 0
   Top = 0
-  Caption = 'frmGenerateReport'
+  Caption = 'Frm_GenerateReport'
   ClientHeight = 372
   ClientWidth = 703
   Color = clBtnFace
@@ -14,30 +14,30 @@ object frmGenerateReport: TfrmGenerateReport
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
-  object btnGenerate: TButton
+  object B_Generate: TButton
     Left = 477
     Top = 296
     Width = 99
     Height = 41
     Caption = 'Gerar Relat'#243'rio'
     TabOrder = 0
-    OnClick = btnGenerateClick
+    OnClick = B_GenerateClick
   end
-  object btnCancel: TButton
+  object B_Cancel: TButton
     Left = 582
     Top = 296
     Width = 99
     Height = 41
     Caption = 'Cancelar'
     TabOrder = 1
-    OnClick = btnCancelClick
+    OnClick = B_CancelClick
   end
-  object dbgItems: TDBGrid
+  object DBG_Items: TDBGrid
     Left = 8
     Top = 24
     Width = 673
     Height = 257
-    DataSource = dtsItems
+    DataSource = DS_Items
     TabOrder = 2
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText
@@ -45,8 +45,7 @@ object frmGenerateReport: TfrmGenerateReport
     TitleFont.Name = 'Tahoma'
     TitleFont.Style = []
   end
-  object fdqItems: TFDQuery
-    Connection = frmOrders.fdcDatabaseConnection
+  object FDQ_Items: TFDQuery
     SQL.Strings = (
       'SELECT '
       'i.order_id AS "N'#186' do Pedido", '
@@ -60,23 +59,23 @@ object frmGenerateReport: TfrmGenerateReport
       'INNER JOIN products p ON p.product_id = i.product_id '
       'INNER JOIN orders o ON o.order_id = i.order_id'
       'ORDER BY i.order_id, i.product_id')
-    Left = 160
-    Top = 299
+    Left = 56
+    Top = 307
   end
-  object dtsItems: TDataSource
-    DataSet = fdqItems
-    Left = 232
-    Top = 299
+  object DS_Items: TDataSource
+    DataSet = FDQ_Items
+    Left = 128
+    Top = 307
   end
-  object ppDBPipeline: TppDBPipeline
-    DataSource = dtsItems
-    UserName = 'DBPipeline'
-    Left = 288
-    Top = 296
+  object PDB_DatabasePipeline: TppDBPipeline
+    DataSource = DS_Items
+    UserName = 'PDB_DatabasePipeline'
+    Left = 216
+    Top = 304
   end
-  object ppReport: TppReport
+  object PR_Report: TppReport
     AutoStop = False
-    DataPipeline = ppDBPipeline
+    DataPipeline = PDB_DatabasePipeline
     PrinterSetup.BinName = 'Default'
     PrinterSetup.DocumentName = 'Report'
     PrinterSetup.PaperName = 'A4'
@@ -135,11 +134,11 @@ object frmGenerateReport: TfrmGenerateReport
     XLSSettings.Subject = 'Report'
     XLSSettings.Title = 'Report'
     XLSSettings.WorksheetName = 'Report'
-    Left = 344
+    Left = 320
     Top = 304
     Version = '20.02'
     mmColumnWidth = 0
-    DataPipelineName = 'ppDBPipeline'
+    DataPipelineName = 'PDB_DatabasePipeline'
     object ppHeaderBand1: TppHeaderBand
       Background.Brush.Style = bsClear
       Border.mmPadding = 0
@@ -190,14 +189,14 @@ object frmGenerateReport: TfrmGenerateReport
         UserName = 'DBText3'
         Border.mmPadding = 0
         DataField = 'C'#243'd. Produto'
-        DataPipeline = ppDBPipeline
+        DataPipeline = PDB_DatabasePipeline
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
         Font.Name = 'Arial'
         Font.Size = 12
         Font.Style = []
         Transparent = True
-        DataPipelineName = 'ppDBPipeline'
+        DataPipelineName = 'PDB_DatabasePipeline'
         mmHeight = 4763
         mmLeft = 18256
         mmTop = 3440
@@ -210,14 +209,14 @@ object frmGenerateReport: TfrmGenerateReport
         UserName = 'DBText4'
         Border.mmPadding = 0
         DataField = 'Descri'#231#227'o do Produto'
-        DataPipeline = ppDBPipeline
+        DataPipeline = PDB_DatabasePipeline
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
         Font.Name = 'Arial'
         Font.Size = 12
         Font.Style = []
         Transparent = True
-        DataPipelineName = 'ppDBPipeline'
+        DataPipelineName = 'PDB_DatabasePipeline'
         mmHeight = 4763
         mmLeft = 40481
         mmTop = 3440
@@ -230,14 +229,14 @@ object frmGenerateReport: TfrmGenerateReport
         UserName = 'DBText5'
         Border.mmPadding = 0
         DataField = 'Valor Unit'#225'rio'
-        DataPipeline = ppDBPipeline
+        DataPipeline = PDB_DatabasePipeline
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
         Font.Name = 'Arial'
         Font.Size = 12
         Font.Style = []
         Transparent = True
-        DataPipelineName = 'ppDBPipeline'
+        DataPipelineName = 'PDB_DatabasePipeline'
         mmHeight = 4763
         mmLeft = 107421
         mmTop = 3440
@@ -250,14 +249,14 @@ object frmGenerateReport: TfrmGenerateReport
         UserName = 'DBText8'
         Border.mmPadding = 0
         DataField = 'Quantidade'
-        DataPipeline = ppDBPipeline
+        DataPipeline = PDB_DatabasePipeline
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
         Font.Name = 'Arial'
         Font.Size = 12
         Font.Style = []
         Transparent = True
-        DataPipelineName = 'ppDBPipeline'
+        DataPipelineName = 'PDB_DatabasePipeline'
         mmHeight = 4763
         mmLeft = 143140
         mmTop = 3440
@@ -270,14 +269,14 @@ object frmGenerateReport: TfrmGenerateReport
         UserName = 'DBText9'
         Border.mmPadding = 0
         DataField = 'Valor Total'
-        DataPipeline = ppDBPipeline
+        DataPipeline = PDB_DatabasePipeline
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
         Font.Name = 'Arial'
         Font.Size = 12
         Font.Style = []
         Transparent = True
-        DataPipelineName = 'ppDBPipeline'
+        DataPipelineName = 'PDB_DatabasePipeline'
         mmHeight = 4763
         mmLeft = 164307
         mmTop = 3440
@@ -316,7 +315,7 @@ object frmGenerateReport: TfrmGenerateReport
     end
     object ppGroup1: TppGroup
       BreakName = 'N'#186' do Pedido'
-      DataPipeline = ppDBPipeline
+      DataPipeline = PDB_DatabasePipeline
       GroupFileSettings.NewFile = False
       GroupFileSettings.EmailFile = False
       OutlineSettings.CreateNode = True
@@ -325,7 +324,7 @@ object frmGenerateReport: TfrmGenerateReport
       UserName = 'Group1'
       mmNewColumnThreshold = 0
       mmNewPageThreshold = 0
-      DataPipelineName = 'ppDBPipeline'
+      DataPipelineName = 'PDB_DatabasePipeline'
       NewFile = False
       object ppGroupHeaderBand1: TppGroupHeaderBand
         Background.Brush.Style = bsClear
@@ -360,14 +359,14 @@ object frmGenerateReport: TfrmGenerateReport
           UserName = 'DBText1'
           Border.mmPadding = 0
           DataField = 'N'#186' do Pedido'
-          DataPipeline = ppDBPipeline
+          DataPipeline = PDB_DatabasePipeline
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Name = 'Arial'
           Font.Size = 18
           Font.Style = []
           Transparent = True
-          DataPipelineName = 'ppDBPipeline'
+          DataPipelineName = 'PDB_DatabasePipeline'
           mmHeight = 9525
           mmLeft = 47890
           mmTop = 12700
@@ -403,14 +402,14 @@ object frmGenerateReport: TfrmGenerateReport
           UserName = 'DBText2'
           Border.mmPadding = 0
           DataField = 'Data do Pedido'
-          DataPipeline = ppDBPipeline
+          DataPipeline = PDB_DatabasePipeline
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Name = 'Arial'
           Font.Size = 18
           Font.Style = []
           Transparent = True
-          DataPipelineName = 'ppDBPipeline'
+          DataPipelineName = 'PDB_DatabasePipeline'
           mmHeight = 7408
           mmLeft = 150548
           mmTop = 13758

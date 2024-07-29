@@ -1,4 +1,4 @@
-object frmConfirmDeletion: TfrmConfirmDeletion
+object Frm_ConfirmDeletion: TFrm_ConfirmDeletion
   Left = 0
   Top = 0
   Caption = 'Confirmar Exclus'#227'o'
@@ -14,36 +14,29 @@ object frmConfirmDeletion: TfrmConfirmDeletion
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 15
-  object lblMessage: TLabel
+  object L_Message: TLabel
     Left = 96
     Top = 64
-    Width = 59
+    Width = 57
     Height = 15
-    Caption = 'lblMessage'
+    Caption = 'L_Message'
   end
-  object btnDelete: TButton
+  object B_Delete: TButton
     Left = 304
     Top = 136
     Width = 78
     Height = 41
     Caption = 'Excluir'
     TabOrder = 0
-    OnClick = btnDeleteClick
+    OnClick = B_DeleteClick
   end
-  object btnCancel: TButton
+  object B_Cancel: TButton
     Left = 396
     Top = 136
     Width = 75
     Height = 41
     Caption = 'Cancelar'
     TabOrder = 1
-    OnClick = btnCancelClick
-  end
-  object fdqQueries: TFDQuery
-    Connection = frmOrders.fdcDatabaseConnection
-    SQL.Strings = (
-      '')
-    Left = 184
-    Top = 138
+    OnClick = B_CancelClick
   end
 end

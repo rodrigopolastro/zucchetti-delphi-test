@@ -1,4 +1,4 @@
-object frmOrders: TfrmOrders
+object Frm_PesqOrders: TFrm_PesqOrders
   Left = 0
   Top = 0
   Caption = 'Pedidos'
@@ -14,14 +14,14 @@ object frmOrders: TfrmOrders
   OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
-  object lblFilterOrders: TLabel
+  object L_FilterOrders: TLabel
     Left = 26
     Top = 13
     Width = 68
     Height = 13
     Caption = 'Filtrar Pedidos'
   end
-  object lblOrder: TLabel
+  object L_Order: TLabel
     Left = 194
     Top = 13
     Width = 59
@@ -29,16 +29,16 @@ object frmOrders: TfrmOrders
     Caption = 'Ordenar por'
     Visible = False
   end
-  object btnPrint: TButton
+  object B_Print: TButton
     Left = 697
     Top = 399
     Width = 75
     Height = 25
     Caption = 'Imprimir'
     TabOrder = 0
-    OnClick = btnPrintClick
+    OnClick = B_PrintClick
   end
-  object edtSearchText: TEdit
+  object E_SearchText: TEdit
     Left = 71
     Top = 60
     Width = 98
@@ -46,34 +46,34 @@ object frmOrders: TfrmOrders
     TabOrder = 1
     Visible = False
   end
-  object btnCreate: TButton
+  object B_Create: TButton
     Left = 529
     Top = 8
     Width = 75
     Height = 25
     Caption = 'Incluir'
     TabOrder = 2
-    OnClick = btnCreateClick
+    OnClick = B_CreateClick
   end
-  object btnEdit: TButton
+  object B_Edit: TButton
     Left = 610
     Top = 8
     Width = 75
     Height = 25
     Caption = 'Alterar'
     TabOrder = 3
-    OnClick = btnEditClick
+    OnClick = B_EditClick
   end
-  object btnDelete: TButton
+  object B_Delete: TButton
     Left = 691
     Top = 8
     Width = 75
     Height = 25
     Caption = 'Excluir'
     TabOrder = 4
-    OnClick = btnDeleteClick
+    OnClick = B_DeleteClick
   end
-  object btnSearch: TButton
+  object B_Search: TButton
     Left = 175
     Top = 42
     Width = 98
@@ -81,9 +81,9 @@ object frmOrders: TfrmOrders
     Caption = 'Buscar'
     TabOrder = 5
     Visible = False
-    OnClick = btnSearchClick
+    OnClick = B_SearchClick
   end
-  object cbbOrderField: TComboBox
+  object CB_OrderField: TComboBox
     Left = 26
     Top = 32
     Width = 143
@@ -92,19 +92,19 @@ object frmOrders: TfrmOrders
     ItemIndex = 0
     TabOrder = 6
     Text = 'Todos'
-    OnChange = cbbOrderFieldChange
+    OnChange = CB_OrderFieldChange
     Items.Strings = (
       'Todos'
       'N'#250'mero'
       'Valor Total'
       'Data')
   end
-  object dbgItems: TDBGrid
+  object DBG_Items: TDBGrid
     Left = 14
     Top = 231
     Width = 758
     Height = 129
-    DataSource = dtsItems
+    DataSource = DS_Items
     Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
     TabOrder = 7
     TitleFont.Charset = DEFAULT_CHARSET
@@ -112,7 +112,7 @@ object frmOrders: TfrmOrders
     TitleFont.Height = -11
     TitleFont.Name = 'Tahoma'
     TitleFont.Style = []
-    OnCellClick = dbgItemsCellClick
+    OnCellClick = DBG_ItemsCellClick
   end
   object dtpOrderDate: TDateTimePicker
     Left = 71
@@ -124,7 +124,7 @@ object frmOrders: TfrmOrders
     TabOrder = 8
     Visible = False
   end
-  object cbbComparisonOperator: TComboBox
+  object CB_ComparisonOperator: TComboBox
     Left = 26
     Top = 60
     Width = 39
@@ -134,7 +134,7 @@ object frmOrders: TfrmOrders
     TabOrder = 9
     Text = '='
     Visible = False
-    OnChange = cbbOrderFieldChange
+    OnChange = CB_OrderFieldChange
     Items.Strings = (
       '='
       '<>'
@@ -143,12 +143,12 @@ object frmOrders: TfrmOrders
       '>='
       '<=')
   end
-  object dbgOrders: TDBGrid
+  object DBG_Orders: TDBGrid
     Left = 14
     Top = 96
     Width = 758
     Height = 129
-    DataSource = dtsOrders
+    DataSource = DS_Orders
     Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
     TabOrder = 10
     TitleFont.Charset = DEFAULT_CHARSET
@@ -156,9 +156,9 @@ object frmOrders: TfrmOrders
     TitleFont.Height = -11
     TitleFont.Name = 'Tahoma'
     TitleFont.Style = []
-    OnCellClick = dbgOrdersCellClick
+    OnCellClick = DBG_OrdersCellClick
   end
-  object cbbOrderBy: TComboBox
+  object CB_OrderBy: TComboBox
     Left = 194
     Top = 32
     Width = 148
@@ -191,7 +191,7 @@ object frmOrders: TfrmOrders
     TabOrder = 13
     Visible = False
   end
-  object fdcDatabaseConnection: TFDConnection
+  object FDC_DatabaseConnection: TFDConnection
     Params.Strings = (
       'Database=SRV-ORACLE'
       'User_Name=RODRIGO_TESTE'
@@ -201,31 +201,31 @@ object frmOrders: TfrmOrders
     Left = 48
     Top = 416
   end
-  object fdqOrders: TFDQuery
-    Connection = fdcDatabaseConnection
+  object FDQ_Orders: TFDQuery
+    Connection = FDC_DatabaseConnection
     Left = 128
     Top = 392
   end
-  object dtsOrders: TDataSource
-    DataSet = fdqOrders
+  object DS_Orders: TDataSource
+    DataSet = FDQ_Orders
     Left = 208
     Top = 392
   end
-  object fdqItems: TFDQuery
-    Connection = fdcDatabaseConnection
+  object FDQ_Items: TFDQuery
+    Connection = FDC_DatabaseConnection
     SQL.Strings = (
       ''
       '')
     Left = 128
     Top = 448
   end
-  object dtsItems: TDataSource
-    DataSet = fdqItems
+  object DS_Items: TDataSource
+    DataSet = FDQ_Items
     Left = 208
     Top = 448
   end
-  object fdqActionQueries: TFDQuery
-    Connection = fdcDatabaseConnection
+  object FDQ_ActionQueries: TFDQuery
+    Connection = FDC_DatabaseConnection
     Left = 344
     Top = 424
   end

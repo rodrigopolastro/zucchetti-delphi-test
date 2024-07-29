@@ -1,4 +1,4 @@
-unit untBackendFunctions;
+unit UBackendFunctions;
 
 interface
 
@@ -24,10 +24,10 @@ procedure DisplayItemInfo(orderId, productId: String);
 implementation
 
 uses
-  untOrders,
-  untOrdersMaintenance,
-  untOrderItemsMaintenance,
-  untConfirmDeletion;
+  UPesqOrders,
+  UCadOrders,
+  UCadOrderItems,
+  UConfirmDeletion;
 
 function DoesOrderContainProduct(orderId, productId: String): Boolean;
 var query: TFDQuery;

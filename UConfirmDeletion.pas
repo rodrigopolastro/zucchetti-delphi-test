@@ -1,4 +1,4 @@
-unit untConfirmDeletion;
+unit UConfirmDeletion;
 
 interface
 
@@ -12,13 +12,12 @@ uses
   FireDAC.Comp.Client, FireDAC.Comp.DataSet;
 
 type
-  TfrmConfirmDeletion = class(TForm)
-    lblMessage: TLabel;
-    btnDelete: TButton;
-    btnCancel: TButton;
-    fdqQueries: TFDQuery;
-    procedure btnDeleteClick(Sender: TObject);
-    procedure btnCancelClick(Sender: TObject);
+  TFrm_ConfirmDeletion = class(TForm)
+    L_Message: TLabel;
+    B_Delete: TButton;
+    B_Cancel: TButton;
+    procedure B_DeleteClick(Sender: TObject);
+    procedure B_CancelClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
   private
     { Private declarations }
@@ -27,18 +26,18 @@ type
   end;
 
 var
-  frmConfirmDeletion: TfrmConfirmDeletion;
+  Frm_ConfirmDeletion: TFrm_ConfirmDeletion;
 
 implementation
 
 {$R *.dfm}
 
 uses
-	untBackendFunctions,
-  untOrders,
-  untOrdersMaintenance;
+	UBackendFunctions,
+  UPesqOrders,
+  UCadOrders;
 
-procedure TfrmConfirmDeletion.FormShow(Sender: TObject);
+procedure TFrm_ConfirmDeletion.FormShow(Sender: TObject);
 begin
   if frmOrders.actionType = 'deleteOrder' then
     lblMessage.Caption := 'Tem certeza que deseja excluir o Pedido Nº ' +
@@ -50,7 +49,7 @@ begin
       ' do Pedido Nº ' + frmOrders.currentOrderId + '?'
 end;
 
-procedure TfrmConfirmDeletion.btnDeleteClick(Sender: TObject);
+procedure TFrm_ConfirmDeletion.B_DeleteClick(Sender: TObject);
 begin
   if frmOrders.actionType = 'deleteOrder' then
   begin
@@ -75,7 +74,7 @@ begin
   Self.Close;
 end;
 
-procedure TfrmConfirmDeletion.btnCancelClick(Sender: TObject);
+procedure TFrm_ConfirmDeletion.B_CancelClick(Sender: TObject);
 begin
   Self.Close;
 end;

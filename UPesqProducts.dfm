@@ -1,4 +1,4 @@
-object frmProducts: TfrmProducts
+object Frm_PesqProducts: TFrm_PesqProducts
   Left = 0
   Top = 0
   Caption = 'Produtos'
@@ -14,12 +14,12 @@ object frmProducts: TfrmProducts
   OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
-  object dbgProducts: TDBGrid
+  object DBG_Products: TDBGrid
     Left = 8
     Top = 8
     Width = 575
     Height = 279
-    DataSource = dtsProducts
+    DataSource = DS_Products
     Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
     ReadOnly = True
     TabOrder = 0
@@ -28,15 +28,15 @@ object frmProducts: TfrmProducts
     TitleFont.Height = -11
     TitleFont.Name = 'Tahoma'
     TitleFont.Style = []
-    OnDblClick = dbgProductsDblClick
+    OnDblClick = DBG_ProductsDblClick
   end
-  object fdqProducts: TFDQuery
-    Connection = frmOrders.fdcDatabaseConnection
+  object FDQ_Products: TFDQuery
+    Connection = Frm_PesqOrders.FDC_DatabaseConnection
     Left = 168
     Top = 176
   end
-  object dtsProducts: TDataSource
-    DataSet = fdqProducts
+  object DS_Products: TDataSource
+    DataSet = FDQ_Products
     Left = 248
     Top = 184
   end

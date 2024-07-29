@@ -1,4 +1,4 @@
-unit untGenerateReport;
+unit UGenerateReport;
 
 interface
 
@@ -13,17 +13,17 @@ uses
   ppBands, ppClass, ppPrnabl, ppDesignLayer, ppCache, ppDB, ppParameter, ppProd,
   ppReport, ppComm, ppRelatv, ppDBPipe,
 
-  untOrders;
+  UPesqOrders;
 
 type
-  TfrmGenerateReport = class(TForm)
-    btnGenerate: TButton;
-    btnCancel: TButton;
-    dbgItems: TDBGrid;
-    fdqItems: TFDQuery;
-    dtsItems: TDataSource;
-    ppDBPipeline: TppDBPipeline;
-    ppReport: TppReport;
+  TFrm_GenerateReport = class(TForm)
+    B_Generate: TButton;
+    B_Cancel: TButton;
+    DBG_Items: TDBGrid;
+    FDQ_Items: TFDQuery;
+    DS_Items: TDataSource;
+    PDB_DatabasePipeline: TppDBPipeline;
+    PR_Report: TppReport;
     ppParameterList1: TppParameterList;
     ppHeaderBand1: TppHeaderBand;
     ppDetailBand1: TppDetailBand;
@@ -52,9 +52,9 @@ type
     ppLabel4: TppLabel;
     ppShape2: TppShape;
     ppLabel9: TppLabel;
-    procedure btnCancelClick(Sender: TObject);
+    procedure B_CancelClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
-    procedure btnGenerateClick(Sender: TObject);
+    procedure B_GenerateClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -62,7 +62,7 @@ type
   end;
 
 var
-  frmGenerateReport: TfrmGenerateReport;
+  Frm_GenerateReport: TFrm_GenerateReport;
 
 implementation
 
@@ -75,17 +75,17 @@ begin
 
 end;
 
-procedure TfrmGenerateReport.btnCancelClick(Sender: TObject);
+procedure TFrm_GenerateReport.B_CancelClick(Sender: TObject);
 begin
 	Self.Close;
 end;
 
-procedure TfrmGenerateReport.btnGenerateClick(Sender: TObject);
+procedure TFrm_GenerateReport.B_GenerateClick(Sender: TObject);
 begin
 	frmGenerateReport.ppReport.PrintReport;
 end;
 
-procedure TfrmGenerateReport.FormShow(Sender: TObject);
+procedure TFrm_GenerateReport.FormShow(Sender: TObject);
 begin
 //  DisplayItems();
 end;

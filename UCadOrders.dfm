@@ -1,4 +1,4 @@
-object frmOrdersMaintenance: TfrmOrdersMaintenance
+object Frm_CadOrders: TFrm_CadOrders
   Left = 0
   Top = 0
   Caption = 'Manuten'#231#227'o de Pedidos'
@@ -15,28 +15,28 @@ object frmOrdersMaintenance: TfrmOrdersMaintenance
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
-  object lblOrderNumber: TLabel
+  object L_OrderNumber: TLabel
     Left = 24
     Top = 32
     Width = 62
     Height = 13
     Caption = 'N'#186' do Pedido'
   end
-  object lblOrderDate: TLabel
+  object L_OrderDate: TLabel
     Left = 208
     Top = 32
     Width = 23
     Height = 13
     Caption = 'Data'
   end
-  object lblItens: TLabel
+  object L_Items: TLabel
     Left = 274
     Top = 72
     Width = 25
     Height = 13
     Caption = 'Itens'
   end
-  object edtOrderNumber: TEdit
+  object E_OrderNumber: TEdit
     Left = 92
     Top = 29
     Width = 93
@@ -44,9 +44,9 @@ object frmOrdersMaintenance: TfrmOrdersMaintenance
     Enabled = False
     ReadOnly = True
     TabOrder = 0
-    Text = 'edtOrderNumber'
+    Text = 'E_OrderNumber'
   end
-  object dtpOrderDate: TDateTimePicker
+  object DTP_OrderDate: TDateTimePicker
     Left = 237
     Top = 29
     Width = 102
@@ -55,39 +55,39 @@ object frmOrdersMaintenance: TfrmOrdersMaintenance
     Time = 0.250000000000000000
     TabOrder = 1
   end
-  object btnCreate: TButton
+  object B_Create: TButton
     Left = 361
     Top = 67
     Width = 75
     Height = 25
     Caption = 'Incluir'
     TabOrder = 2
-    OnClick = btnCreateClick
+    OnClick = B_CreateClick
   end
-  object btnUpdate: TButton
+  object B_Update: TButton
     Left = 442
     Top = 67
     Width = 75
     Height = 25
     Caption = 'Alterar'
     TabOrder = 3
-    OnClick = btnUpdateClick
+    OnClick = B_UpdateClick
   end
-  object btnDelete: TButton
+  object B_Delete: TButton
     Left = 523
     Top = 67
     Width = 75
     Height = 25
     Caption = 'Excluir'
     TabOrder = 4
-    OnClick = btnDeleteClick
+    OnClick = B_DeleteClick
   end
-  object dbgOrderItems: TDBGrid
+  object DBG_OrderItems: TDBGrid
     Left = 24
     Top = 120
     Width = 689
     Height = 120
-    DataSource = dtsOrderItems
+    DataSource = DS_OrderItems
     Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
     TabOrder = 5
     TitleFont.Charset = DEFAULT_CHARSET
@@ -95,38 +95,36 @@ object frmOrdersMaintenance: TfrmOrdersMaintenance
     TitleFont.Height = -11
     TitleFont.Name = 'Tahoma'
     TitleFont.Style = []
-    OnCellClick = dbgOrderItemsCellClick
+    OnCellClick = DBG_OrderItemsCellClick
   end
-  object btnSave: TButton
+  object B_Save: TButton
     Left = 442
     Top = 256
     Width = 75
     Height = 25
     Caption = 'Salvar'
     TabOrder = 6
-    OnClick = btnSaveClick
+    OnClick = B_SaveClick
   end
-  object btnCancel: TButton
+  object B_Cancel: TButton
     Left = 523
     Top = 256
     Width = 75
     Height = 25
     Caption = 'Cancelar'
     TabOrder = 7
-    OnClick = btnCancelClick
+    OnClick = B_CancelClick
   end
-  object fdqOrderItems: TFDQuery
-    Connection = frmOrders.fdcDatabaseConnection
-    Left = 160
+  object FDQ_OrderItems: TFDQuery
+    Left = 128
     Top = 251
   end
-  object dtsOrderItems: TDataSource
-    DataSet = fdqOrderItems
-    Left = 248
+  object DS_OrderItems: TDataSource
+    DataSet = FDQ_OrderItems
+    Left = 224
     Top = 251
   end
-  object fdqQueries: TFDQuery
-    Connection = frmOrders.fdcDatabaseConnection
+  object FDQ_Queries: TFDQuery
     Left = 360
     Top = 251
   end

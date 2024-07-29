@@ -1,6 +1,7 @@
-object frmOrderItemsMaintenance: TfrmOrderItemsMaintenance
+object Frm_CadOrderItems: TFrm_CadOrderItems
   Left = 0
   Top = 0
+  Caption = 'Manuten'#231#227'o de Itens'
   ClientHeight = 289
   ClientWidth = 494
   Color = clBtnFace
@@ -13,45 +14,45 @@ object frmOrderItemsMaintenance: TfrmOrderItemsMaintenance
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
-  object lblTitle: TLabel
+  object L_Title: TLabel
     Left = 144
     Top = 16
     Width = 155
     Height = 13
     Caption = 'Selecione os produtos do pedido'
   end
-  object lblProductCode: TLabel
+  object L_ProductCode: TLabel
     Left = 32
     Top = 71
     Width = 89
     Height = 13
     Caption = 'C'#243'digo do Produto'
   end
-  object lblQuantity: TLabel
+  object L_Quantity: TLabel
     Left = 32
     Top = 111
     Width = 56
     Height = 13
     Caption = 'Quantidade'
   end
-  object edtProductCode: TEdit
+  object E_ProductCode: TEdit
     Left = 127
     Top = 68
     Width = 49
     Height = 21
     TabOrder = 0
-    OnExit = edtProductCodeExit
+    OnExit = E_ProductCodeExit
   end
-  object btnShowProducts: TButton
+  object B_ShowProducts: TButton
     Left = 182
     Top = 68
     Width = 26
     Height = 21
     Caption = '...'
     TabOrder = 1
-    OnClick = btnShowProductsClick
+    OnClick = B_ShowProductsClick
   end
-  object edtProductName: TEdit
+  object E_ProductName: TEdit
     Left = 214
     Top = 68
     Width = 272
@@ -59,16 +60,16 @@ object frmOrderItemsMaintenance: TfrmOrderItemsMaintenance
     ReadOnly = True
     TabOrder = 2
   end
-  object btnSave: TButton
+  object B_Save: TButton
     Left = 330
     Top = 135
     Width = 72
     Height = 31
     Caption = 'Salvar'
     TabOrder = 3
-    OnClick = btnSaveClick
+    OnClick = B_SaveClick
   end
-  object edtQuantity: TEdit
+  object E_Quantity: TEdit
     Left = 94
     Top = 108
     Width = 56
@@ -76,17 +77,16 @@ object frmOrderItemsMaintenance: TfrmOrderItemsMaintenance
     NumbersOnly = True
     TabOrder = 4
   end
-  object btnCancel: TButton
+  object B_Cancel: TButton
     Left = 408
     Top = 135
     Width = 72
     Height = 31
     Caption = 'Cancelar'
     TabOrder = 5
-    OnClick = btnCancelClick
+    OnClick = B_CancelClick
   end
-  object fdqQueries: TFDQuery
-    Connection = frmOrders.fdcDatabaseConnection
+  object FDQ_Queries: TFDQuery
     SQL.Strings = (
       '')
     Left = 184

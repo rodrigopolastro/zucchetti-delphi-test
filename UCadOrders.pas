@@ -1,4 +1,4 @@
-unit untOrdersMaintenance;
+unit UCadOrders;
 
 interface
 
@@ -16,29 +16,29 @@ uses
   untConfirmDeletion;
 
 type
-  TfrmOrdersMaintenance = class(TForm)
-    edtOrderNumber: TEdit;
-    lblOrderNumber: TLabel;
-    lblOrderDate: TLabel;
-    dtpOrderDate: TDateTimePicker;
-    lblItens: TLabel;
-    btnCreate: TButton;
-    btnUpdate: TButton;
-    btnDelete: TButton;
-    dbgOrderItems: TDBGrid;
-    btnSave: TButton;
-    btnCancel: TButton;
-    fdqOrderItems: TFDQuery;
-    dtsOrderItems: TDataSource;
-    fdqQueries: TFDQuery;
+  TFrm_CadOrders = class(TForm)
+    E_OrderNumber: TEdit;
+    L_OrderNumber: TLabel;
+    L_OrderDate: TLabel;
+    DTP_OrderDate: TDateTimePicker;
+    L_Items: TLabel;
+    B_Create: TButton;
+    B_Update: TButton;
+    B_Delete: TButton;
+    DBG_OrderItems: TDBGrid;
+    B_Save: TButton;
+    B_Cancel: TButton;
+    FDQ_OrderItems: TFDQuery;
+    DS_OrderItems: TDataSource;
+    FDQ_Queries: TFDQuery;
     procedure FormShow(Sender: TObject);
-    procedure btnSaveClick(Sender: TObject);
-    procedure btnCreateClick(Sender: TObject);
-    procedure btnCancelClick(Sender: TObject);
-    procedure dbgOrderItemsCellClick(Column: TColumn);
-    procedure btnUpdateClick(Sender: TObject);
+    procedure B_SaveClick(Sender: TObject);
+    procedure B_CreateClick(Sender: TObject);
+    procedure B_CancelClick(Sender: TObject);
+    procedure DBG_OrderItemsCellClick(Column: TColumn);
+    procedure B_UpdateClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
-    procedure btnDeleteClick(Sender: TObject);
+    procedure B_DeleteClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -48,15 +48,15 @@ type
   end;
 
 var
-  frmOrdersMaintenance: TfrmOrdersMaintenance;
+  Frm_CadOrders: TFrm_CadOrders;
 
 implementation
 
 {$R *.dfm}
 
 uses
-  untBackendFunctions,
-	untOrders;
+  UBackendFunctions,
+	UPesqOrders;
 
 procedure RemoveOrderItemFromList(productId: String);
 begin
@@ -82,7 +82,7 @@ begin
   end;
 end;
 
-procedure TfrmOrdersMaintenance.btnSaveClick(Sender: TObject);
+procedure TFrm_CadOrders.B_SaveClick(Sender: TObject);
 	var orderId, saveMessage: String;
 begin
 	if frmOrders.actionType = 'createOrder' then
@@ -106,19 +106,19 @@ begin
   Self.Close;
 end;
 
-procedure TfrmOrdersMaintenance.btnCancelClick(Sender: TObject);
+procedure TFrm_CadOrders.B_CancelClick(Sender: TObject);
 begin
 	ShowMessage('Pedido cancelado.');
   Self.Close;
 end;
 
-procedure TfrmOrdersMaintenance.btnCreateClick(Sender: TObject);
+procedure TFrm_CadOrders.B_CreateClick(Sender: TObject);
 begin
   secActionType := 'createOrderItem';
 	frmOrderItemsMaintenance.ShowModal;
 end;
 
-procedure TfrmOrdersMaintenance.btnDeleteClick(Sender: TObject);
+procedure TFrm_CadOrders.B_DeleteClick(Sender: TObject);
 begin
 	if frmOrders.currentItemProductId.IsEmpty then Exit();
 
@@ -134,7 +134,7 @@ begin
   Dec(frmOrdersMaintenance.currentNumberOfItems);
 end;
 
-procedure TfrmOrdersMaintenance.btnUpdateClick(Sender: TObject);
+procedure TFrm_CadOrders.B_UpdateClick(Sender: TObject);
 begin
 	if frmOrders.currentItemProductId.IsEmpty then Exit();
 
@@ -146,18 +146,18 @@ begin
   frmOrderItemsMaintenance.ShowModal;
 end;
 
-procedure TfrmOrdersMaintenance.dbgOrderItemsCellClick(Column: TColumn);
+procedure TFrm_CadOrders.DBG_OrderItemsCellClick(Column: TColumn);
 begin
   frmOrders.currentItemProductId := dbgOrderItems.Fields[0].AsString;
 end;
 
-procedure TfrmOrdersMaintenance.FormClose(Sender: TObject;
+procedure TFrm_CadOrders.FormClose(Sender: TObject;
   var Action: TCloseAction);
 begin
   isOrdersMaintenanceOpen := False;
 end;
 
-procedure TfrmOrdersMaintenance.FormShow(Sender: TObject);
+procedure TFrm_CadOrders.FormShow(Sender: TObject);
 begin
   isOrdersMaintenanceOpen := True;
 

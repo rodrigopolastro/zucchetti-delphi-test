@@ -1,4 +1,4 @@
-﻿unit untOrderItemsMaintenance;
+﻿unit UCadOrderItems;
 
 interface
 
@@ -14,21 +14,21 @@ uses
   untProducts;
 
 type
-  TfrmOrderItemsMaintenance = class(TForm)
-    lblTitle: TLabel;
-    edtProductCode: TEdit;
-    btnShowProducts: TButton;
-    edtProductName: TEdit;
-    btnSave: TButton;
-    lblProductCode: TLabel;
-    lblQuantity: TLabel;
-    fdqQueries: TFDQuery;
-    edtQuantity: TEdit;
-    btnCancel: TButton;
-    procedure btnShowProductsClick(Sender: TObject);
-    procedure edtProductCodeExit(Sender: TObject);
-    procedure btnSaveClick(Sender: TObject);
-    procedure btnCancelClick(Sender: TObject);
+  TFrm_CadOrderItems = class(TForm)
+    L_Title: TLabel;
+    E_ProductCode: TEdit;
+    B_ShowProducts: TButton;
+    E_ProductName: TEdit;
+    B_Save: TButton;
+    L_ProductCode: TLabel;
+    L_Quantity: TLabel;
+    FDQ_Queries: TFDQuery;
+    E_Quantity: TEdit;
+    B_Cancel: TButton;
+    procedure B_ShowProductsClick(Sender: TObject);
+    procedure E_ProductCodeExit(Sender: TObject);
+    procedure B_SaveClick(Sender: TObject);
+    procedure B_CancelClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
   private
     { Private declarations }
@@ -38,14 +38,14 @@ type
   end;
 
 var
-  frmOrderItemsMaintenance: TfrmOrderItemsMaintenance;
+  Frm_CadOrderItems: TFrm_CadOrderItems;
 
 implementation
 
 uses
-  untBackendFunctions,
-	untOrdersMaintenance,
-  untOrders;
+  UBackendFunctions,
+	UCadOrders,
+  UPesqOrders;
 
 {$R *.dfm}
 
@@ -129,13 +129,13 @@ begin
   end;
 end;
 
-procedure TfrmOrderItemsMaintenance.btnCancelClick(Sender: TObject);
+procedure TFrm_CadOrderItems.B_CancelClick(Sender: TObject);
 begin
   ClearFormFields();
 	Self.Close;
 end;
 
-procedure TfrmOrderItemsMaintenance.btnSaveClick(Sender: TObject);
+procedure TFrm_CadOrderItems.B_SaveClick(Sender: TObject);
   var orderId, productId: String;
   var quantity: Integer;
 begin
@@ -183,12 +183,12 @@ begin
   ClearFormFields();
 end;
 
-procedure TfrmOrderItemsMaintenance.btnShowProductsClick(Sender: TObject);
+procedure TFrm_CadOrderItems.B_ShowProductsClick(Sender: TObject);
 begin
 	frmProducts.ShowModal;
 end;
 
-procedure TfrmOrderItemsMaintenance.edtProductCodeExit(Sender: TObject);
+procedure TFrm_CadOrderItems.E_ProductCodeExit(Sender: TObject);
 var productId: String;
 begin
 	productId := edtProductCode.Text;
@@ -196,7 +196,7 @@ begin
 		DisplayProductName(productId);
 end;
 
-procedure TfrmOrderItemsMaintenance.FormShow(Sender: TObject);
+procedure TFrm_CadOrderItems.FormShow(Sender: TObject);
 begin
   if (frmOrders.actionType = 'createItem') or 
      (frmOrdersMaintenance.secActionType = 'createOrderItem') then
