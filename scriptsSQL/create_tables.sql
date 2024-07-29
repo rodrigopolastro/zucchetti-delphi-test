@@ -1,31 +1,43 @@
-CREATE TABLE Products (
-    product_id INTEGER NOT NULL,
-    description VARCHAR2(50) NOT NULL,
-    price NUMBER(7, 2) NOT NULL,
-       
-    PRIMARY KEY(product_id)
+-- Prefix: PDT ---------------------------------
+CREATE TABLE Produtos (
+    PDT_id INTEGER,
+    PDT_descri VARCHAR2(50) DEFAULT '' NOT NULL,
+    PDT_preco NUMBER(7, 2) DEFAULT 0.00 NOT NULL
 );
-CREATE SEQUENCE seq_product_id;
-
-CREATE TABLE Orders(
-    order_id INTEGER NOT NULL,
-    order_date DATE,
+ALTER TABLE Produtos 
+    ADD CONSTRAINT PK_Produtos 
+    PRIMARY KEY (PDT_id);
     
-    PRIMARY KEY(order_id)
+CREATE SEQUENCE SEQ_Produtos;
+
+-- Prefix: PED ---------------------------------
+CREATE TABLE Pedidos(
+    PED_id INTEGER,
+    PED_date DATE
 );
-CREATE SEQUENCE seq_order_id;
+ALTER TABLE Pedidos 
+    ADD CONSTRAINT PK_Pedidos 
+    PRIMARY KEY (PED_id);
 
-CREATE TABLE Items(
-    order_id INTEGER NOT NULL,
-    product_id INTEGER NOT NULL,
-    quantity INTEGER NOT NULL,
-    
-    FOREIGN KEY(order_id)
-    REFERENCES Orders(order_id),
-    
-    FOREIGN KEY(product_id)
-    REFERENCES Products(product_id),
-    
-    PRIMARY KEY(order_id, product_id)
+CREATE SEQUENCE SEQ_Pedidos;
+
+-- Prefix: ITN ---------------------------------
+CREATE TABLE Itens(
+    ITN_PED_id INTEGER,
+    ITN_PDT_id INTEGER,
+    ITN_qtd INTEGER DEFAULT 1 NOT NULL
 );
 
+ALTER TABLE Itens 
+    ADD CONSTRAINT FK_Itens_Pedidos 
+    FOREIGN KEY (ITN_PED_id) 
+    REFERENCES Pedidos (PED_id);
+
+ALTER TABLE Itens 
+    ADD CONSTRAINT FK_Itens_Produtos 
+    FOREIGN KEY (ITN_PDT_id) 
+    REFERENCES Produtos (PDT_id);
+
+ALTER TABLE Itens 
+    ADD CONSTRAINT AK_Items_PED_id_PDT_id 
+    UNIQUE (ITN_PED_id, ITN_PDT_id);
