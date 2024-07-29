@@ -42,9 +42,9 @@ type
   private
     { Private declarations }
   public
-    currentNumberOfItems: Integer;
+    iCurrentNumberOfItems: Integer;
     isCadOrdersOpen : Boolean;
-    secActionType: String;
+    sSecActionType: String;
   end;
 
 var
@@ -58,51 +58,51 @@ uses
   UBackendFunctions,
 	UPesqOrders;
 
-procedure RemoveOrderItemFromList(productId: String);
+procedure RemoveOrderItemFromList(sProductId: String);
 begin
 	Frm_CadOrders.DBG_OrderItems.DataSource.DataSet.Delete;
 end;
 
-procedure AddItemsToOrder(orderId: String);
-	var i, quantity: Integer;
-  var dataset: TDataSet;
-  var productId: String;
+procedure AddItemsToOrder(sOrderId: String);
+	var iCounter, iQuantity: Integer;
+  var FDQ_Dataset: TDataSet;
+  var sProductId: String;
 begin
-	dataset := Frm_CadOrders.FDQ_OrderItems;
-	for i := 1 to Frm_CadOrders.currentNumberOfItems do
+	FDQ_Dataset := Frm_CadOrders.FDQ_OrderItems;
+	for iCounter := 1 to Frm_CadOrders.iCurrentNumberOfItems do
   begin
-  	Frm_CadOrders.FDQ_OrderItems.RecNo := i;
-    productId := dataset.FieldByName('Cód. Produto').AsString;
-    quantity := dataset.FieldByName('Quantidade').AsInteger;
+  	Frm_CadOrders.FDQ_OrderItems.RecNo := iCounter;
+    sProductId := FDQ_Dataset.FieldByName('Cód. Produto').AsString;
+    iQuantity := FDQ_Dataset.FieldByName('Quantidade').AsInteger;
 
-    if DoesOrderContainProduct(orderId, productId) then
-      UpdateItemQuantity(orderId, productId, quantity)
+    if DoesOrderContainProduct(sOrderId, sProductId) then
+      UpdateItemQuantity(sOrderId, sProductId, iQuantity)
     else
-      InsertOrderItem(orderId, productId, quantity, Frm_CadOrders.FDQ_Queries);
+      InsertOrderItem(sOrderId, sProductId, iQuantity, Frm_CadOrders.FDQ_Queries);
   end;
 end;
 
 procedure TFrm_CadOrders.B_SaveClick(Sender: TObject);
-	var orderId, saveMessage: String;
+	var sOrderId, sSaveMessage: String;
 begin
-	if Frm_PesqOrders.actionType = 'createOrder' then
+	if Frm_PesqOrders.sActionType = 'createOrder' then
   begin
-  	orderId := IntToStr(CreateOrder());
-  	saveMessage := 'Pedido ' + orderId + ' registrado com sucesso!';
+  	sOrderId := IntToStr(CreateOrder());
+  	sSaveMessage := 'Pedido ' + sOrderId + ' registrado com sucesso!';
   end
-  else if Frm_PesqOrders.actionType = 'editOrder' then
+  else if Frm_PesqOrders.sActionType = 'editOrder' then
   begin
-  	orderId := Frm_PesqOrders.currentOrderId;
-    UpdateOrderDate(orderId);
-  	saveMessage := 'Pedido ' + orderId + ' atualizado!';
+  	sOrderId := Frm_PesqOrders.sCurrentOrderId;
+    UpdateOrderDate(sOrderId);
+  	sSaveMessage := 'Pedido ' + sOrderId + ' atualizado!';
   end;
 
-  AddItemsToOrder(orderId);
-  ShowMessage(saveMessage);
+  AddItemsToOrder(sOrderId);
+  ShowMessage(sSaveMessage);
   Frm_PesqOrders.DBG_Orders.DataSource.DataSet.First;
   Frm_PesqOrders.DBG_Orders.DataSource.DataSet.Refresh;
-  Frm_PesqOrders.currentOrderId := Frm_PesqOrders.DBG_Orders.Fields[0].AsString;
-  DisplayOrderItems(orderId, Frm_PesqOrders.FDQ_Items);
+  Frm_PesqOrders.sCurrentOrderId := Frm_PesqOrders.DBG_Orders.Fields[0].AsString;
+  DisplayOrderItems(sOrderId, Frm_PesqOrders.FDQ_Items);
   Self.Close;
 end;
 
@@ -114,41 +114,41 @@ end;
 
 procedure TFrm_CadOrders.B_CreateClick(Sender: TObject);
 begin
-  secActionType := 'createOrderItem';
+  sSecActionType := 'createOrderItem';
 	Frm_CadOrderItems.ShowModal;
 end;
 
 procedure TFrm_CadOrders.B_DeleteClick(Sender: TObject);
 begin
-	if Frm_PesqOrders.currentItemProductId.IsEmpty then Exit();
+	if Frm_PesqOrders.sCurrentItemProductId.IsEmpty then Exit();
 
-  if (Frm_PesqOrders.actionType = 'editOrder') and
-     (DoesOrderContainProduct(Frm_PesqOrders.currentOrderId, Frm_PesqOrders.currentItemProductId)) then
+  if (Frm_PesqOrders.sActionType = 'editOrder') and
+     (DoesOrderContainProduct(Frm_PesqOrders.sCurrentOrderId, Frm_PesqOrders.sCurrentItemProductId)) then
   begin
-    DeleteItem(Frm_PesqOrders.currentOrderId, Frm_PesqOrders.currentItemProductId);
-    secActionType := 'deleteItem';
+    DeleteItem(Frm_PesqOrders.sCurrentOrderId, Frm_PesqOrders.sCurrentItemProductId);
+    sSecActionType := 'deleteItem';
     Frm_ConfirmDeletion.ShowModal;
   end;
-  RemoveOrderItemFromList(Frm_PesqOrders.currentItemProductId);
-  Frm_PesqOrders.currentItemProductId := DBG_OrderItems.Fields[0].AsString;
-  Dec(Frm_CadOrders.currentNumberOfItems);
+  RemoveOrderItemFromList(Frm_PesqOrders.sCurrentItemProductId);
+  Frm_PesqOrders.sCurrentItemProductId := DBG_OrderItems.Fields[0].AsString;
+  Dec(Frm_CadOrders.iCurrentNumberOfItems);
 end;
 
 procedure TFrm_CadOrders.B_UpdateClick(Sender: TObject);
 begin
-	if Frm_PesqOrders.currentItemProductId.IsEmpty then Exit();
+	if Frm_PesqOrders.sCurrentItemProductId.IsEmpty then Exit();
 
-  secActionType := 'editOrderItem';
+  sSecActionType := 'editOrderItem';
   DisplayItemInfo(
-    Frm_PesqOrders.currentOrderId,
-    Frm_PesqOrders.currentItemProductId
+    Frm_PesqOrders.sCurrentOrderId,
+    Frm_PesqOrders.sCurrentItemProductId
   );
   Frm_CadOrderItems.ShowModal;
 end;
 
 procedure TFrm_CadOrders.DBG_OrderItemsCellClick(Column: TColumn);
 begin
-  Frm_PesqOrders.currentItemProductId := DBG_OrderItems.Fields[0].AsString;
+  Frm_PesqOrders.sCurrentItemProductId := DBG_OrderItems.Fields[0].AsString;
 end;
 
 procedure TFrm_CadOrders.FormClose(Sender: TObject;
@@ -157,33 +157,33 @@ begin
   isCadOrdersOpen := False;
 
   Frm_PesqOrders.DBG_Orders.DataSource.DataSet.First;
-  Frm_PesqOrders.currentOrderId := Frm_PesqOrders.DBG_Orders.Fields[0].AsString;
+  Frm_PesqOrders.sCurrentOrderId := Frm_PesqOrders.DBG_Orders.Fields[0].AsString;
 end;
 
 procedure TFrm_CadOrders.FormShow(Sender: TObject);
 begin
   isCadOrdersOpen := True;
 
-  if Frm_PesqOrders.actionType = 'createOrder' then
+  if Frm_PesqOrders.sActionType = 'createOrder' then
 	begin
   	L_OrderNumber.Caption := 'Novo Pedido';
     E_OrderNumber.Visible := False;
     DTP_OrderDate.Date := Now;
-    displayOrderItems('', Frm_CadOrders.FDQ_OrderItems);
-    currentNumberOfItems := 0;
+    DisplayOrderItems('', Frm_CadOrders.FDQ_OrderItems);
+    iCurrentNumberOfItems := 0;
   end
-	else if Frm_PesqOrders.actionType = 'editOrder' then
+	else if Frm_PesqOrders.sActionType = 'editOrder' then
   begin
   	L_OrderNumber.Caption := 'Nº Pedido';
     E_OrderNumber.Visible := True;
-  	E_OrderNumber.Text := Frm_PesqOrders.currentOrderId;
-    DTP_OrderDate.Date := GetOrderDate(Frm_PesqOrders.currentOrderId);
-    displayOrderItems(Frm_PesqOrders.currentOrderId, Frm_CadOrders.FDQ_OrderItems);
-    currentNumberOfItems := DBG_OrderItems.DataSource.DataSet.RecordCount;
+  	E_OrderNumber.Text := Frm_PesqOrders.sCurrentOrderId;
+    DTP_OrderDate.Date := GetOrderDate(Frm_PesqOrders.sCurrentOrderId);
+    DisplayOrderItems(Frm_PesqOrders.sCurrentOrderId, Frm_CadOrders.FDQ_OrderItems);
+    iCurrentNumberOfItems := DBG_OrderItems.DataSource.DataSet.RecordCount;
   end;
 
   DBG_OrderItems.DataSource.DataSet.First;
-  Frm_PesqOrders.currentItemProductId := DBG_OrderItems.Fields[0].AsString;
+  Frm_PesqOrders.sCurrentItemProductId := DBG_OrderItems.Fields[0].AsString;
 end;
 
 end.

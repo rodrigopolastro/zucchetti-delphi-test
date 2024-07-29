@@ -114,16 +114,6 @@ object Frm_PesqOrders: TFrm_PesqOrders
     TitleFont.Style = []
     OnCellClick = DBG_ItemsCellClick
   end
-  object dtpOrderDate: TDateTimePicker
-    Left = 71
-    Top = 129
-    Width = 98
-    Height = 21
-    Date = 45497.000000000000000000
-    Time = 0.588267048609850500
-    TabOrder = 8
-    Visible = False
-  end
   object CB_ComparisonOperator: TComboBox
     Left = 26
     Top = 60
@@ -159,7 +149,7 @@ object Frm_PesqOrders: TFrm_PesqOrders
     OnCellClick = DBG_OrdersCellClick
   end
   object CB_OrderBy: TComboBox
-    Left = 194
+    Left = 298
     Top = 32
     Width = 148
     Height = 22
@@ -189,6 +179,16 @@ object Frm_PesqOrders: TFrm_PesqOrders
     Height = 17
     Caption = 'Decrescente'
     TabOrder = 13
+    Visible = False
+  end
+  object DTP_OrderDate: TDateTimePicker
+    Left = 71
+    Top = 88
+    Width = 98
+    Height = 21
+    Date = 45497.000000000000000000
+    Time = 0.588267048609850500
+    TabOrder = 8
     Visible = False
   end
   object FDC_DatabaseConnection: TFDConnection

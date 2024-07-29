@@ -39,34 +39,34 @@ uses
 
 procedure TFrm_ConfirmDeletion.FormShow(Sender: TObject);
 begin
-  if Frm_PesqOrders.actionType = 'deleteOrder' then
+  if Frm_PesqOrders.sActionType = 'deleteOrder' then
     L_Message.Caption := 'Tem certeza que deseja excluir o Pedido Nº ' +
-      Frm_PesqOrders.currentOrderId + '?'
-  else if (Frm_PesqOrders.actionType = 'deleteItem') or
-          (Frm_CadOrders.secActionType = 'deleteItem') then
+      Frm_PesqOrders.sCurrentOrderId + '?'
+  else if (Frm_PesqOrders.sActionType = 'deleteItem') or
+          (Frm_CadOrders.sSecActionType = 'deleteItem') then
     L_Message.Caption := 'Tem certeza que deseja excluir o Produto de Código ' +
-      Frm_PesqOrders.currentItemProductId +
-      ' do Pedido Nº ' + Frm_PesqOrders.currentOrderId + '?'
+      Frm_PesqOrders.sCurrentItemProductId +
+      ' do Pedido Nº ' + Frm_PesqOrders.sCurrentOrderId + '?'
 end;
 
 procedure TFrm_ConfirmDeletion.B_DeleteClick(Sender: TObject);
 begin
-  if Frm_PesqOrders.actionType = 'deleteOrder' then
+  if Frm_PesqOrders.sActionType = 'deleteOrder' then
   begin
-    DeleteOrder(Frm_PesqOrders.currentOrderId);
+    DeleteOrder(Frm_PesqOrders.sCurrentOrderId);
 	  ShowMessage('Pedido excluído.');
     Frm_PesqOrders.DBG_Orders.DataSource.DataSet.Refresh;
     Frm_PesqOrders.DBG_Orders.DataSource.DataSet.First;
-    Frm_PesqOrders.currentOrderId :=
+    Frm_PesqOrders.sCurrentOrderId :=
     	Frm_PesqOrders.DBG_Orders.DataSource.DataSet.Fields[0].AsString;
-    DisplayOrderItems(Frm_PesqOrders.currentOrderId, Frm_PesqOrders.FDQ_Items);
+    DisplayOrderItems(Frm_PesqOrders.sCurrentOrderId, Frm_PesqOrders.FDQ_Items);
   end
-  else if (Frm_PesqOrders.actionType = 'deleteItem') or
-          (Frm_CadOrders.secActionType = 'deleteItem') then
+  else if (Frm_PesqOrders.sActionType = 'deleteItem') or
+          (Frm_CadOrders.sSecActionType = 'deleteItem') then
   begin
   	DeleteItem(
-    	Frm_PesqOrders.currentOrderId,
-    	Frm_PesqOrders.currentItemProductId
+    	Frm_PesqOrders.sCurrentOrderId,
+    	Frm_PesqOrders.sCurrentItemProductId
     );
     ShowMessage('Item excluído.');
     Frm_PesqOrders.DBG_Items.DataSource.DataSet.Refresh;

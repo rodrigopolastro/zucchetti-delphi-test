@@ -57,15 +57,15 @@ begin
   Frm_CadOrderItems.E_Quantity.Text := '';
 end;
 
-function DoesListContainProduct(productId: String): Boolean;
-	var i: Integer;
-  var dataset: TDataSet;
+function DoesListContainProduct(sProductId: String): Boolean;
+	var iCounter: Integer;
+  var FDQ_dataset: TFDQuery;
 begin
-	dataset := Frm_CadOrders.FDQ_OrderItems;
-	for i := 1 to Frm_CadOrders.currentNumberOfItems do
+	FDQ_dataset := Frm_CadOrders.FDQ_OrderItems;
+	for iCounter := 1 to Frm_CadOrders.iCurrentNumberOfItems do
   begin
-  	Frm_CadOrders.FDQ_OrderItems.RecNo := i;
-    if dataset.FieldByName('Cód. Produto').AsString = productId then
+  	Frm_CadOrders.FDQ_OrderItems.RecNo := iCounter;
+    if FDQ_dataset.FieldByName('Cód. Produto').AsString = sProductId then
       Result := True;
   end;
 
@@ -73,60 +73,60 @@ begin
 end;
 
 procedure AddItemToList();
-  var productId, productName: String;
-  var quantity: Integer;
-  var unitPrice, totalPrice: Real;
+  var sProductId, sProductName: String;
+  var iQuantity: Integer;
+  var dUnitPrice, dTotalPrice: Double;
 
-  var dataSet: TFDQuery;
+  var FDQ_DataSet: TFDQuery;
 begin
-  dataset := Frm_CadOrders.FDQ_OrderItems;
+  FDQ_DataSet := Frm_CadOrders.FDQ_OrderItems;
 
-  productId := Frm_CadOrderItems.E_ProductCode.Text;
-  productName := Frm_CadOrderItems.E_ProductName.Text;
-  quantity := StrToInt(Frm_CadOrderItems.E_Quantity.Text);
-  unitPrice := Frm_CadOrderItems.productPrice;
-  totalPrice := quantity * unitPrice;
+  sProductId := Frm_CadOrderItems.E_ProductCode.Text;
+  sProductName := Frm_CadOrderItems.E_ProductName.Text;
+  iQuantity := StrToInt(Frm_CadOrderItems.E_Quantity.Text);
+  dUnitPrice := Frm_CadOrderItems.productPrice;
+  dTotalPrice := iQuantity * dUnitPrice;
 
   //Store items in memory, only update if the order is saved
-  dataset.CachedUpdates := True;
+  FDQ_DataSet.CachedUpdates := True;
 
-	dataset.Append;
-  dataset.FieldByName('Cód. Produto').AsString := productId;
-  dataset.FieldByName('Descrição do Produto').AsString := productName;
-  dataset.FieldByName('Quantidade').AsString := IntToStr(quantity);
-  dataset.FieldByName('Valor Unitário').AsString := FormatFloat('0.00', unitPrice);
-  dataset.FieldByName('Valor Total').AsString := FormatFloat('0.00', totalPrice);
-  Inc(Frm_CadOrders.currentNumberOfItems);
+	FDQ_DataSet.Append;
+  FDQ_DataSet.FieldByName('Cód. Produto').AsString := sProductId;
+  FDQ_DataSet.FieldByName('Descrição do Produto').AsString := sProductName;
+  FDQ_DataSet.FieldByName('Quantidade').AsString := IntToStr(iQuantity);
+  FDQ_DataSet.FieldByName('Valor Unitário').AsString := FormatFloat('0.00', dUnitPrice);
+  FDQ_DataSet.FieldByName('Valor Total').AsString := FormatFloat('0.00', dTotalPrice);
+  Inc(Frm_CadOrders.iCurrentNumberOfItems);
 end;
 
-procedure ModifyItemQuantityOnList(quantity: Integer; dataset: TFDQuery);
+procedure ModifyItemQuantityOnList(iQuantity: Integer; FDQ_Dataset: TFDQuery);
 begin
-  dataset.Edit;
-  dataset.FieldByName('Quantidade').AsInteger := quantity;
+  FDQ_Dataset.Edit;
+  FDQ_Dataset.FieldByName('Quantidade').AsInteger := iQuantity;
 end;
 
-procedure DisplayProductName(productId: String);
-var query: TFDQuery;
+procedure DisplayProductName(sProductId: String);
+var FDQ_Query: TFDQuery;
 begin
-	query := Frm_CadOrderItems.FDQ_Queries;
+	FDQ_Query := Frm_CadOrderItems.FDQ_Queries;
 
-  query.SQL.Clear;
-  query.SQL.Text :=
+  FDQ_Query.SQL.Clear;
+  FDQ_Query.SQL.Text :=
   	'SELECT description, price FROM products WHERE product_id = :productId';
-  query.ParamByName('productId').AsString := productId;
-  query.Open;
+  FDQ_Query.ParamByName('productId').AsString := sProductId;
+  FDQ_Query.Open;
 
-  if query.RowsAffected > 0 then
+  if FDQ_Query.RowsAffected > 0 then
 	begin
     Frm_CadOrderItems.E_ProductName.Text :=
-    	query.FieldByName('description').AsString;
+    	FDQ_Query.FieldByName('description').AsString;
     Frm_CadOrderItems.productPrice :=
-    	query.FieldByName('price').AsFloat;
+    	FDQ_Query.FieldByName('price').AsFloat;
   end
   else
 	begin
     Frm_CadOrderItems.E_ProductName.Text := '';
-    ShowMessage('Nenhum produto encontrado com o código ' + productId);
+    ShowMessage('Nenhum produto encontrado com o código ' + sProductId);
   end;
 end;
 
@@ -137,46 +137,46 @@ begin
 end;
 
 procedure TFrm_CadOrderItems.B_SaveClick(Sender: TObject);
-  var orderId, productId: String;
-  var quantity: Integer;
+  var sOrderId, sProductId: String;
+  var iQuantity: Integer;
 begin
-  orderId := Frm_PesqOrders.currentOrderId;
-  productId := Frm_CadOrderItems.E_ProductCode.Text;
-  quantity := StrToInt(Frm_CadOrderItems.E_Quantity.Text);
+  sOrderId := Frm_PesqOrders.sCurrentOrderId;
+  sProductId := Frm_CadOrderItems.E_ProductCode.Text;
+  iQuantity := StrToInt(Frm_CadOrderItems.E_Quantity.Text);
 
   if Frm_CadOrders.isCadOrdersOpen then
   begin
-    if Frm_CadOrders.secActionType = 'createOrderItem' then
-      if DoesListContainProduct(productId) then
+    if Frm_CadOrders.sSecActionType = 'createOrderItem' then
+      if DoesListContainProduct(sProductId) then
         ShowMessage('Esse produto já faz parte desse pedido!')
       else
       begin
       	AddItemToList();
-        UpdateItemPriceOnList(productId, quantity, Frm_CadOrders.FDQ_OrderItems);
-        Frm_PesqOrders.currentItemProductId := Frm_CadOrders.DBG_OrderItems.Fields[0].AsString;
+        UpdateItemPriceOnList(sProductId, iQuantity, Frm_CadOrders.FDQ_OrderItems);
+        Frm_PesqOrders.sCurrentItemProductId := Frm_CadOrders.DBG_OrderItems.Fields[0].AsString;
       end
-    else if Frm_CadOrders.secActionType = 'editOrderItem' then
+    else if Frm_CadOrders.sSecActionType = 'editOrderItem' then
     begin
-      ModifyItemQuantityOnList(quantity, Frm_CadOrders.FDQ_OrderItems);
-      UpdateItemPriceOnList(productId, quantity, Frm_CadOrders.FDQ_OrderItems);
+      ModifyItemQuantityOnList(iQuantity, Frm_CadOrders.FDQ_OrderItems);
+      UpdateItemPriceOnList(sProductId, iQuantity, Frm_CadOrders.FDQ_OrderItems);
       Self.Close;
     end
   end
   else if not Frm_CadOrders.isCadOrdersOpen then
   begin
-    if Frm_PesqOrders.actionType = 'createItem' then
-      if DoesOrderContainProduct(orderId, productId) then
+    if Frm_PesqOrders.sActionType = 'createItem' then
+      if DoesOrderContainProduct(sOrderId, sProductId) then
         ShowMessage('Esse produto já faz parte desse pedido!')
       else
       begin
-      	InsertOrderItem(orderId, productId, quantity, Frm_PesqOrders.FDQ_Items);
-        DisplayOrderItems(orderId, Frm_PesqOrders.FDQ_Items);
+      	InsertOrderItem(sOrderId, sProductId, iQuantity, Frm_PesqOrders.FDQ_Items);
+        DisplayOrderItems(sOrderId, Frm_PesqOrders.FDQ_Items);
       end
-    else if Frm_PesqOrders.actionType = 'editItem' then
+    else if Frm_PesqOrders.sActionType = 'editItem' then
     begin
-      UpdateItemQuantity(orderId, productId, quantity);
-      ModifyItemQuantityOnList(quantity, Frm_PesqOrders.FDQ_Items);
-      UpdateItemPriceOnList(productId, quantity, Frm_PesqOrders.FDQ_Items);
+      UpdateItemQuantity(sOrderId, sProductId, iQuantity);
+      ModifyItemQuantityOnList(iQuantity, Frm_PesqOrders.FDQ_Items);
+      UpdateItemPriceOnList(sProductId, iQuantity, Frm_PesqOrders.FDQ_Items);
       Self.Close;
     end;
   end;
@@ -190,34 +190,34 @@ begin
 end;
 
 procedure TFrm_CadOrderItems.E_ProductCodeExit(Sender: TObject);
-var productId: String;
+var sProductId: String;
 begin
-	productId := E_ProductCode.Text;
-  if not productId.IsEmpty then
-		DisplayProductName(productId);
+	sProductId := E_ProductCode.Text;
+  if not sProductId.IsEmpty then
+		DisplayProductName(sProductId);
 end;
 
 procedure TFrm_CadOrderItems.FormClose(Sender: TObject;
   var Action: TCloseAction);
 begin
-	Frm_PesqOrders.currentItemProductId := '';
+	Frm_PesqOrders.sCurrentItemProductId := '';
 end;
 
 procedure TFrm_CadOrderItems.FormShow(Sender: TObject);
 begin
-  if (Frm_PesqOrders.actionType = 'createItem') or 
-     (Frm_CadOrders.secActionType = 'createOrderItem') then
+  if (Frm_PesqOrders.sActionType = 'createItem') or 
+     (Frm_CadOrders.sSecActionType = 'createOrderItem') then
   begin
     ClearFormFields();
     E_ProductCode.ReadOnly := False;
     E_ProductName.ReadOnly := False;
   end
-  else if (Frm_PesqOrders.actionType = 'editItem') or 
-          (Frm_CadOrders.secActionType = 'editOrderItem') then
+  else if (Frm_PesqOrders.sActionType = 'editItem') or 
+          (Frm_CadOrders.sSecActionType = 'editOrderItem') then
   begin
     DisplayItemInfo(
-      Frm_PesqOrders.currentOrderId,
-      Frm_PesqOrders.currentItemProductId
+      Frm_PesqOrders.sCurrentOrderId,
+      Frm_PesqOrders.sCurrentItemProductId
     );
     E_ProductCode.ReadOnly := True;
     E_ProductName.ReadOnly := True;

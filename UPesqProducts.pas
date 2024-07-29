@@ -47,19 +47,19 @@ begin
 end;
 
 procedure TFrm_PesqProducts.FormCreate(Sender: TObject);
-	var productsSQL: String;
+	var sProductsSQL: String;
 begin
-	productsSQL :=
+	sProductsSQL :=
     'SELECT ' +
         'product_id AS "Código do Produto", ' +
         'description AS "Descrição", ' +
         'price AS "Valor Unitário" ' +
       'FROM products';
 
-  productsSQL := 'select * from products';
+  sProductsSQL := 'select * from products';
 
 	FDQ_Products.SQL.Clear;
-	FDQ_Products.SQL.Text := productsSQL;
+	FDQ_Products.SQL.Text := sProductsSQL;
   FDQ_Products.Open;
 end;
 
