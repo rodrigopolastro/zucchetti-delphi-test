@@ -113,7 +113,7 @@ begin
 
   FDQ_Query.SQL.Clear;
   FDQ_Query.SQL.Text :=
-  	'SELECT PDT_descri, PDT_preco FROM produtos WHERE PDT_id = :productId';
+  	'SELECT PDT_descri, PDT_preco FROM produtos WHERE PDT_codigo = :productId';
   FDQ_Query.ParamByName('productId').AsString := sProductId;
   FDQ_Query.Open;
 

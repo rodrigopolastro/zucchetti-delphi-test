@@ -10,9 +10,7 @@ object Frm_PesqOrders: TFrm_PesqOrders
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
-  OldCreateOrder = True
   OnCreate = FormCreate
-  PixelsPerInch = 96
   TextHeight = 13
   object L_FilterOrders: TLabel
     Left = 26
@@ -193,11 +191,10 @@ object Frm_PesqOrders: TFrm_PesqOrders
   end
   object FDC_DatabaseConnection: TFDConnection
     Params.Strings = (
-      'Database=SRV-ORACLE'
-      'User_Name=RODRIGO_TESTE'
+      'Database=XE'
+      'User_Name=RODRIGO'
       'Password=LARANJA'
       'DriverID=Ora')
-    Connected = True
     Left = 48
     Top = 416
   end

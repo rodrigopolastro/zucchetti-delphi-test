@@ -15,8 +15,8 @@ uses
   UBackendFunctions,
 	UCadOrders,
   UCadOrderItems,
-  UConfirmDeletion,
-  UGenerateReport;
+  UConfirmDeletion;
+//  UGenerateReport;
 
 type
   TFrm_PesqOrders = class(TForm)
@@ -99,7 +99,7 @@ begin
   if sSearchField = 'Número' then
   begin
   	sOrdersWhereSQL  :=
-    	'WHERE PED_id ' +
+    	'WHERE PED_codigo ' +
     	sComparisonOperator + ' ' +
       Frm_PesqOrders.E_SearchText.Text;
     sOrdersHavingSQL := '';
@@ -155,7 +155,7 @@ end;
 
 procedure TFrm_PesqOrders.B_PrintClick(Sender: TObject);
 begin
-	Frm_GenerateReport.Show;
+//	Frm_GenerateReport.Show;
 end;
 
 procedure TFrm_PesqOrders.B_DeleteClick(Sender: TObject);

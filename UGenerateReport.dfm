@@ -49,17 +49,17 @@ object Frm_GenerateReport: TFrm_GenerateReport
     Connection = Frm_PesqOrders.FDC_DatabaseConnection
     SQL.Strings = (
       'SELECT '
-      'ITN_PED_id AS "N'#186' do Pedido", '
+      'ITN_PED_codigo AS "N'#186' do Pedido", '
       'PED_data AS "Data do Pedido", '
-      'ITN_PDT_id AS "C'#243'd. Produto", '
+      'ITN_PDT_codigo AS "C'#243'd. Produto", '
       'PDT_descri AS "Descri'#231#227'o do Produto", '
       'ITN_qtd AS "Quantidade", '
       'PDT_preco AS "Valor Unit'#225'rio", '
       'ITN_qtd * PDT_preco AS "Valor Total" '
       'FROM itens '
-      'INNER JOIN produtos ON PDT_id = ITN_PDT_id '
-      'INNER JOIN pedidos ON PED_id = ITN_PED_id'
-      'ORDER BY ITN_PED_id, ITN_PDT_id')
+      'INNER JOIN produtos ON PDT_codigo = ITN_PDT_codigo '
+      'INNER JOIN pedidos ON PED_codigo = ITN_PED_codigo'
+      'ORDER BY ITN_PED_codigo, ITN_PDT_codigo')
     Left = 56
     Top = 307
   end

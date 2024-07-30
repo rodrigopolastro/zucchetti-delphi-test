@@ -51,7 +51,7 @@ procedure TFrm_PesqProducts.FormCreate(Sender: TObject);
 begin
 	sProductsSQL :=
     'SELECT ' +
-        'PDT_id AS "Código do Produto", ' +
+        'PDT_codigo AS "Código do Produto", ' +
         'PDT_descri AS "Descrição", ' +
         'PDT_preco AS "Valor Unitário" ' +
       'FROM produtos';
