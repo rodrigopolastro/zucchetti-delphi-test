@@ -58,7 +58,7 @@ begin
     Frm_PesqOrders.DBG_Orders.DataSource.DataSet.Refresh;
     Frm_PesqOrders.DBG_Orders.DataSource.DataSet.First;
     Frm_PesqOrders.sCurrentOrderId :=
-    	Frm_PesqOrders.DBG_Orders.DataSource.DataSet.Fields[0].AsString;
+      Frm_PesqOrders.FDQ_Orders.FieldByName('PED_codigo').AsString;
     DisplayOrderItems(Frm_PesqOrders.sCurrentOrderId, Frm_PesqOrders.FDQ_Items);
   end
   else if (Frm_PesqOrders.sActionType = 'deleteItem') or

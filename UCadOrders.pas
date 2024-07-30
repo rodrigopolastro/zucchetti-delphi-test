@@ -58,6 +58,24 @@ uses
   UBackendFunctions,
 	UPesqOrders;
 
+procedure SetOrderItemsDBGLabels();
+begin
+  Frm_CadOrders.FDQ_OrderItems.FieldByName('ITN_PDT_codigo')
+    .DisplayLabel := 'Cód. Produto';
+
+  Frm_CadOrders.FDQ_OrderItems.FieldByName('PDT_descri')
+    .DisplayLabel := 'Descrição do Produto';
+
+  Frm_CadOrders.FDQ_OrderItems.FieldByName('ITN_qtd')
+  	.DisplayLabel := 'Quantidade';
+
+  Frm_CadOrders.FDQ_OrderItems.FieldByName('PDT_preco')
+    .DisplayLabel := 'Valor Unitário';
+
+  Frm_CadOrders.FDQ_OrderItems.FieldByName('item_total_price')
+  	.DisplayLabel := 'Valor Total';
+end;
+
 procedure RemoveOrderItemFromList(sProductId: String);
 begin
 	Frm_CadOrders.DBG_OrderItems.DataSource.DataSet.Delete;
@@ -72,8 +90,8 @@ begin
 	for iCounter := 1 to Frm_CadOrders.iCurrentNumberOfItems do
   begin
   	Frm_CadOrders.FDQ_OrderItems.RecNo := iCounter;
-    sProductId := FDQ_Dataset.FieldByName('Cód. Produto').AsString;
-    iQuantity := FDQ_Dataset.FieldByName('Quantidade').AsInteger;
+    sProductId := FDQ_Dataset.FieldByName('ITN_PDT_codigo').AsString;
+    iQuantity := FDQ_Dataset.FieldByName('ITN_qtd').AsInteger;
 
     if DoesOrderContainProduct(sOrderId, sProductId) then
       UpdateItemQuantity(sOrderId, sProductId, iQuantity)
@@ -101,7 +119,7 @@ begin
   ShowMessage(sSaveMessage);
   Frm_PesqOrders.DBG_Orders.DataSource.DataSet.First;
   Frm_PesqOrders.DBG_Orders.DataSource.DataSet.Refresh;
-  Frm_PesqOrders.sCurrentOrderId := Frm_PesqOrders.DBG_Orders.Fields[0].AsString;
+  Frm_PesqOrders.sCurrentOrderId := Frm_PesqOrders.FDQ_Orders.FieldByName('PED_codigo').AsString;
   DisplayOrderItems(sOrderId, Frm_PesqOrders.FDQ_Items);
   Self.Close;
 end;
@@ -130,7 +148,7 @@ begin
     Frm_ConfirmDeletion.ShowModal;
   end;
   RemoveOrderItemFromList(Frm_PesqOrders.sCurrentItemProductId);
-  Frm_PesqOrders.sCurrentItemProductId := DBG_OrderItems.Fields[0].AsString;
+  Frm_PesqOrders.sCurrentItemProductId := Frm_CadOrders.FDQ_OrderItems.FieldByName('ITN_PDT_codigo').AsString;
   Dec(Frm_CadOrders.iCurrentNumberOfItems);
 end;
 
@@ -139,6 +157,7 @@ begin
 	if Frm_PesqOrders.sCurrentItemProductId.IsEmpty then Exit();
 
   sSecActionType := 'editOrderItem';
+  showmessage(Frm_PesqOrders.sCurrentItemProductId);
   DisplayItemInfo(
     Frm_PesqOrders.sCurrentOrderId,
     Frm_PesqOrders.sCurrentItemProductId
@@ -148,7 +167,7 @@ end;
 
 procedure TFrm_CadOrders.DBG_OrderItemsCellClick(Column: TColumn);
 begin
-  Frm_PesqOrders.sCurrentItemProductId := DBG_OrderItems.Fields[0].AsString;
+  Frm_PesqOrders.sCurrentItemProductId := Frm_CadOrders.FDQ_OrderItems.FieldByName('ITN_PDT_codigo').AsString;
 end;
 
 procedure TFrm_CadOrders.FormClose(Sender: TObject;
@@ -157,7 +176,7 @@ begin
   isCadOrdersOpen := False;
 
   Frm_PesqOrders.DBG_Orders.DataSource.DataSet.First;
-  Frm_PesqOrders.sCurrentOrderId := Frm_PesqOrders.DBG_Orders.Fields[0].AsString;
+  Frm_PesqOrders.sCurrentOrderId :=  Frm_PesqOrders.FDQ_Orders.FieldByName('PED_codigo').AsString;
 end;
 
 procedure TFrm_CadOrders.FormShow(Sender: TObject);
@@ -182,8 +201,9 @@ begin
     iCurrentNumberOfItems := DBG_OrderItems.DataSource.DataSet.RecordCount;
   end;
 
+//  SetOrderItemsDBGLabels();
   DBG_OrderItems.DataSource.DataSet.First;
-  Frm_PesqOrders.sCurrentItemProductId := DBG_OrderItems.Fields[0].AsString;
+  Frm_PesqOrders.sCurrentItemProductId := Frm_CadOrders.FDQ_OrderItems.FieldByName('ITN_PDT_codigo').AsString;
 end;
 
 end.

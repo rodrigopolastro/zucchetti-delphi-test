@@ -54,9 +54,9 @@ procedure DisplayOrders(sWhereSQL, sHavingSQL: String);
 begin
 	sOrdersSQL :=
     'SELECT ' +
-      'PED_codigo AS "Nº do Pedido", ' +
-      'PED_data AS "Data do Pedido", ' +
-      'SUM(ITN_qtd * PDT_preco) AS "Valor Total" ' +
+      'PED_codigo, ' +
+      'PED_data, ' +
+      'SUM(ITN_qtd * PDT_preco) order_total_price ' +
     'FROM pedidos ' +
     'INNER JOIN itens ON ITN_PED_codigo = PED_codigo ' +
     'INNER JOIN produtos ON ITN_PDT_codigo = PDT_codigo ' +
@@ -78,11 +78,11 @@ procedure DisplayOrderItems(sOrderId: String; FDQ_QueryComponent: TFDQuery);
 begin
   sItemsSQL :=
   	'SELECT ' +
-      'ITN_PDT_codigo AS "Cód. Produto", ' +
-      'PDT_descri AS "Descrição do Produto", ' +
-      'ITN_qtd AS "Quantidade", ' +
-      'PDT_preco AS "Valor Unitário", ' +
-      'ITN_qtd * PDT_preco AS "Valor Total" '+
+      'ITN_PDT_codigo, ' +
+      'PDT_descri, ' +
+      'ITN_qtd, ' +
+      'PDT_preco, ' +
+      'ITN_qtd * PDT_preco item_total_price '+
   	'FROM itens ' +
     'INNER JOIN produtos ON PDT_codigo = ITN_PDT_codigo ' +
     'WHERE ITN_PED_codigo = :orderId';
@@ -177,9 +177,7 @@ begin
   dTotalPrice := iQuantity * dUnitPrice;
 
 	FDQ_QueryComponent.Edit;
-  FDQ_QueryComponent.FieldByName('Valor Unitário').AsString :=
   	FormatFloat('0.00', dUnitPrice);
-  FDQ_QueryComponent.FieldByName('Valor Total').AsString :=
   	FormatFloat('0.00', dTotalPrice);
 end;
 
@@ -218,8 +216,8 @@ begin
   	Frm_CadOrderItems.FDQ_Queries.SQL.Clear;
     Frm_CadOrderItems.FDQ_Queries.SQL.Text :=
       'SELECT ' +
-      'PDT_descri AS "productName", ' +
-      'ITN_qtd AS "quantity" ' +
+      'PDT_descri, ' +
+      'ITN_qtd ' +
       'FROM itens ' +
       'INNER JOIN produtos ON PDT_codigo = ITN_PDT_codigo ' +
       'WHERE ITN_PDT_codigo = :productId ' +
@@ -228,13 +226,13 @@ begin
     Frm_CadOrderItems.FDQ_Queries.ParamByName('orderId').AsString := sOrderId;
     Frm_CadOrderItems.FDQ_Queries.Open;
 
-    sProductName := Frm_CadOrderItems.FDQ_Queries.FieldByName('productName').AsString;
+    sProductName := Frm_CadOrderItems.FDQ_Queries.FieldByName('PDT_descri').AsString;
     iQuantity := Frm_CadOrderItems.FDQ_Queries.FieldByName('ITN_qtd').AsInteger;
   end
   else
-	begin
-		sProductName := Frm_CadOrders.DBG_OrderItems.Fields[1].AsString;
-    iQuantity := Frm_CadOrders.DBG_OrderItems.Fields[2].AsInteger;
+  begin
+    sProductName := Frm_CadOrders.FDQ_OrderItems.FieldByName('PDT_descri').AsString;
+    iQuantity := Frm_CadOrders.FDQ_OrderItems.FieldByName('ITN_qtd').AsInteger;
   end;
 
   Frm_CadOrderItems.E_ProductCode.Text := sProductId;

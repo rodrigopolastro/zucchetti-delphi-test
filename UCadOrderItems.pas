@@ -65,7 +65,7 @@ begin
 	for iCounter := 1 to Frm_CadOrders.iCurrentNumberOfItems do
   begin
   	Frm_CadOrders.FDQ_OrderItems.RecNo := iCounter;
-    if FDQ_dataset.FieldByName('Cód. Produto').AsString = sProductId then
+    if FDQ_dataset.FieldByName('ITN_PDT_codigo').AsString = sProductId then
       Result := True
     else
 	    Result := False;
@@ -92,18 +92,18 @@ begin
   FDQ_DataSet.CachedUpdates := True;
 
 	FDQ_DataSet.Append;
-  FDQ_DataSet.FieldByName('Cód. Produto').AsString := sProductId;
-  FDQ_DataSet.FieldByName('Descrição do Produto').AsString := sProductName;
-  FDQ_DataSet.FieldByName('Quantidade').AsString := IntToStr(iQuantity);
-  FDQ_DataSet.FieldByName('Valor Unitário').AsString := FormatFloat('0.00', dUnitPrice);
-  FDQ_DataSet.FieldByName('Valor Total').AsString := FormatFloat('0.00', dTotalPrice);
+  FDQ_DataSet.FieldByName('ITN_PDT_codigo').AsString := sProductId;
+  FDQ_DataSet.FieldByName('PDT_descri').AsString := sProductName;
+  FDQ_DataSet.FieldByName('ITN_qtd').AsString := IntToStr(iQuantity);
+  FDQ_DataSet.FieldByName('PDT_preco').AsString := FormatFloat('0.00', dUnitPrice);
+  FDQ_DataSet.FieldByName('item_total_price').AsString := FormatFloat('0.00', dTotalPrice);
   Inc(Frm_CadOrders.iCurrentNumberOfItems);
 end;
 
 procedure ModifyItemQuantityOnList(iQuantity: Integer; FDQ_Dataset: TFDQuery);
 begin
   FDQ_Dataset.Edit;
-  FDQ_Dataset.FieldByName('Quantidade').AsInteger := iQuantity;
+  FDQ_Dataset.FieldByName('ITN_qtd').AsInteger := iQuantity;
 end;
 
 procedure DisplayProductName(sProductId: String);
@@ -154,7 +154,7 @@ begin
       begin
       	AddItemToList();
         UpdateItemPriceOnList(sProductId, iQuantity, Frm_CadOrders.FDQ_OrderItems);
-        Frm_PesqOrders.sCurrentItemProductId := Frm_CadOrders.DBG_OrderItems.Fields[0].AsString;
+        Frm_PesqOrders.sCurrentItemProductId := Frm_CadOrders.FDQ_OrderItems.FieldByName('ITN_PDT_codigo').AsString;
       end
     else if Frm_CadOrders.sSecActionType = 'editOrderItem' then
     begin

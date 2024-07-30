@@ -37,12 +37,23 @@ uses
 	UCadOrderItems,
   UPesqOrders;
 
+procedure SetProductsDBGLabels();
+begin
+  Frm_PesqProducts.FDQ_Products.FieldByName('PDT_codigo')
+    .DisplayLabel := 'Cód. do Pedido';
+
+  Frm_PesqProducts.FDQ_Products.FieldByName('PDT_descri')
+    .DisplayLabel := 'Descrição do Produto';
+
+  Frm_PesqProducts.FDQ_Products.FieldByName('PDT_preco')
+  	.DisplayLabel := 'Preço';
+end;
 
 procedure TFrm_PesqProducts.DBG_ProductsDblClick(Sender: TObject);
 begin
-	Frm_CadOrderItems.E_ProductCode.Text := DBG_Products.Fields[0].AsString;
-  Frm_CadOrderItems.E_ProductName.Text := DBG_Products.Fields[1].AsString;
-  Frm_CadOrderItems.productPrice := DBG_Products.Fields[2].AsFloat;
+	Frm_CadOrderItems.E_ProductCode.Text := FDQ_Products.FieldByName('PDT_codigo').AsString;
+  Frm_CadOrderItems.E_ProductName.Text := FDQ_Products.FieldByName('PDT_descri').AsString;
+  Frm_CadOrderItems.productPrice := FDQ_Products.FieldByName('PDT_preco').AsFloat;
   Self.Close;
 end;
 
@@ -51,14 +62,16 @@ procedure TFrm_PesqProducts.FormCreate(Sender: TObject);
 begin
 	sProductsSQL :=
     'SELECT ' +
-        'PDT_codigo AS "Código do Produto", ' +
-        'PDT_descri AS "Descrição", ' +
-        'PDT_preco AS "Valor Unitário" ' +
+        'PDT_codigo , ' +
+        'PDT_descri , ' +
+        'PDT_preco ' +
       'FROM produtos';
 
 	FDQ_Products.SQL.Clear;
 	FDQ_Products.SQL.Text := sProductsSQL;
   FDQ_Products.Open;
+
+  SetProductsDBGLabels();
 end;
 
 end.

@@ -15,8 +15,8 @@ uses
   UBackendFunctions,
 	UCadOrders,
   UCadOrderItems,
-  UConfirmDeletion;
-//  UGenerateReport;
+  UConfirmDeletion,
+  UGenerateReport;
 
 type
   TFrm_PesqOrders = class(TForm)
@@ -66,6 +66,36 @@ var
 implementation
 
 {$R *.dfm}
+
+procedure SetOrdersDBGLabels();
+begin
+  Frm_PesqOrders.FDQ_Orders.FieldByName('PED_codigo')
+    .DisplayLabel := 'Nº do Pedido';
+
+  Frm_PesqOrders.FDQ_Orders.FieldByName('PED_data')
+    .DisplayLabel := 'Data do Pedido';
+
+  Frm_PesqOrders.FDQ_Orders.FieldByName('order_total_price')
+  	.DisplayLabel := 'Valor Total';
+end;
+
+procedure SetItemsDBGLabels();
+begin
+  Frm_PesqOrders.FDQ_Items.FieldByName('ITN_PDT_codigo')
+    .DisplayLabel := 'Cód. Produto';
+
+  Frm_PesqOrders.FDQ_Items.FieldByName('PDT_descri')
+    .DisplayLabel := 'Descrição do Produto';
+
+  Frm_PesqOrders.FDQ_Items.FieldByName('ITN_qtd')
+  	.DisplayLabel := 'Quantidade';
+
+  Frm_PesqOrders.FDQ_Items.FieldByName('PDT_preco')
+    .DisplayLabel := 'Valor Unitário';
+
+  Frm_PesqOrders.FDQ_Items.FieldByName('item_total_price')
+  	.DisplayLabel := 'Valor Total';
+end;
 
 procedure ShowHideSearchComponents(sSearchField: String);
 begin
@@ -155,7 +185,7 @@ end;
 
 procedure TFrm_PesqOrders.B_PrintClick(Sender: TObject);
 begin
-//	Frm_GenerateReport.Show;
+	Frm_GenerateReport.Show;
 end;
 
 procedure TFrm_PesqOrders.B_DeleteClick(Sender: TObject);
@@ -181,7 +211,7 @@ begin
   DisplayFilteredOrders(sSearchField, sComparisonOperator);
 
   FDQ_Orders.First;
-  sCurrentOrderId := FDQ_Orders.Fields[0].AsString;
+  sCurrentOrderId := FDQ_Orders.FieldByName('PED_codigo').AsString;
   DisplayOrderItems(sCurrentOrderId, FDQ_Items);
 end;
 
@@ -195,13 +225,13 @@ end;
 
 procedure TFrm_PesqOrders.DBG_ItemsCellClick(Column: TColumn);
 begin
-	sCurrentItemProductId := Frm_PesqOrders.DBG_Items.Fields[0].AsString;
+	sCurrentItemProductId := Frm_PedOrders.FDQ_Items.FieldByName('ITN_PDT_codigo').AsString;
 end;
 
 procedure TFrm_PesqOrders.DBG_OrdersCellClick(Column: TColumn);
 begin
 	sCurrentItemProductId := '';
-	sCurrentOrderId := Frm_PesqOrders.DBG_Orders.Fields[0].AsString;
+	sCurrentOrderId := Frm_PesqOrders.FDQ_Orders.FieldByName('PED_codigo').AsString;
 	DisplayOrderItems(sCurrentOrderId, Frm_PesqOrders.FDQ_Items);
 end;
 
@@ -215,10 +245,12 @@ begin
 	DTP_OrderDate.Top := E_SearchText.Top;
   DTP_OrderDate.Left := E_SearchText.Left;
 
-	displayOrders('', '');
+	DisplayOrders('', '');
+  SetOrdersDBGLabels();
   Frm_PesqOrders.DBG_Orders.DataSource.DataSet.First;
-  sCurrentOrderId := Frm_PesqOrders.DBG_Orders.Fields[0].AsString;
+  sCurrentOrderId := Frm_PesqOrders.FDQ_Orders.FieldByName('PED_codigo').AsString;
   DisplayOrderItems(sCurrentOrderId, Frm_PesqOrders.FDQ_Items);
+  SetItemsDBGLabels();
 end;
 
 
