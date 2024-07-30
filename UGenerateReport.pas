@@ -1,3 +1,10 @@
+{*********************************************************************
+ TESTE DE Aptidão - Delphi
+ Desenv.    : Rodrigo Silva
+ Criação    : 07/2024
+ Descrição  : Geração de Relatório com os pedidos realizados e seus itens
+*********************************************************************}
+
 unit UGenerateReport;
 
 interface

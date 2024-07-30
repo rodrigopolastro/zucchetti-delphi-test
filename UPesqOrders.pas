@@ -1,4 +1,11 @@
-﻿unit UPesqOrders;
+﻿{*********************************************************************
+ TESTE DE Aptidão - Delphi
+ Desenv.    : Rodrigo Silva
+ Criação    : 07/2024
+ Descrição  : Listagem dos pedidos cadastrados e seus itens
+*********************************************************************}
+
+unit UPesqOrders;
  
 interface
 
@@ -114,6 +121,10 @@ begin
     Frm_PesqOrders.DTP_OrderDate.Visible := True;
     Frm_PesqOrders.B_Search.Visible := True;
     Frm_PesqOrders.CB_ComparisonOperator.Visible := True;
+
+    //Move to the edit position
+    Frm_PesqOrders.DTP_OrderDate.Top := Frm_PesqOrders.E_SearchText.Top;
+    Frm_PesqOrders.DTP_OrderDate.Left := Frm_PesqOrders.E_SearchText.Left;
   end
   else //'Valor Total' and 'N�mero'
   begin
@@ -243,9 +254,6 @@ end;
 
 procedure TFrm_PesqOrders.FormCreate(Sender: TObject);
 begin
-	DTP_OrderDate.Top := E_SearchText.Top;
-  DTP_OrderDate.Left := E_SearchText.Left;
-
 	DisplayOrders('', '');
   SetOrdersDBGLabels();
   Frm_PesqOrders.DBG_Orders.DataSource.DataSet.First;

@@ -1,4 +1,12 @@
-﻿unit UBackendFunctions;
+﻿{*********************************************************************
+ TESTE DE Aptidão - Delphi
+ Desenv.    : Rodrigo Silva
+ Criação    : 07/2024
+ Descrição  : Funções Backend para consultas e manipulação de dados do banco.
+*********************************************************************}
+
+
+unit UBackendFunctions;
 
 interface
 
