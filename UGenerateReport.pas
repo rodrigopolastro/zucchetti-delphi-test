@@ -78,12 +78,12 @@ uses
 
 {$R *.dfm}
 
-procedure DisplayItems();
-	var
-  	itemsSQL: string;
-begin
-
-end;
+//procedure DisplayItems();
+//	var
+//  	itemsSQL: string;
+//begin
+//
+//end;
 
 procedure TFrm_GenerateReport.B_CancelClick(Sender: TObject);
 begin

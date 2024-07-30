@@ -72,7 +72,7 @@ begin
 	for iCounter := 1 to Frm_CadOrders.iCurrentNumberOfItems do
   begin
   	Frm_CadOrders.FDQ_OrderItems.RecNo := iCounter;
-    if FDQ_dataset.FieldByName('ITN_PDT_codigo').AsString = sProductId then
+    if FDQ_dataset.FieldByName('ITN_codPDT').AsString = sProductId then
       Result := True
     else
 	    Result := False;
@@ -99,7 +99,7 @@ begin
   FDQ_DataSet.CachedUpdates := True;
 
 	FDQ_DataSet.Append;
-  FDQ_DataSet.FieldByName('ITN_PDT_codigo').AsString := sProductId;
+  FDQ_DataSet.FieldByName('ITN_codPDT').AsString := sProductId;
   FDQ_DataSet.FieldByName('PDT_descri').AsString := sProductName;
   FDQ_DataSet.FieldByName('ITN_qtd').AsString := IntToStr(iQuantity);
   FDQ_DataSet.FieldByName('PDT_preco').AsString := FormatFloat('0.00', dUnitPrice);
@@ -161,7 +161,7 @@ begin
       begin
       	AddItemToList();
         UpdateItemPriceOnList(sProductId, iQuantity, Frm_CadOrders.FDQ_OrderItems);
-        Frm_PesqOrders.sCurrentItemProductId := Frm_CadOrders.FDQ_OrderItems.FieldByName('ITN_PDT_codigo').AsString;
+        Frm_PesqOrders.sCurrentItemProductId := Frm_CadOrders.FDQ_OrderItems.FieldByName('ITN_codPDT').AsString;
       end
     else if Frm_CadOrders.sSecActionType = 'editOrderItem' then
     begin

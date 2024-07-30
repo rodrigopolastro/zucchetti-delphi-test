@@ -3,7 +3,7 @@ object Frm_PesqOrders: TFrm_PesqOrders
   Top = 0
   Caption = 'Pedidos'
   ClientHeight = 472
-  ClientWidth = 692
+  ClientWidth = 667
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -21,20 +21,19 @@ object Frm_PesqOrders: TFrm_PesqOrders
   object Panel1: TPanel
     Left = 5
     Top = 5
-    Width = 682
+    Width = 657
     Height = 462
     Align = alClient
-    Caption = 'Panel1'
     Padding.Left = 10
     Padding.Top = 10
     Padding.Right = 10
     Padding.Bottom = 10
     TabOrder = 0
-    ExplicitLeft = 8
-    ExplicitTop = 8
-    ExplicitHeight = 450
+    ExplicitLeft = 2
+    ExplicitTop = 2
+    ExplicitWidth = 682
     DesignSize = (
-      682
+      657
       462)
     object L_FilterOrders: TLabel
       Left = 10
@@ -61,7 +60,7 @@ object Frm_PesqOrders: TFrm_PesqOrders
       Visible = False
     end
     object B_Create: TButton
-      Left = 436
+      Left = 411
       Top = 5
       Width = 75
       Height = 34
@@ -69,11 +68,10 @@ object Frm_PesqOrders: TFrm_PesqOrders
       Caption = 'Incluir'
       TabOrder = 2
       OnClick = B_CreateClick
-      ExplicitLeft = 524
-      ExplicitTop = 7
+      ExplicitLeft = 436
     end
     object B_Delete: TButton
-      Left = 598
+      Left = 573
       Top = 5
       Width = 75
       Height = 34
@@ -81,11 +79,10 @@ object Frm_PesqOrders: TFrm_PesqOrders
       Caption = 'Excluir'
       TabOrder = 3
       OnClick = B_DeleteClick
-      ExplicitLeft = 686
-      ExplicitTop = 7
+      ExplicitLeft = 598
     end
     object B_Edit: TButton
-      Left = 517
+      Left = 492
       Top = 5
       Width = 75
       Height = 34
@@ -93,11 +90,10 @@ object Frm_PesqOrders: TFrm_PesqOrders
       Caption = 'Alterar'
       TabOrder = 4
       OnClick = B_EditClick
-      ExplicitLeft = 605
-      ExplicitTop = 7
+      ExplicitLeft = 517
     end
     object B_Print: TButton
-      Left = 591
+      Left = 566
       Top = 366
       Width = 82
       Height = 35
@@ -105,6 +101,7 @@ object Frm_PesqOrders: TFrm_PesqOrders
       Caption = 'Imprimir'
       TabOrder = 5
       OnClick = B_PrintClick
+      ExplicitLeft = 591
     end
     object B_Search: TButton
       Left = 159
@@ -177,7 +174,7 @@ object Frm_PesqOrders: TFrm_PesqOrders
     object DBG_Items: TDBGrid
       Left = 10
       Top = 231
-      Width = 663
+      Width = 638
       Height = 129
       Anchors = [akLeft, akTop, akRight]
       DataSource = DS_Items
@@ -193,7 +190,7 @@ object Frm_PesqOrders: TFrm_PesqOrders
     object DBG_Orders: TDBGrid
       Left = 10
       Top = 96
-      Width = 663
+      Width = 638
       Height = 129
       Anchors = [akLeft, akTop, akRight]
       DataSource = DS_Orders

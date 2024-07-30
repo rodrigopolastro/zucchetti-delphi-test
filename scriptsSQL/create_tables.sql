@@ -31,25 +31,25 @@ COMMENT ON COLUMN Pedidos.PED_data IS 'Data em que o pedido foi realizado';
 
 -- Prefix: ITN ---------------------------------
 CREATE TABLE Itens(
-    ITN_PED_codigo INTEGER,
-    ITN_PDT_codigo INTEGER,
+    ITN_codPED INTEGER,
+    ITN_codPDT INTEGER,
     ITN_qtd INTEGER DEFAULT 1 NOT NULL
 );
 
 ALTER TABLE Itens 
     ADD CONSTRAINT FK_Itens_Pedidos 
-    FOREIGN KEY (ITN_PED_codigo) 
+    FOREIGN KEY (ITN_codPED) 
     REFERENCES Pedidos (PED_codigo);
 
 ALTER TABLE Itens 
     ADD CONSTRAINT FK_Itens_Produtos 
-    FOREIGN KEY (ITN_PDT_codigo) 
+    FOREIGN KEY (ITN_codPDT) 
     REFERENCES Produtos (PDT_codigo);
 
 ALTER TABLE Itens 
-    ADD CONSTRAINT AK_Items_PED_codigo_PDT_codigo 
-    UNIQUE (ITN_PED_codigo, ITN_PDT_codigo);
+    ADD CONSTRAINT AK_Items_codPED_codPDT 
+    UNIQUE (ITN_codPED, ITN_codPDT);
     
-COMMENT ON COLUMN Itens.ITN_PED_codigo IS 'Código do pedido ao qual o item pertence';
-COMMENT ON COLUMN Itens.ITN_PDT_codigo IS 'Código do produto adicionado ao pedido';
+COMMENT ON COLUMN Itens.ITN_codPED IS 'Código do pedido ao qual o item pertence';
+COMMENT ON COLUMN Itens.ITN_codPDT IS 'Código do produto adicionado ao pedido';
 COMMENT ON COLUMN Itens.ITN_qtd IS 'Quantidade do produto adicionado ao pedido';

@@ -89,7 +89,7 @@ end;
 
 procedure SetItemsDBGLabels();
 begin
-  Frm_PesqOrders.FDQ_Items.FieldByName('ITN_PDT_codigo')
+  Frm_PesqOrders.FDQ_Items.FieldByName('ITN_codPDT')
     .DisplayLabel := 'Cód. Produto';
 
   Frm_PesqOrders.FDQ_Items.FieldByName('PDT_descri')
@@ -237,7 +237,7 @@ end;
 
 procedure TFrm_PesqOrders.DBG_ItemsCellClick(Column: TColumn);
 begin
-	sCurrentItemProductId := Frm_PesqOrders.FDQ_Items.FieldByName('ITN_PDT_codigo').AsString;
+	sCurrentItemProductId := Frm_PesqOrders.FDQ_Items.FieldByName('ITN_codPDT').AsString;
 end;
 
 procedure TFrm_PesqOrders.DBG_OrdersCellClick(Column: TColumn);

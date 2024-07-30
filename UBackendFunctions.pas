@@ -44,8 +44,8 @@ function DoesOrderContainProduct(sOrderId, sProductId: String): Boolean;
 
   FDQ_Query.SQL.Clear;
   FDQ_Query.SQL.Text :=
-  	'SELECT ITN_PED_codigo FROM itens ' +
-    'WHERE ITN_PED_codigo = :orderId AND ITN_PDT_codigo = :productId';
+  	'SELECT ITN_codPED FROM itens ' +
+    'WHERE ITN_codPED = :orderId AND ITN_codPDT = :productId';
   FDQ_Query.ParamByName('orderId').AsString := sOrderId;
   FDQ_Query.ParamByName('productId').AsString := sProductId;
   FDQ_Query.Open;
@@ -66,8 +66,8 @@ begin
       'PED_data, ' +
       'SUM(ITN_qtd * PDT_preco) order_total_price ' +
     'FROM pedidos ' +
-    'INNER JOIN itens ON ITN_PED_codigo = PED_codigo ' +
-    'INNER JOIN produtos ON ITN_PDT_codigo = PDT_codigo ' +
+    'INNER JOIN itens ON ITN_codPED = PED_codigo ' +
+    'INNER JOIN produtos ON ITN_codPDT = PDT_codigo ' +
     ' ' + sWhereSQL + ' ' +
     'GROUP BY ' +
       'PED_codigo, ' +
@@ -86,14 +86,14 @@ procedure DisplayOrderItems(sOrderId: String; FDQ_QueryComponent: TFDQuery);
 begin
   sItemsSQL :=
   	'SELECT ' +
-      'ITN_PDT_codigo, ' +
+      'ITN_codPDT, ' +
       'PDT_descri, ' +
       'ITN_qtd, ' +
       'PDT_preco, ' +
       'ITN_qtd * PDT_preco item_total_price '+
   	'FROM itens ' +
-    'INNER JOIN produtos ON PDT_codigo = ITN_PDT_codigo ' +
-    'WHERE ITN_PED_codigo = :orderId';
+    'INNER JOIN produtos ON PDT_codigo = ITN_codPDT ' +
+    'WHERE ITN_codPED = :orderId';
 
   FDQ_QueryComponent.SQL.Clear;
 	FDQ_QueryComponent.SQL.Text := sItemsSQL;
@@ -123,7 +123,7 @@ begin
   Frm_CadOrders.FDQ_Queries.SQL.Clear;
   Frm_CadOrders.FDQ_Queries.SQL.Text :=
     'DELETE FROM itens WHERE ' +
-    'ITN_PED_codigo = :orderId AND ITN_PDT_codigo = :productId';
+    'ITN_codPED = :orderId AND ITN_codPDT = :productId';
 
   Frm_CadOrders.FDQ_Queries.ParamByName('orderId').AsString := sOrderId;
   Frm_CadOrders.FDQ_Queries.ParamByName('productId').AsString := sProductId;
@@ -135,7 +135,7 @@ begin
 	//Delete order itens
 	Frm_PesqOrders.FDQ_ActionQueries.SQL.Clear;
   Frm_PesqOrders.FDQ_ActionQueries.SQL.Text :=
-    'DELETE FROM itens WHERE ITN_PED_codigo = :orderId';
+    'DELETE FROM itens WHERE ITN_codPED = :orderId';
   Frm_PesqOrders.FDQ_ActionQueries.ParamByName('orderId').AsString := sOrderId;
   Frm_PesqOrders.FDQ_ActionQueries.ExecSQL;
 
@@ -151,7 +151,7 @@ procedure InsertOrderItem(sOrderId, sProductId: String; iQuantity: Integer; FDQ_
 begin
   FDQ_Query.SQL.Clear;
   FDQ_Query.SQL.Text :=
-    'INSERT INTO itens(ITN_PED_codigo, ITN_PDT_codigo, ITN_qtd) ' +
+    'INSERT INTO itens(ITN_codPED, ITN_codPDT, ITN_qtd) ' +
     'VALUES (:orderId, :productId, :quantity)';
 
   FDQ_Query.ParamByName('orderId').AsString := sOrderId;
@@ -165,7 +165,7 @@ begin
   Frm_CadOrders.FDQ_Queries.SQL.Clear;
   Frm_CadOrders.FDQ_Queries.SQL.Text :=
     'UPDATE itens SET ITN_qtd = :quantity ' +
-    'WHERE ITN_PED_codigo = :orderId AND ITN_PDT_codigo = :productId';
+    'WHERE ITN_codPED = :orderId AND ITN_codPDT = :productId';
 
   Frm_CadOrders.FDQ_Queries.ParamByName('orderId').AsString := sOrderId;
   Frm_CadOrders.FDQ_Queries.ParamByName('productId').AsString := sProductId;
@@ -227,9 +227,9 @@ begin
       'PDT_descri, ' +
       'ITN_qtd ' +
       'FROM itens ' +
-      'INNER JOIN produtos ON PDT_codigo = ITN_PDT_codigo ' +
-      'WHERE ITN_PDT_codigo = :productId ' +
-      'AND ITN_PED_codigo = :orderId';
+      'INNER JOIN produtos ON PDT_codigo = ITN_codPDT ' +
+      'WHERE ITN_codPDT = :productId ' +
+      'AND ITN_codPED = :orderId';
     Frm_CadOrderItems.FDQ_Queries.ParamByName('productId').AsString := sProductId;
     Frm_CadOrderItems.FDQ_Queries.ParamByName('orderId').AsString := sOrderId;
     Frm_CadOrderItems.FDQ_Queries.Open;

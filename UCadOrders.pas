@@ -67,7 +67,7 @@ uses
 
 procedure SetOrderItemsDBGLabels();
 begin
-  Frm_CadOrders.FDQ_OrderItems.FieldByName('ITN_PDT_codigo')
+  Frm_CadOrders.FDQ_OrderItems.FieldByName('ITN_codPDT')
     .DisplayLabel := 'Cód. Produto';
 
   Frm_CadOrders.FDQ_OrderItems.FieldByName('PDT_descri')
@@ -97,7 +97,7 @@ begin
 	for iCounter := 1 to Frm_CadOrders.iCurrentNumberOfItems do
   begin
   	Frm_CadOrders.FDQ_OrderItems.RecNo := iCounter;
-    sProductId := FDQ_Dataset.FieldByName('ITN_PDT_codigo').AsString;
+    sProductId := FDQ_Dataset.FieldByName('ITN_codPDT').AsString;
     iQuantity := FDQ_Dataset.FieldByName('ITN_qtd').AsInteger;
 
     if DoesOrderContainProduct(sOrderId, sProductId) then
@@ -155,7 +155,7 @@ begin
     Frm_ConfirmDeletion.ShowModal;
   end;
   RemoveOrderItemFromList(Frm_PesqOrders.sCurrentItemProductId);
-  Frm_PesqOrders.sCurrentItemProductId := Frm_CadOrders.FDQ_OrderItems.FieldByName('ITN_PDT_codigo').AsString;
+  Frm_PesqOrders.sCurrentItemProductId := Frm_CadOrders.FDQ_OrderItems.FieldByName('ITN_codPDT').AsString;
   Dec(Frm_CadOrders.iCurrentNumberOfItems);
 end;
 
@@ -164,7 +164,6 @@ begin
 	if Frm_PesqOrders.sCurrentItemProductId.IsEmpty then Exit();
 
   sSecActionType := 'editOrderItem';
-  showmessage(Frm_PesqOrders.sCurrentItemProductId);
   DisplayItemInfo(
     Frm_PesqOrders.sCurrentOrderId,
     Frm_PesqOrders.sCurrentItemProductId
@@ -174,7 +173,7 @@ end;
 
 procedure TFrm_CadOrders.DBG_OrderItemsCellClick(Column: TColumn);
 begin
-  Frm_PesqOrders.sCurrentItemProductId := Frm_CadOrders.FDQ_OrderItems.FieldByName('ITN_PDT_codigo').AsString;
+  Frm_PesqOrders.sCurrentItemProductId := Frm_CadOrders.FDQ_OrderItems.FieldByName('ITN_codPDT').AsString;
 end;
 
 procedure TFrm_CadOrders.FormClose(Sender: TObject;
@@ -210,7 +209,7 @@ begin
 
 //  SetOrderItemsDBGLabels();
   DBG_OrderItems.DataSource.DataSet.First;
-  Frm_PesqOrders.sCurrentItemProductId := Frm_CadOrders.FDQ_OrderItems.FieldByName('ITN_PDT_codigo').AsString;
+  Frm_PesqOrders.sCurrentItemProductId := Frm_CadOrders.FDQ_OrderItems.FieldByName('ITN_codPDT').AsString;
 end;
 
 end.

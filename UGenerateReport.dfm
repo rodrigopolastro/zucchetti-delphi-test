@@ -50,17 +50,17 @@ object Frm_GenerateReport: TFrm_GenerateReport
     Connection = Frm_PesqOrders.FDC_DatabaseConnection
     SQL.Strings = (
       'SELECT '
-      'ITN_PED_codigo , '
+      'ITN_codPED , '
       'PED_data , '
-      'ITN_PDT_codigo , '
+      'ITN_codPDT , '
       'PDT_descri , '
       'ITN_qtd , '
       'PDT_preco , '
       'ITN_qtd * PDT_preco  '
       'FROM itens '
-      'INNER JOIN produtos ON PDT_codigo = ITN_PDT_codigo '
-      'INNER JOIN pedidos ON PED_codigo = ITN_PED_codigo'
-      'ORDER BY ITN_PED_codigo, ITN_PDT_codigo')
+      'INNER JOIN produtos ON PDT_codigo = ITN_codPDT '
+      'INNER JOIN pedidos ON PED_codigo = ITN_codPED'
+      'ORDER BY ITN_codPED, ITN_codPDT')
     Left = 56
     Top = 307
   end
@@ -76,11 +76,11 @@ object Frm_GenerateReport: TFrm_GenerateReport
     Top = 304
     object PDB_DatabasePipelineppField1: TppField
       Alignment = taRightJustify
-      FieldAlias = 'ITN_PED_CODIGO'
-      FieldName = 'ITN_PED_CODIGO'
+      FieldAlias = 'ITN_CODPED'
+      FieldName = 'ITN_CODPED'
       FieldLength = 0
       DataType = dtDouble
-      DisplayWidth = 0
+      DisplayWidth = 39
       Position = 0
     end
     object PDB_DatabasePipelineppField2: TppField
@@ -93,8 +93,8 @@ object Frm_GenerateReport: TFrm_GenerateReport
     end
     object PDB_DatabasePipelineppField3: TppField
       Alignment = taRightJustify
-      FieldAlias = 'ITN_PDT_CODIGO'
-      FieldName = 'ITN_PDT_CODIGO'
+      FieldAlias = 'ITN_CODPDT'
+      FieldName = 'ITN_CODPDT'
       FieldLength = 0
       DataType = dtDouble
       DisplayWidth = 39
