@@ -113,16 +113,16 @@ begin
 
   FDQ_Query.SQL.Clear;
   FDQ_Query.SQL.Text :=
-  	'SELECT description, price FROM produtos WHERE product_id = :productId';
+  	'SELECT PDT_descri, PDT_preco FROM produtos WHERE PDT_id = :productId';
   FDQ_Query.ParamByName('productId').AsString := sProductId;
   FDQ_Query.Open;
 
   if FDQ_Query.RowsAffected > 0 then
 	begin
     Frm_CadOrderItems.E_ProductName.Text :=
-    	FDQ_Query.FieldByName('description').AsString;
+    	FDQ_Query.FieldByName('PDT_descri').AsString;
     Frm_CadOrderItems.productPrice :=
-    	FDQ_Query.FieldByName('price').AsFloat;
+    	FDQ_Query.FieldByName('PDT_preco').AsFloat;
   end
   else
 	begin

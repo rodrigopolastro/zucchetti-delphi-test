@@ -99,7 +99,7 @@ begin
   if sSearchField = 'Número' then
   begin
   	sOrdersWhereSQL  :=
-    	'WHERE o.order_id ' +
+    	'WHERE PED_id ' +
     	sComparisonOperator + ' ' +
       Frm_PesqOrders.E_SearchText.Text;
     sOrdersHavingSQL := '';
@@ -108,14 +108,14 @@ begin
   begin
   	sOrdersWhereSQL := '';
     sOrdersHavingSQL :=
-    	'HAVING SUM(i.quantity * p.price) ' +
+    	'HAVING SUM(ITN_qtd * PDT_preco) ' +
     	sComparisonOperator + ' ' +
       StringReplace(Frm_PesqOrders.E_SearchText.Text, ',', '.', []);
   end
   else if sSearchField = 'Data' then
   begin
   	sOrdersWhereSQL :=
-    	'WHERE o.order_date' +
+    	'WHERE PED_data' +
     	sComparisonOperator + ' ' +
       QuotedStr(DateToStr(Frm_PesqOrders.DTP_OrderDate.Date));
     sOrdersHavingSQL := '';

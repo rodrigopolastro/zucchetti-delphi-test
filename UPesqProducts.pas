@@ -51,9 +51,9 @@ procedure TFrm_PesqProducts.FormCreate(Sender: TObject);
 begin
 	sProductsSQL :=
     'SELECT ' +
-        'product_id AS "Código do Produto", ' +
-        'description AS "Descrição", ' +
-        'price AS "Valor Unitário" ' +
+        'PDT_id AS "Código do Produto", ' +
+        'PDT_descri AS "Descrição", ' +
+        'PDT_preco AS "Valor Unitário" ' +
       'FROM produtos';
 
 	FDQ_Products.SQL.Clear;
