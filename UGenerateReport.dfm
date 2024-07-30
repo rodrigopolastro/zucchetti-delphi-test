@@ -46,6 +46,7 @@ object Frm_GenerateReport: TFrm_GenerateReport
     TitleFont.Style = []
   end
   object FDQ_Items: TFDQuery
+    Active = True
     Connection = Frm_PesqOrders.FDC_DatabaseConnection
     SQL.Strings = (
       'SELECT '
@@ -73,12 +74,72 @@ object Frm_GenerateReport: TFrm_GenerateReport
     UserName = 'PDB_DatabasePipeline'
     Left = 216
     Top = 304
+    object PDB_DatabasePipelineppField1: TppField
+      Alignment = taRightJustify
+      FieldAlias = 'ITN_PED_CODIGO'
+      FieldName = 'ITN_PED_CODIGO'
+      FieldLength = 0
+      DataType = dtDouble
+      DisplayWidth = 0
+      Position = 0
+    end
+    object PDB_DatabasePipelineppField2: TppField
+      FieldAlias = 'PED_DATA'
+      FieldName = 'PED_DATA'
+      FieldLength = 0
+      DataType = dtDateTime
+      DisplayWidth = 18
+      Position = 1
+    end
+    object PDB_DatabasePipelineppField3: TppField
+      Alignment = taRightJustify
+      FieldAlias = 'ITN_PDT_CODIGO'
+      FieldName = 'ITN_PDT_CODIGO'
+      FieldLength = 0
+      DataType = dtDouble
+      DisplayWidth = 39
+      Position = 2
+    end
+    object PDB_DatabasePipelineppField4: TppField
+      FieldAlias = 'PDT_DESCRI'
+      FieldName = 'PDT_DESCRI'
+      FieldLength = 50
+      DisplayWidth = 50
+      Position = 3
+    end
+    object PDB_DatabasePipelineppField5: TppField
+      Alignment = taRightJustify
+      FieldAlias = 'ITN_QTD'
+      FieldName = 'ITN_QTD'
+      FieldLength = 0
+      DataType = dtDouble
+      DisplayWidth = 39
+      Position = 4
+    end
+    object PDB_DatabasePipelineppField6: TppField
+      Alignment = taRightJustify
+      FieldAlias = 'PDT_PRECO'
+      FieldName = 'PDT_PRECO'
+      FieldLength = 2
+      DataType = dtDouble
+      DisplayWidth = 8
+      Position = 5
+    end
+    object PDB_DatabasePipelineppField7: TppField
+      Alignment = taRightJustify
+      FieldAlias = 'ITN_QTD*PDT_PRECO'
+      FieldName = 'ITN_QTD*PDT_PRECO'
+      FieldLength = 38
+      DataType = dtDouble
+      DisplayWidth = 39
+      Position = 6
+    end
   end
   object PR_Report: TppReport
     AutoStop = False
     DataPipeline = PDB_DatabasePipeline
     PrinterSetup.BinName = 'Default'
-    PrinterSetup.DocumentName = 'Report'
+    PrinterSetup.DocumentName = 'Pedidos Realizados'
     PrinterSetup.PaperName = 'A4'
     PrinterSetup.PrinterName = 'Default'
     PrinterSetup.SaveDeviceSettings = False
@@ -151,7 +212,7 @@ object Frm_GenerateReport: TFrm_GenerateReport
         DesignLayer = ppDesignLayer1
         UserName = 'Pedidos'
         Border.mmPadding = 0
-        Caption = 'Pedidos'
+        Caption = 'Pedidos Realizados'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clBlack
         Font.Name = 'Arial'
@@ -159,11 +220,12 @@ object Frm_GenerateReport: TFrm_GenerateReport
         Font.Style = [fsBold]
         FormFieldSettings.FormSubmitInfo.SubmitMethod = fstPost
         FormFieldSettings.FormFieldType = fftNone
+        TextAlignment = taCentered
         Transparent = True
         mmHeight = 8467
-        mmLeft = 81756
+        mmLeft = 265
         mmTop = 7408
-        mmWidth = 28311
+        mmWidth = 197644
         BandType = 0
         LayerName = Foreground
       end

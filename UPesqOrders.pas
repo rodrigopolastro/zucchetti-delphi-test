@@ -42,6 +42,7 @@ type
     CB_OrderBy: TComboBox;
     rbAsc: TRadioButton;
     rbDesc: TRadioButton;
+    Panel1: TPanel;
     procedure CB_OrderFieldChange(Sender: TObject);
     procedure B_CreateClick(Sender: TObject);
     procedure DBG_OrdersCellClick(Column: TColumn);
@@ -225,7 +226,7 @@ end;
 
 procedure TFrm_PesqOrders.DBG_ItemsCellClick(Column: TColumn);
 begin
-	sCurrentItemProductId := Frm_PedOrders.FDQ_Items.FieldByName('ITN_PDT_codigo').AsString;
+	sCurrentItemProductId := Frm_PesqOrders.FDQ_Items.FieldByName('ITN_PDT_codigo').AsString;
 end;
 
 procedure TFrm_PesqOrders.DBG_OrdersCellClick(Column: TColumn);
