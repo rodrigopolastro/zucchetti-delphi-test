@@ -1,4 +1,11 @@
-﻿unit UPesqProducts;
+﻿{*********************************************************************
+ TESTE DE Aptidão - Delphi
+ Desenv.    : Rodrigo Silva
+ Criação    : 07/2024
+ Descrição  : Listagem de todos os produtos cadastrados
+*********************************************************************}
+
+unit UPesqProducts;
 
 interface
 
